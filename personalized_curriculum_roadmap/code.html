@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Career Roadmap - Skill Tree</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0F172A",
+                        "accent": "#F59E0B",
+                        "success": "#10B981",
+                        "road-line": "#E2E8F0",
+                        "road-line-dark": "#1E293B"
+                    },
+                    fontFamily: {
+                        "display": ["Fredoka", "sans-serif"],
+                        "sans": ["Inter", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply font-sans bg-slate-50 text-slate-900 dark:bg-[#020617] dark:text-slate-100;
+            }
+        }
+        .timeline-connector {
+            @apply absolute left-[27px] top-10 bottom-0 w-1 bg-slate-200 dark:bg-slate-800;
+        }
+        .node-icon-whimsical {
+            @apply size-14 flex items-center justify-center rounded-2xl shadow-lg border-2;
+            font-family: 'Fredoka', sans-serif;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+        }
+        .sidebar-icon-whimsical {
+            border-radius: 12px 40px 12px 40px;
+        }
+        .glass-card {
+            @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border border-slate-200 dark:border-slate-800 shadow-sm;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen flex flex-col overflow-hidden">
+<header class="sticky top-0 z-30 glass-card px-6 py-4 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="sidebar-icon-whimsical size-10 bg-accent flex items-center justify-center text-white shadow-md">
+<span class="material-symbols-outlined text-2xl">account_tree</span>
+</div>
+<div>
+<h1 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-[0.2em]">AI Career Roadmap</h1>
+<p class="text-lg font-extrabold tracking-tight">Zuzia's Skill Tree</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-full flex items-center gap-2 border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-accent text-sm filled-icon">stars</span>
+<span class="text-sm font-bold">Lvl 14</span>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<aside class="hidden md:flex w-20 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex-col items-center py-6 gap-6">
+<div class="sidebar-icon-whimsical size-12 bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-accent transition-colors cursor-pointer">
+<span class="material-symbols-outlined">dashboard</span>
+</div>
+<div class="sidebar-icon-whimsical size-12 bg-slate-900 dark:bg-accent text-white flex items-center justify-center shadow-lg cursor-pointer">
+<span class="material-symbols-outlined">route</span>
+</div>
+<div class="sidebar-icon-whimsical size-12 bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-accent transition-colors cursor-pointer">
+<span class="material-symbols-outlined">auto_stories</span>
+</div>
+<div class="mt-auto sidebar-icon-whimsical size-12 bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+</div>
+</aside>
+<main class="flex-1 overflow-y-auto p-6 md:p-10 relative">
+<div class="max-w-2xl mx-auto relative">
+<div class="space-y-12 relative">
+<div class="timeline-connector"></div>
+<div class="relative flex items-start gap-6 group">
+<div class="node-icon-whimsical bg-success/10 border-success text-success shrink-0 z-10 bg-white dark:bg-slate-900">
+<span class="material-symbols-outlined text-3xl">computer</span>
+</div>
+<div class="pt-2">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-success/20 text-success">Completed</span>
+<h3 class="text-lg font-bold">Python Foundations</h3>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">Mastering syntax, data structures, and scripting for AI workflows.</p>
+</div>
+</div>
+<div class="relative flex items-start gap-6 group">
+<div class="node-icon-whimsical bg-success/10 border-success text-success shrink-0 z-10 bg-white dark:bg-slate-900">
+<span class="material-symbols-outlined text-3xl">psychology_alt</span>
+</div>
+<div class="pt-2">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-success/20 text-success">Completed</span>
+<h3 class="text-lg font-bold">LLM Architecture</h3>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">Deep dive into Transformers, attention mechanisms, and tokenization.</p>
+</div>
+</div>
+<div class="relative flex items-start gap-6 group">
+<div class="node-icon-whimsical bg-accent/20 border-accent text-accent shrink-0 z-10 bg-white dark:bg-slate-900 shadow-[0_0_20px_rgba(245,158,11,0.2)]">
+<span class="material-symbols-outlined text-3xl">magic_button</span>
+</div>
+<div class="pt-2">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-accent text-white">In Progress</span>
+<h3 class="text-lg font-bold text-accent">Prompt Engineering</h3>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 font-medium italic">"Current focus: Few-shot prompting and Chain-of-Thought techniques."</p>
+<div class="mt-4 flex items-center gap-4">
+<div class="h-2 w-48 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-accent rounded-full" style="width: 65%"></div>
+</div>
+<span class="text-xs font-bold text-slate-400 uppercase">65% Done</span>
+</div>
+</div>
+</div>
+<div class="relative flex items-start gap-6 group">
+<div class="node-icon-whimsical bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-400 shrink-0 z-10">
+<span class="material-symbols-outlined text-3xl">storage</span>
+</div>
+<div class="pt-2">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-slate-200 dark:bg-slate-800 text-slate-500">Locked</span>
+<h3 class="text-lg font-bold text-slate-400">Vector Databases</h3>
+</div>
+<p class="text-sm text-slate-400">Pinecone, Weaviate, and the fundamentals of high-dimensional embeddings.</p>
+</div>
+</div>
+<div class="relative flex items-start gap-6 group">
+<div class="node-icon-whimsical bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-400 shrink-0 z-10">
+<span class="material-symbols-outlined text-3xl">account_tree</span>
+</div>
+<div class="pt-2">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-slate-200 dark:bg-slate-800 text-slate-500">Locked</span>
+<h3 class="text-lg font-bold text-slate-400">RAG Systems</h3>
+</div>
+<p class="text-sm text-slate-400">Building Retrieval-Augmented Generation pipelines with LangChain.</p>
+</div>
+</div>
+<div class="relative flex items-start gap-6 group pb-24">
+<div class="node-icon-whimsical border-dashed border-2 border-slate-300 dark:border-slate-700 text-slate-300 shrink-0 z-10">
+<span class="material-symbols-outlined text-3xl">emoji_events</span>
+</div>
+<div class="pt-2">
+<h3 class="text-lg font-bold text-slate-400">AI Engineer Certification</h3>
+<p class="text-sm text-slate-400">Capstone project: Deploying a production-ready AI agent.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<nav class="md:hidden fixed bottom-0 w-full glass-card border-t border-slate-200 dark:border-slate-800 pb-8 pt-3 px-8 z-50">
+<div class="flex items-center justify-between max-w-md mx-auto">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="text-[10px] font-bold">Quests</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-accent" href="#">
+<span class="material-symbols-outlined text-3xl filled-icon">route</span>
+<span class="text-[10px] font-bold">Roadmap</span>
+</a>
+<div class="relative -top-8">
+<button class="bg-accent text-white size-14 sidebar-icon-whimsical flex items-center justify-center shadow-lg border-4 border-white dark:border-slate-900">
+<span class="material-symbols-outlined text-3xl">auto_awesome</span>
+</button>
+</div>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="text-[10px] font-bold">Ranks</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<div class="size-6 rounded-full overflow-hidden border border-slate-300">
+<img alt="Z" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-4dYvKXijBSlmLc9A5VKp99e4gN_P3tgFKKv-eTVASku_SpCriDRuXExPDGXPiO9yRwtPfQCxLrCQG4vX8Erz4FZVKuU_zuEf0xffJrhZ9cTmGgIPuO_MRJSTnubMjIXo7JwDSgY1UWKT6d5zmu_iHl0SXKidDMgsfmTz0TyXH6VcEP44p1NSo0MJgUX7TRYKldRV2SqlT-0YZmEPb1pMIUZHzvRbpTpW02iaPC8CXaLLAKBIULg__2dgcto_vdnjqM68106R5gmE"/>
+</div>
+<span class="text-[10px] font-bold">Profile</span>
+</a>
+</div>
+</nav>
+<div class="hidden lg:block fixed right-8 top-28 w-64">
+<div class="glass-card p-6 rounded-3xl border-slate-200 dark:border-slate-800">
+<h4 class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-widest">Global Progress</h4>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between mb-1">
+<span class="text-xs font-bold">Skills Acquired</span>
+<span class="text-xs font-bold text-accent">12 / 40</span>
+</div>
+<div class="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-accent" style="width: 30%"></div>
+</div>
+</div>
+<div class="pt-4 border-t border-slate-100 dark:border-slate-800">
+<button class="w-full bg-slate-900 dark:bg-white dark:text-slate-900 text-white py-3 rounded-xl font-bold text-sm shadow-md flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">play_circle</span>
+                        Resume Learning
+                    </button>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>

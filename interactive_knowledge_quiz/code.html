@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Text-Based AI Concepts Quiz</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&amp;family=Fredoka:wght@400..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#10b981",
+                        "accent-orange": "#f97316",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "whimsical": ["Fredoka", "sans-serif"],
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        :root {
+            --primary-color: #10b981;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .liquid-fill {
+            background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+            position: relative;
+        }
+        .cartoon-icon-btn {
+            @apply flex items-center justify-center rounded-2xl border-b-4 active:border-b-0 active:translate-y-[2px] transition-all;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center p-4">
+<div class="relative w-full max-w-[1200px] aspect-video bg-white dark:bg-slate-900 shadow-2xl rounded-3xl overflow-hidden flex border border-slate-200 dark:border-slate-800">
+<aside class="w-72 bg-slate-50 dark:bg-slate-900/50 border-r border-slate-200 dark:border-slate-800 flex flex-col p-8">
+<div class="mb-12">
+<div class="flex items-center gap-3 mb-6">
+<div class="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl font-bold">terminal</span>
+</div>
+<span class="font-bold text-lg tracking-tight">AI Tutor</span>
+</div>
+<h1 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Current Module</h1>
+<p class="font-semibold text-slate-800 dark:text-white leading-tight">Advanced Prompt Engineering</p>
+</div>
+<nav class="space-y-2 flex-1">
+<div class="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+<span class="material-symbols-outlined text-primary text-xl">task_alt</span>
+<span class="text-sm font-medium">Concept Quiz</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-xl opacity-40">
+<span class="material-symbols-outlined text-xl">lock</span>
+<span class="text-sm font-medium">Practical Lab</span>
+</div>
+</nav>
+<button class="cartoon-icon-btn bg-slate-200 dark:bg-slate-800 border-slate-300 dark:border-slate-700 p-4 w-full group">
+<span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform">home</span>
+</button>
+</aside>
+<main class="flex-1 flex flex-col bg-white dark:bg-slate-900">
+<header class="px-12 py-8 flex items-center justify-between gap-12">
+<div class="flex-1">
+<div class="flex justify-between items-end mb-3">
+<span class="text-sm font-bold text-slate-400">Step 3 of 5</span>
+<span class="font-whimsical text-primary font-bold">Great job, Zuzia!</span>
+</div>
+<div class="h-4 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden border-2 border-slate-100 dark:border-slate-800 relative">
+<div class="liquid-fill h-full rounded-full transition-all duration-700" style="width: 60%;">
+<div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 size-8 bg-white dark:bg-slate-700 rounded-full border-2 border-primary shadow-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-lg animate-bounce">rocket</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="cartoon-icon-btn size-12 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-400">
+<span class="material-symbols-outlined">lightbulb</span>
+</button>
+<button class="cartoon-icon-btn size-12 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-400">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<div class="flex-1 px-12 py-4 overflow-y-auto">
+<div class="max-w-3xl">
+<h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-8 leading-snug">
+                        In the context of LLM prompting, what is the primary difference between 'Zero-shot' and 'Few-shot' techniques?
+                    </h2>
+<div class="space-y-4">
+<label class="block cursor-pointer group">
+<input checked="" class="hidden peer" name="ai-quiz" type="radio"/>
+<div class="p-5 rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all peer-checked:border-primary peer-checked:bg-primary/5 group-hover:border-slate-300 dark:group-hover:border-slate-700">
+<div class="flex items-center gap-4">
+<div class="size-6 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center peer-checked:group-[]:border-primary peer-checked:group-[]:bg-primary">
+<div class="size-2 bg-white rounded-full opacity-0 peer-checked:group-[]:opacity-100"></div>
+</div>
+<p class="text-slate-700 dark:text-slate-200 font-medium">Zero-shot provides no examples, while Few-shot provides one or more examples to guide output.</p>
+</div>
+</div>
+</label>
+<label class="block cursor-pointer group">
+<input class="hidden peer" name="ai-quiz" type="radio"/>
+<div class="p-5 rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all peer-checked:border-primary peer-checked:bg-primary/5 group-hover:border-slate-300 dark:group-hover:border-slate-700">
+<div class="flex items-center gap-4">
+<div class="size-6 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center peer-checked:group-[]:border-primary peer-checked:group-[]:bg-primary">
+<div class="size-2 bg-white rounded-full opacity-0 peer-checked:group-[]:opacity-100"></div>
+</div>
+<p class="text-slate-700 dark:text-slate-200 font-medium">Zero-shot is used for training, while Few-shot is used for the inference phase only.</p>
+</div>
+</div>
+</label>
+<label class="block cursor-pointer group">
+<input class="hidden peer" name="ai-quiz" type="radio"/>
+<div class="p-5 rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all peer-checked:border-primary peer-checked:bg-primary/5 group-hover:border-slate-300 dark:group-hover:border-slate-700">
+<div class="flex items-center gap-4">
+<div class="size-6 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center peer-checked:group-[]:border-primary peer-checked:group-[]:bg-primary">
+<div class="size-2 bg-white rounded-full opacity-0 peer-checked:group-[]:opacity-100"></div>
+</div>
+<p class="text-slate-700 dark:text-slate-200 font-medium">Few-shot requires retraining the weights of the model with specific prompt data.</p>
+</div>
+</div>
+</label>
+</div>
+</div>
+</div>
+<footer class="p-10 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<span class="font-whimsical text-2xl font-bold text-accent-orange">You've got this!</span>
+</div>
+<div class="flex gap-4">
+<button class="px-8 py-3 rounded-xl font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 transition-colors">
+                        Skip
+                    </button>
+<button class="cartoon-icon-btn bg-primary border-green-700 px-10 py-3 text-white font-bold flex items-center gap-2 text-lg shadow-lg shadow-primary/20">
+                        Check Answer
+                        <span class="material-symbols-outlined font-bold">arrow_forward</span>
+</button>
+</div>
+</footer>
+</main>
+</div>
+
+</body></html>
