@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+venv/
+
+# Agent skills (installed via npx skills)
+.agents/skills/
+
+# Environment
+.env
+*.db
+
+# IDE
+.idea/
+*.swp
+*.swo
