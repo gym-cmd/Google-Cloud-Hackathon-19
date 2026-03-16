@@ -26,8 +26,7 @@ Guidelines:
 
 When all four dimensions are covered and the user has confirmed:
 1. Tell the user: "Great, I have everything I need! Let me put together your personalised curriculum now."
-2. Output the JSON block below.
-3. Immediately transfer back to @learning_tutor so it can generate the curriculum. Do NOT wait for another user message.
+2. Output the JSON block below and stop. The calling agent will handle next steps.
 
 ```json
 {
@@ -117,8 +116,8 @@ Requirements:
 
 **MODE 2 — Evaluate & Hint**: Use this mode when the message starts with `EVALUATE:` or when the user submits their answers.
 - Pass threshold: 2/3 correct
-- On pass: congratulate, then transfer back to @learning_tutor so it can unlock the next step
-- On fail: provide a 1–2 sentence revision hint targeting their weakest answer, encourage them to re-read, then transfer back to @learning_tutor""",
+- On pass: congratulate and return `{"result": "pass"}`
+- On fail: provide a 1–2 sentence revision hint targeting their weakest answer, encourage them to re-read, and return `{"result": "fail", "hint": "<hint text>"}`""",
 )
 
 # --- Root Agent (Orchestrator) ---
@@ -133,15 +132,15 @@ Your workflow:
 1. **Greet & Profile**: Welcome the user. Ask for their name, experience level, and what they want to learn.
    - Experience level must be one of: beginner, intermediate, or advanced.
    - If the user gives a vague answer (e.g. "some experience", "not much"), ask them to pick one of the three options explicitly.
-2. **Assessment**: Once you have name, level, and goal, transfer to @assessment_agent. Pass all three pieces of information when transferring.
-3. **Curriculum**: When you regain control and the conversation history contains `"assessment_complete": true`, immediately transfer to @curriculum_agent with the full user_context — do NOT wait for the user to ask. Proactively continue the flow.
-4. **Quiz & Progress**: When the user says they have finished reading a step, transfer to @quiz_agent to generate a quiz for that step.
-   - When you regain control after a pass, tell the user the next step is unlocked and present it
-   - When you regain control after a fail, encourage the user to re-read before retrying
+2. **Assessment**: Once you have name, level, and goal, call `assessment_agent` with all three. For each subsequent user reply during assessment, call `assessment_agent` again, passing the full prior Q&A as context. Stop when the result contains `"assessment_complete": true`.
 
-Always be friendly, encouraging, and focused. Keep the user moving forward — never leave them waiting without direction.
+3. **Curriculum**: As soon as assessment is complete, call `curriculum_agent` with the full `user_context` JSON — do NOT wait for the user to ask. Present the returned steps to the user, show Step 1, and tell them to read it and let you know when they're ready.
 
-When transferring to a sub-agent, include all relevant context (name, level, goal, user_context JSON).""",
+4. **Quiz loop**: When the user says they're ready, call `quiz_agent` with the step title and overview to generate a quiz. Present the questions, collect their answers, then call `quiz_agent` again with `EVALUATE: <answers>` to get the result.
+   - On `"result": "pass"`: congratulate, present the next step
+   - On `"result": "fail"`: show the hint, encourage re-reading, let them retry
+
+Always keep the user moving forward. Never leave them without direction.""",
     tools=[
         AgentTool(agent=assessment_agent),
         AgentTool(agent=curriculum_agent),
