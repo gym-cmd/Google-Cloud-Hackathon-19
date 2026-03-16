@@ -28,6 +28,7 @@ uv sync
 
 ## Running locally
 
+
 ```bash
 uv run fastapi dev learning_platform/main.py
 ```
@@ -36,6 +37,12 @@ Open [http://localhost:8000](http://localhost:8000) in your browser.
 
 
 ## Run adk 
+```bash 
+gcloud auth login
+gcloud auth application-default login
+gcloud config set project qwiklabs-asl-03-35787841388f
+```
+
 ```
 uv run adk web src     
 ```
