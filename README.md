@@ -46,6 +46,16 @@ The agent uses Vertex AI via application default credentials — no API key need
 
 Open the URL printed in the terminal (usually `http://localhost:8000`). Select `learning_agent` from the agent dropdown and start chatting.
 
+## Troubleshooting
+
+**Port 8000 already in use**
+
+If you see `[Errno 48] Address already in use`, kill the stale process and restart:
+
+```bash
+lsof -ti:8000 | xargs kill -9
+```
+
 ## Deploy to Vertex AI Agent Engine
 
 ```bash
