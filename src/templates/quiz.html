@@ -44,27 +44,18 @@
     body {
       min-height: max(884px, 100dvh);
     }
-    /* Radio button visual state — works with hidden peer input */
-    input.peer:checked ~ div .radio-dot {
-      border-color: var(--primary-color);
-      background-color: var(--primary-color);
-    }
-    input.peer:checked ~ div .radio-inner {
-      opacity: 1;
-    }
-    :root { --primary-color: #22c55e; }
   </style>
   </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center p-4">
 <div class="relative w-full max-w-[1200px] aspect-video bg-white dark:bg-slate-900 shadow-2xl rounded-3xl overflow-hidden flex border border-slate-200 dark:border-slate-800">
 <aside class="w-72 bg-slate-50 dark:bg-slate-900/50 border-r border-slate-200 dark:border-slate-800 flex flex-col p-8">
 <div class="mb-12">
-<div class="flex items-center gap-3 mb-6">
+<a href="/" class="flex items-center gap-3 mb-6 hover:opacity-80 transition-opacity">
 <div class="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
 <span class="material-symbols-outlined text-2xl font-bold">terminal</span>
 </div>
 <span class="font-bold text-lg tracking-tight">AI Tutor</span>
-</div>
+</a>
 <h1 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Current Module</h1>
 <p class="font-semibold text-slate-800 dark:text-white leading-tight">Advanced Prompt Engineering</p>
 </div>
@@ -78,9 +69,9 @@
 <span class="text-sm font-medium">Practical Lab</span>
 </div>
 </nav>
-<button class="cartoon-icon-btn bg-slate-200 dark:bg-slate-800 border-slate-300 dark:border-slate-700 p-4 w-full group">
+<a href="/" class="cartoon-icon-btn bg-slate-200 dark:bg-slate-800 border-slate-300 dark:border-slate-700 p-4 w-full group">
 <span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform">home</span>
-</button>
+</a>
 </aside>
 <main class="flex-1 flex flex-col bg-white dark:bg-slate-900">
 <header class="px-12 py-8 flex items-center justify-between gap-12">
@@ -116,8 +107,8 @@
 <input checked="" class="hidden peer" name="ai-quiz" type="radio"/>
 <div class="p-5 rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all peer-checked:border-primary peer-checked:bg-primary/5 group-hover:border-slate-300 dark:group-hover:border-slate-700">
 <div class="flex items-center gap-4">
-<div class="radio-dot size-6 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center">
-<div class="radio-inner size-2 bg-white rounded-full opacity-0"></div>
+<div class="size-6 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center peer-checked:group-[]:border-primary peer-checked:group-[]:bg-primary">
+<div class="size-2 bg-white rounded-full opacity-0 peer-checked:group-[]:opacity-100"></div>
 </div>
 <p class="text-slate-700 dark:text-slate-200 font-medium">Zero-shot provides no examples, while Few-shot provides one or more examples to guide output.</p>
 </div>
@@ -127,8 +118,8 @@
 <input class="hidden peer" name="ai-quiz" type="radio"/>
 <div class="p-5 rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all peer-checked:border-primary peer-checked:bg-primary/5 group-hover:border-slate-300 dark:group-hover:border-slate-700">
 <div class="flex items-center gap-4">
-<div class="radio-dot size-6 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center">
-<div class="radio-inner size-2 bg-white rounded-full opacity-0"></div>
+<div class="size-6 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center peer-checked:group-[]:border-primary peer-checked:group-[]:bg-primary">
+<div class="size-2 bg-white rounded-full opacity-0 peer-checked:group-[]:opacity-100"></div>
 </div>
 <p class="text-slate-700 dark:text-slate-200 font-medium">Zero-shot is used for training, while Few-shot is used for the inference phase only.</p>
 </div>
@@ -138,8 +129,8 @@
 <input class="hidden peer" name="ai-quiz" type="radio"/>
 <div class="p-5 rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all peer-checked:border-primary peer-checked:bg-primary/5 group-hover:border-slate-300 dark:group-hover:border-slate-700">
 <div class="flex items-center gap-4">
-<div class="radio-dot size-6 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center">
-<div class="radio-inner size-2 bg-white rounded-full opacity-0"></div>
+<div class="size-6 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center peer-checked:group-[]:border-primary peer-checked:group-[]:bg-primary">
+<div class="size-2 bg-white rounded-full opacity-0 peer-checked:group-[]:opacity-100"></div>
 </div>
 <p class="text-slate-700 dark:text-slate-200 font-medium">Few-shot requires retraining the weights of the model with specific prompt data.</p>
 </div>
@@ -153,13 +144,13 @@
 <span class="font-whimsical text-2xl font-bold text-accent-orange">You've got this!</span>
 </div>
 <div class="flex gap-4">
-<button class="px-8 py-3 rounded-xl font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 transition-colors">
+<a href="/roadmap" class="px-8 py-3 rounded-xl font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 transition-colors">
                         Skip
-                    </button>
-<button class="cartoon-icon-btn bg-primary border-green-700 px-10 py-3 text-white font-bold flex items-center gap-2 text-lg shadow-lg shadow-primary/20">
+                    </a>
+<a href="/quiz_results" class="cartoon-icon-btn bg-primary border-green-700 px-10 py-3 text-white font-bold flex items-center gap-2 text-lg shadow-lg shadow-primary/20">
                         Check Answer
                         <span class="material-symbols-outlined font-bold">arrow_forward</span>
-</button>
+</a>
 </div>
 </footer>
 </main>

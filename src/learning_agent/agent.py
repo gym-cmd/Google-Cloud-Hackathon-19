@@ -1,7 +1,5 @@
 from google.adk.agents import Agent
 
-from .tools import fetch_webpage_content
-
 MODEL = "gemini-2.5-flash"
 
 # --- Assessment Sub-Agent ---
@@ -55,7 +53,6 @@ Requirements:
 - Generate 4–6 ordered learning steps
 - Each step must have a title and a one-paragraph overview
 - For each step, suggest 2–3 curated resources (articles, videos, or documentation)
-- Use the fetch_webpage_content tool to verify that resource URLs are real and accessible when possible
 - Tailor difficulty to the user's experience level
 
 You MUST respond with valid JSON in this exact format:
@@ -79,7 +76,6 @@ You MUST respond with valid JSON in this exact format:
 ```
 
 Respond ONLY with the JSON block, no additional text.""",
-    tools=[fetch_webpage_content],
 )
 
 # --- Quiz Sub-Agent ---

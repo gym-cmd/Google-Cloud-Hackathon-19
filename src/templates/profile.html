@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Zuzia's Profile &amp; AI Goals</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Gaegu:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --primary-green: #22c55e;
+            --accent-orange: #f97316;
+            --accent-yellow: #facc15;
+            --sidebar-bg: #f8fafc;
+            --card-border: #e2e8f0;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #ffffff;
+        }
+        .whimsical-font {
+            font-family: 'Gaegu', cursive;
+        }
+        .clean-card {
+            background: white;
+            border: 1px solid var(--card-border);
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            color: #64748b;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        .sidebar-item:hover {
+            background-color: #f1f5f9;
+            color: #1e293b;
+        }
+        .sidebar-item.active {
+            background-color: #f1f5f9;
+            color: var(--primary-green);
+        }
+        .whimsical-icon {
+            font-family: 'Material Symbols Outlined';
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 40;}
+        .avatar-container {
+            border-radius: 24% 76% 35% 65% / 49% 30% 70% 51%;
+            border: 3px solid #1e293b;
+            overflow: hidden;
+            background: var(--accent-yellow);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-green": "#22c55e",
+                        "accent-orange": "#f97316",
+                        "accent-yellow": "#facc15",
+                        "slate-custom": "#64748b",
+                        "ink": "#1e293b"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-slate-900 antialiased h-screen overflow-hidden">
+<div class="flex h-full">
+<aside class="hidden md:flex flex-col w-64 bg-slate-50 border-r border-slate-200 p-6">
+<a class="flex items-center gap-3 mb-10 px-2 hover:opacity-80 transition-opacity" href="/">
+<div class="size-10 rounded-lg bg-primary-green flex items-center justify-center text-white">
+<span class="material-symbols-outlined whimsical-icon">rocket_launch</span>
+</div>
+<span class="font-bold text-xl tracking-tight text-slate-800">EduAI Studio</span>
+</a>
+<nav class="flex-1 space-y-1">
+<a class="sidebar-item active" href="/profile">
+<span class="material-symbols-outlined whimsical-icon text-2xl -rotate-6">face_6</span>
+<span>My Profile</span>
+</a>
+<a class="sidebar-item" href="/roadmap">
+<span class="material-symbols-outlined whimsical-icon text-2xl rotate-3">auto_stories</span>
+<span>Curriculum</span>
+</a>
+<a class="sidebar-item" href="/resources">
+<span class="material-symbols-outlined whimsical-icon text-2xl -rotate-3">lightbulb</span>
+<span>Lab Space</span>
+</a>
+<a class="sidebar-item" href="/profile">
+<span class="material-symbols-outlined whimsical-icon text-2xl rotate-6">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-4 bg-white border border-slate-200 rounded-xl">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined whimsical-icon text-accent-orange text-3xl">local_fire_department</span>
+<div>
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Current Streak</p>
+<p class="text-lg font-bold text-slate-800">12 Days</p>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex-1 overflow-y-auto bg-slate-50/50">
+<div class="md:hidden flex items-center justify-between p-4 bg-white border-b border-slate-200 sticky top-0 z-20">
+<a href="/"><span class="material-symbols-outlined whimsical-icon">home</span></a>
+<h1 class="font-bold text-slate-800">Profile</h1>
+<a class="size-8 avatar-container" href="/profile">
+<img alt="Zuzia" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4nG2CXqE9C-BROtwbndM4WMjv8iZHaQDe0wGMo6NYxEhNICw1t-v6GG0taZFNuvBnD8OZmV7by2-uG0XK3hzR-UAMgNJRng-u0Hpd8XP3slz8xJessc3RZtgnP2mQ_hB2acwZKzjrQGKyc-CmumHtOZ-xZUzAF9C9JLOjJhaaBMJL-FNJ6-hhx3uEghgd_Jm5kn_jxYkhn9yCPbqmI7xSEFzCTOlEtGaqEAlsGWZ4FxLKEKn_4vQnU2XkEgUYUZGrvyTAW2y_PWTi"/>
+</a>
+</div>
+<div class="max-w-5xl mx-auto p-6 md:p-10 space-y-8">
+<header class="flex flex-col md:flex-row items-center md:items-start gap-8 bg-white p-8 rounded-2xl border border-slate-200">
+<div class="relative">
+<div class="size-40 md:size-44 avatar-container shadow-xl">
+<img alt="Zuzia's Whimsical Avatar" class="w-full h-full object-contain scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4nG2CXqE9C-BROtwbndM4WMjv8iZHaQDe0wGMo6NYxEhNICw1t-v6GG0taZFNuvBnD8OZmV7by2-uG0XK3hzR-UAMgNJRng-u0Hpd8XP3slz8xJessc3RZtgnP2mQ_hB2acwZKzjrQGKyc-CmumHtOZ-xZUzAF9C9JLOjJhaaBMJL-FNJ6-hhx3uEghgd_Jm5kn_jxYkhn9yCPbqmI7xSEFzCTOlEtGaqEAlsGWZ4FxLKEKn_4vQnU2XkEgUYUZGrvyTAW2y_PWTi"/>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-accent-yellow text-slate-900 size-10 rounded-full border-4 border-white flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined whimsical-icon text-xl">star</span>
+</div>
+</div>
+<div class="flex-1 text-center md:text-left pt-2">
+<div class="flex flex-col md:flex-row md:items-center gap-3 mb-2">
+<h2 class="text-3xl font-extrabold text-slate-900">Zuzia M.</h2>
+<div class="flex gap-2 justify-center">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
+<span class="material-symbols-outlined whimsical-icon text-sm mr-1">verified</span> Professional
+                                </span>
+<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-700">
+<span class="material-symbols-outlined whimsical-icon text-sm mr-1">bolt</span> AI Active
+                                </span>
+</div>
+</div>
+<p class="text-slate-500 text-lg font-medium mb-6">Frontend Engineer transitions to AI Architecture</p>
+<div class="flex flex-wrap gap-3 justify-center md:justify-start">
+<button class="px-6 py-2 bg-slate-900 text-white rounded-lg font-semibold text-sm hover:bg-slate-800 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined whimsical-icon text-lg">edit</span>
+                                Edit Profile
+                            </button>
+<button class="px-6 py-2 bg-white border border-slate-200 text-slate-700 rounded-lg font-semibold text-sm hover:bg-slate-50 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined whimsical-icon text-lg">share</span>
+                                Share
+                            </button>
+</div>
+</div>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<section class="md:col-span-2 clean-card p-6">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-xl font-bold text-slate-800">Skill Proficiency</h3>
+<span class="material-symbols-outlined whimsical-icon text-slate-400">query_stats</span>
+</div>
+<div class="space-y-6">
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<span class="text-sm font-semibold text-slate-700">JavaScript &amp; Web Architecture</span>
+<span class="whimsical-font text-xl font-bold text-primary-green -rotate-3">Expert!</span>
+</div>
+<div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-primary-green rounded-full" style="width: 92%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<span class="text-sm font-semibold text-slate-700">UI Development (CSS/Tailwind)</span>
+<span class="whimsical-font text-xl font-bold text-accent-yellow rotate-2">Expert!</span>
+</div>
+<div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-accent-yellow rounded-full" style="width: 95%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<span class="text-sm font-semibold text-slate-700">Machine Learning Basics</span>
+<span class="whimsical-font text-xl font-bold text-accent-orange -rotate-1">Growing</span>
+</div>
+<div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-accent-orange rounded-full" style="width: 45%"></div>
+</div>
+</div>
+</div>
+</section>
+<section class="clean-card bg-primary-green p-6 text-white border-none">
+<div class="flex justify-between items-start mb-12">
+<div class="size-12 rounded-xl bg-white/20 flex items-center justify-center">
+<span class="material-symbols-outlined whimsical-icon text-3xl">psychology</span>
+</div>
+<span class="material-symbols-outlined whimsical-icon opacity-40 text-4xl">draw</span>
+</div>
+<p class="text-white/80 text-xs font-bold uppercase tracking-widest mb-1">Current Focus</p>
+<h4 class="text-2xl font-bold mb-6">LLM Fine-tuning</h4>
+<div class="bg-white/10 p-4 rounded-xl backdrop-blur-sm border border-white/20">
+<p class="text-xs font-medium text-white/90">Path progress: 68%</p>
+<div class="h-1.5 w-full bg-white/20 rounded-full mt-2">
+<div class="h-full bg-white rounded-full" style="width: 68%"></div>
+</div>
+</div>
+</section>
+</div>
+<section class="clean-card p-8 border-l-4 border-l-accent-orange">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex-1 space-y-2">
+<div class="flex items-center gap-2 text-accent-orange">
+<span class="material-symbols-outlined whimsical-icon">flag</span>
+<span class="text-xs font-bold uppercase tracking-widest">Active Mission</span>
+</div>
+<h3 class="text-2xl font-extrabold text-slate-900">Transitioning to AI Engineering</h3>
+<p class="text-slate-500 max-w-xl">Deep diving into LangChain and Vector Databases to build production-ready AI agents for frontend interfaces.</p>
+</div>
+<a href="/chat" class="w-full md:w-auto px-8 py-4 bg-accent-orange text-white rounded-xl font-bold shadow-lg shadow-orange-200 hover:scale-[1.02] transition-transform flex items-center justify-center gap-3">
+<span>Resume Study</span>
+<span class="material-symbols-outlined whimsical-icon text-2xl">auto_fix_high</span>
+</a>
+</div>
+</section>
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="text-xl font-bold text-slate-800">Learning Roadmap</h3>
+<a class="text-sm font-bold text-primary-green hover:underline" href="/roadmap">View All Path</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="clean-card p-5 hover:border-primary-green transition-colors cursor-pointer group">
+<div class="size-10 rounded-lg bg-orange-50 text-accent-orange flex items-center justify-center mb-4">
+<span class="material-symbols-outlined whimsical-icon">draw</span>
+</div>
+<h5 class="font-bold text-slate-800 mb-1">Prompt Engineering</h5>
+<p class="text-sm text-slate-500 mb-4">Mastering the art of input.</p>
+<div class="flex items-center gap-2">
+<div class="flex-1 h-1.5 bg-slate-100 rounded-full">
+<div class="h-full bg-accent-orange rounded-full" style="width: 100%"></div>
+</div>
+<span class="material-symbols-outlined whimsical-icon text-green-500 text-sm">check_circle</span>
+</div>
+</div>
+<div class="clean-card p-5 border-dashed bg-slate-50/50">
+<div class="size-10 rounded-lg bg-slate-200 text-slate-400 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined whimsical-icon">lock</span>
+</div>
+<h5 class="font-bold text-slate-400 mb-1">Python for AI</h5>
+<p class="text-sm text-slate-400 mb-4">Data science fundamentals.</p>
+<div class="h-1.5 w-1/3 bg-slate-200 rounded-full"></div>
+</div>
+<div class="clean-card p-5 border-dashed bg-slate-50/50">
+<div class="size-10 rounded-lg bg-slate-200 text-slate-400 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined whimsical-icon">cloud_off</span>
+</div>
+<h5 class="font-bold text-slate-400 mb-1">Deployment</h5>
+<p class="text-sm text-slate-400 mb-4">Cloud and edge models.</p>
+<div class="h-1.5 w-1/4 bg-slate-200 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

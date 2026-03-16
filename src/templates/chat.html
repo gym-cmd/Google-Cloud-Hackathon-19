@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Tutor Chat - New Topic Session</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Gaegu:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#22c55e",
+                        "secondary": "#fbbf24",
+                        "accent": "#f97316",
+                        "brand-blue": "#3b82f6",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "hand": ["Gaegu", "cursive"]
+                    },
+                    borderRadius: {
+                        "sticker": "1.25rem",
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply font-display text-slate-900 dark:text-slate-100 bg-background-light dark:bg-slate-950;
+                height: 100dvh;
+            }
+        }
+        .sidebar-icon {
+            @apply size-12 flex items-center justify-center rounded-xl transition-all hover:bg-slate-100 dark:hover:bg-slate-800 hover:scale-110 active:scale-95 text-slate-500 dark:text-slate-400;
+        }
+        .sidebar-icon.active {
+            @apply bg-primary/10 text-primary border border-primary/20;
+        }
+        .sticker-btn {
+            @apply transition-all hover:-translate-y-1 active:translate-y-0 shadow-sm hover:shadow-md;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155;
+        }.desktop-container {
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            max-height: 100vh;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex items-center justify-center p-0 md:p-4">
+<div class="desktop-container bg-white dark:bg-slate-900 shadow-2xl overflow-hidden flex flex-row border border-slate-200 dark:border-slate-800">
+<aside class="w-20 border-r border-slate-200 dark:border-slate-800 flex flex-col items-center py-6 gap-6 bg-slate-50 dark:bg-slate-900/50">
+<a class="size-12 bg-primary rounded-2xl flex items-center justify-center text-white shadow-lg mb-4 hover:scale-105 transition-transform" href="/">
+<span class="material-symbols-outlined text-3xl">school</span>
+</a>
+<a class="sidebar-icon active" href="/chat">
+<span class="material-symbols-outlined">chat_bubble</span>
+</a>
+<a class="sidebar-icon" href="/chat">
+<span class="material-symbols-outlined text-[28px]">rocket</span>
+</a>
+<a class="sidebar-icon" href="/roadmap">
+<span class="material-symbols-outlined text-[28px]">menu_book</span>
+</a>
+<a class="sidebar-icon" href="/quiz">
+<span class="material-symbols-outlined text-[28px]">extension</span>
+</a>
+<div class="mt-auto flex flex-col gap-4">
+<a class="sidebar-icon" href="/profile">
+<span class="material-symbols-outlined">settings</span>
+</a>
+<a class="size-10 rounded-full border-2 border-primary overflow-hidden flex items-center justify-center bg-primary/10 hover:bg-primary/20 transition-colors" href="/profile">
+<span class="text-primary font-bold text-sm">Z</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 flex flex-col relative bg-white dark:bg-slate-950">
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 px-6 flex items-center justify-between bg-white/80 dark:bg-slate-900/80 backdrop-blur-md">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-white">smart_toy</span>
+</div>
+<div>
+<h2 class="font-bold text-sm">Botty <span class="text-slate-400 font-normal">the Tutor</span></h2>
+<div class="flex items-center gap-1.5">
+<span class="size-1.5 bg-green-500 rounded-full"></span>
+<span class="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Deep Learning Module</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-full">
+<span class="material-symbols-outlined text-sm text-yellow-500">bolt</span>
+<span class="text-xs font-bold text-slate-600 dark:text-slate-300">Level 12 Architect</span>
+</div>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined text-slate-400">more_vert</span>
+</button>
+</div>
+</header>
+<div id="chat-container" class="flex-1 overflow-y-auto custom-scrollbar p-8 space-y-8">
+<div class="flex justify-center">
+<span class="text-[10px] font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-4 py-1 rounded-full uppercase tracking-widest">
+                        Session Started: LLM Foundations
+                    </span>
+</div>
+<div class="flex gap-4 items-start max-w-2xl">
+<div class="size-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex-shrink-0 flex items-center justify-center border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-primary">smart_toy</span>
+</div>
+<div class="flex flex-col gap-2">
+<div class="bg-slate-100 dark:bg-slate-800 rounded-2xl rounded-tl-none p-5 shadow-sm border border-slate-200/50 dark:border-slate-700/50">
+<p class="text-slate-700 dark:text-slate-200 leading-relaxed">
+                                Hey Zuzia! Ready to level up your frontend skills into the world of AI Engineering? 🚀
+                            </p>
+<p class="mt-4 text-slate-700 dark:text-slate-200 leading-relaxed">
+                                Since you're already great with JS, we could start by exploring <strong>LangChain.js</strong> or dive into the art of <strong>Prompt Engineering</strong>. What sounds most exciting today?
+                            </p>
+</div>
+<span class="text-[10px] text-slate-400 font-bold uppercase ml-1">Botty • Just now</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-3 pl-14">
+<button class="sticker-btn bg-primary text-white px-6 py-3 rounded-sticker font-bold text-sm flex items-center gap-2 border-b-4 border-green-700">
+<span class="material-symbols-outlined text-lg">terminal</span>
+                        LangChain.js Basics
+                    </button>
+<button class="sticker-btn bg-secondary text-slate-900 px-6 py-3 rounded-sticker font-bold text-sm flex items-center gap-2 border-b-4 border-yellow-500">
+<span class="material-symbols-outlined text-lg">edit_note</span>
+                        Prompting Guide
+                    </button>
+<button class="sticker-btn bg-accent text-white px-6 py-3 rounded-sticker font-bold text-sm flex items-center gap-2 border-b-4 border-orange-600">
+<span class="material-symbols-outlined text-lg">casino</span>
+                        Surprise Topic
+                    </button>
+</div>
+<div class="flex gap-4 items-start max-w-2xl ml-auto flex-row-reverse">
+<div class="size-10 rounded-xl bg-brand-blue/10 flex-shrink-0 flex items-center justify-center border border-brand-blue/20 overflow-hidden">
+<span class="material-symbols-outlined text-brand-blue text-3xl">face_3</span>
+</div>
+<div class="flex flex-col gap-2 items-end">
+<div class="bg-brand-blue text-white rounded-2xl rounded-tr-none p-5 shadow-sm">
+<p class="leading-relaxed">
+                                Let's go with LangChain.js! I want to see how my React skills translate to building AI agents.
+                            </p>
+</div>
+<span class="text-[10px] text-slate-400 font-bold uppercase mr-1">Zuzia • 10:42 AM</span>
+</div>
+</div>
+</div>
+<div class="p-6 bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800">
+<div class="max-w-3xl mx-auto flex items-center gap-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-2 shadow-inner">
+<button class="size-10 flex items-center justify-center text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">attach_file</span>
+</button>
+<input id="chat-input" class="flex-1 bg-transparent border-none focus:ring-0 text-sm placeholder:text-slate-400 py-2 px-2" placeholder="Message Botty..." type="text"/>
+<button id="send-btn" class="size-10 bg-primary text-white rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all">
+<span class="material-symbols-outlined text-xl">arrow_upward</span>
+</button>
+</div>
+</div>
+</main>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
+    const chatContainer = document.getElementById('chat-container');
+
+    function appendMessage(text, isUser) {
+        const wrapper = document.createElement('div');
+        wrapper.className = `flex gap-4 items-start max-w-2xl ${isUser ? 'ml-auto flex-row-reverse' : ''}`;
+        
+        const avatar = document.createElement('div');
+        avatar.className = `size-10 rounded-xl flex-shrink-0 flex items-center justify-center border ${isUser ? 'bg-brand-blue/10 border-brand-blue/20 overflow-hidden' : 'bg-slate-100 border-slate-200'}`;
+        avatar.innerHTML = `<span class="material-symbols-outlined ${isUser ? 'text-brand-blue text-3xl' : 'text-primary'}">${isUser ? 'face_3' : 'smart_toy'}</span>`;
+        
+        const msgCol = document.createElement('div');
+        msgCol.className = `flex flex-col gap-2 ${isUser ? 'items-end' : ''}`;
+        
+        const msgBubble = document.createElement('div');
+        msgBubble.className = `rounded-2xl p-5 shadow-sm ${isUser ? 'bg-brand-blue text-white rounded-tr-none' : 'bg-slate-100 text-slate-700 rounded-tl-none border border-slate-200/50'}`;
+        
+        const msgText = document.createElement('p');
+        msgText.className = "leading-relaxed whitespace-pre-wrap";
+        msgText.textContent = text;
+        
+        msgBubble.appendChild(msgText);
+        msgCol.appendChild(msgBubble);
+        
+        const timeSpan = document.createElement('span');
+        timeSpan.className = `text-[10px] text-slate-400 font-bold uppercase ${isUser ? 'mr-1' : 'ml-1'}`;
+        timeSpan.textContent = isUser ? 'You • Just now' : 'Botty • Just now';
+        msgCol.appendChild(timeSpan);
+        
+        wrapper.appendChild(avatar);
+        wrapper.appendChild(msgCol);
+        
+        chatContainer.appendChild(wrapper);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+        return msgText;
+    }
+
+    async function sendMessage() {
+        const text = input.value.trim();
+        if (!text) return;
+        
+        appendMessage(text, true);
+        input.value = '';
+        input.disabled = true;
+        sendBtn.disabled = true;
+        
+        const botTextNode = appendMessage('', false);
+        
+        try {
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: text })
+            });
+            
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                
+                const chunk = decoder.decode(value, {stream: true});
+                const lines = chunk.split('\n\n');
+                for (const line of lines) {
+                    if (line.startsWith('data: ')) {
+                        const dataStr = line.slice(6);
+                        if (dataStr === '[DONE]') break;
+                        try {
+                            const data = JSON.parse(dataStr);
+                            if (data.text) {
+                                botTextNode.textContent += data.text;
+                            } else if (data.content) {
+                                botTextNode.textContent += data.content;
+                            }
+                        } catch (e) {
+                            console.error("Error parsing chunk", e);
+                        }
+                    }
+                }
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        } catch (err) {
+            console.error(err);
+            botTextNode.textContent = "Error communicating with server.";
+        }
+        
+        input.disabled = false;
+        sendBtn.disabled = false;
+        input.focus();
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+});
+</script>
+</body></html>

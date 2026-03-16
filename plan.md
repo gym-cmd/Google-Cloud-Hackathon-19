@@ -4,7 +4,7 @@
 - **Runtime**: Python 3.11+
 - **Package Manager**: uv
 - **AI/Agent Framework**: Google ADK (Agent Development Kit)
-- **Model**: gemini-3-flash-preview
+- **Model**: gemini-2.5-flash
 - **Deployment**: Vertex AI Agent Engine (via `adk deploy agent_engine`)
 - **Local Dev**: `adk web` (ADK built-in web UI)
 
@@ -20,9 +20,8 @@ Root agent (`learning_tutor`) orchestrates 3 sub-agents:
 | **Quiz Agent** | Generates 3 MCQ questions per step, evaluates answers, and produces revision hints on failure |
 
 ### Tools
-| Tool | Description |
-|---|---|
-| **Web Fetcher** | Fetches and extracts content from webpages relevant to the user's learning topic, used by the Curriculum Agent to provide curated resources |
+
+No external tools are currently used. The agents rely on Gemini's built-in knowledge for resource suggestions.
 
 ### Project Structure
 ```
@@ -31,10 +30,8 @@ src/
     __init__.py
     agent.py                # Root agent + sub-agents (assessment, curriculum, quiz)
     agent_engine_app.py     # Vertex AI Agent Engine deployment wrapper
-    requirements.txt        # Vertex deploy dependencies
     tools/
       __init__.py
-      web_fetcher.py        # Webpage content extraction tool
 pyproject.toml              # uv project config + dependencies
 specs/                      # Feature specifications
 ```
@@ -48,7 +45,6 @@ specs/                      # Feature specifications
 
 ### Phase 2 — Spec 02: Curriculum Generation & Content
 - Curriculum sub-agent with structured JSON output
-- Web Fetcher tool for resource verification
 - Step-by-step learning path generation
 
 ### Phase 3 — Spec 03: Quiz & Adaptive Progression

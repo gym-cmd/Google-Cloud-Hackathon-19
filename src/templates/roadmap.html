@@ -47,10 +47,6 @@
         .glass-card {
             @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border border-slate-200 dark:border-slate-800 shadow-sm;
         }
-        .filled-icon {
-            font-variation-settings: 'FILL' 1;
-        }
-        }
     </style>
 <style>
     body {
@@ -78,17 +74,19 @@
 </header>
 <div class="flex flex-1 overflow-hidden">
 <aside class="hidden md:flex w-20 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex-col items-center py-6 gap-6">
-<div class="sidebar-icon-whimsical size-12 bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-accent transition-colors cursor-pointer">
+<a class="sidebar-icon-whimsical size-12 bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-accent transition-colors cursor-pointer" href="/">
 <span class="material-symbols-outlined">dashboard</span>
-</div>
-<div class="sidebar-icon-whimsical size-12 bg-slate-900 dark:bg-accent text-white flex items-center justify-center shadow-lg cursor-pointer">
+</a>
+<a class="sidebar-icon-whimsical size-12 bg-slate-900 dark:bg-accent text-white flex items-center justify-center shadow-lg cursor-pointer" href="/roadmap">
 <span class="material-symbols-outlined">route</span>
-</div>
-<div class="sidebar-icon-whimsical size-12 bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-accent transition-colors cursor-pointer">
+</a>
+<a class="sidebar-icon-whimsical size-12 bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-accent transition-colors cursor-pointer" href="/roadmap">
 <span class="material-symbols-outlined">auto_stories</span>
-</div>
-<div class="mt-auto sidebar-icon-whimsical size-12 bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 cursor-pointer">
+</a>
+<div class="mt-auto">
+<a class="sidebar-icon-whimsical size-12 bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 cursor-pointer" href="/profile">
 <span class="material-symbols-outlined">settings</span>
+</a>
 </div>
 </aside>
 <main class="flex-1 overflow-y-auto p-6 md:p-10 relative">
@@ -99,31 +97,31 @@
 <div class="node-icon-whimsical bg-success/10 border-success text-success shrink-0 z-10 bg-white dark:bg-slate-900">
 <span class="material-symbols-outlined text-3xl">computer</span>
 </div>
-<div class="pt-2">
+<a class="pt-2 flex-1 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-xl p-2 -m-2 transition-colors" href="/resources">
 <div class="flex items-center gap-2 mb-1">
 <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-success/20 text-success">Completed</span>
 <h3 class="text-lg font-bold">Python Foundations</h3>
 </div>
 <p class="text-sm text-slate-500 dark:text-slate-400">Mastering syntax, data structures, and scripting for AI workflows.</p>
-</div>
+</a>
 </div>
 <div class="relative flex items-start gap-6 group">
 <div class="node-icon-whimsical bg-success/10 border-success text-success shrink-0 z-10 bg-white dark:bg-slate-900">
 <span class="material-symbols-outlined text-3xl">psychology_alt</span>
 </div>
-<div class="pt-2">
+<a class="pt-2 flex-1 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-xl p-2 -m-2 transition-colors" href="/resources">
 <div class="flex items-center gap-2 mb-1">
 <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-success/20 text-success">Completed</span>
 <h3 class="text-lg font-bold">LLM Architecture</h3>
 </div>
 <p class="text-sm text-slate-500 dark:text-slate-400">Deep dive into Transformers, attention mechanisms, and tokenization.</p>
-</div>
+</a>
 </div>
 <div class="relative flex items-start gap-6 group">
 <div class="node-icon-whimsical bg-accent/20 border-accent text-accent shrink-0 z-10 bg-white dark:bg-slate-900 shadow-[0_0_20px_rgba(245,158,11,0.2)]">
 <span class="material-symbols-outlined text-3xl">magic_button</span>
 </div>
-<div class="pt-2">
+<a class="pt-2 flex-1 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-xl p-2 -m-2 transition-colors" href="/resources">
 <div class="flex items-center gap-2 mb-1">
 <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-accent text-white">In Progress</span>
 <h3 class="text-lg font-bold text-accent">Prompt Engineering</h3>
@@ -135,31 +133,31 @@
 </div>
 <span class="text-xs font-bold text-slate-400 uppercase">65% Done</span>
 </div>
-</div>
+</a>
 </div>
 <div class="relative flex items-start gap-6 group">
 <div class="node-icon-whimsical bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-400 shrink-0 z-10">
 <span class="material-symbols-outlined text-3xl">storage</span>
 </div>
-<div class="pt-2">
+<a class="pt-2 flex-1 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-xl p-2 -m-2 transition-colors" href="/resources">
 <div class="flex items-center gap-2 mb-1">
 <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-slate-200 dark:bg-slate-800 text-slate-500">Locked</span>
 <h3 class="text-lg font-bold text-slate-400">Vector Databases</h3>
 </div>
 <p class="text-sm text-slate-400">Pinecone, Weaviate, and the fundamentals of high-dimensional embeddings.</p>
-</div>
+</a>
 </div>
 <div class="relative flex items-start gap-6 group">
 <div class="node-icon-whimsical bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-400 shrink-0 z-10">
 <span class="material-symbols-outlined text-3xl">account_tree</span>
 </div>
-<div class="pt-2">
+<a class="pt-2 flex-1 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-xl p-2 -m-2 transition-colors" href="/resources">
 <div class="flex items-center gap-2 mb-1">
 <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-slate-200 dark:bg-slate-800 text-slate-500">Locked</span>
 <h3 class="text-lg font-bold text-slate-400">RAG Systems</h3>
 </div>
 <p class="text-sm text-slate-400">Building Retrieval-Augmented Generation pipelines with LangChain.</p>
-</div>
+</a>
 </div>
 <div class="relative flex items-start gap-6 group pb-24">
 <div class="node-icon-whimsical border-dashed border-2 border-slate-300 dark:border-slate-700 text-slate-300 shrink-0 z-10">
@@ -176,24 +174,24 @@
 </div>
 <nav class="md:hidden fixed bottom-0 w-full glass-card border-t border-slate-200 dark:border-slate-800 pb-8 pt-3 px-8 z-50">
 <div class="flex items-center justify-between max-w-md mx-auto">
-<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="/quiz">
 <span class="material-symbols-outlined">menu_book</span>
 <span class="text-[10px] font-bold">Quests</span>
 </a>
-<a class="flex flex-col items-center gap-1 text-accent" href="#">
+<a class="flex flex-col items-center gap-1 text-accent" href="/roadmap">
 <span class="material-symbols-outlined text-3xl filled-icon">route</span>
 <span class="text-[10px] font-bold">Roadmap</span>
 </a>
 <div class="relative -top-8">
-<button class="bg-accent text-white size-14 sidebar-icon-whimsical flex items-center justify-center shadow-lg border-4 border-white dark:border-slate-900">
+<a class="bg-accent text-white size-14 sidebar-icon-whimsical flex items-center justify-center shadow-lg border-4 border-white dark:border-slate-900" href="/chat">
 <span class="material-symbols-outlined text-3xl">auto_awesome</span>
-</button>
+</a>
 </div>
-<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="/quiz">
 <span class="material-symbols-outlined">leaderboard</span>
 <span class="text-[10px] font-bold">Ranks</span>
 </a>
-<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="/profile">
 <div class="size-6 rounded-full overflow-hidden border border-slate-300">
 <img alt="Z" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-4dYvKXijBSlmLc9A5VKp99e4gN_P3tgFKKv-eTVASku_SpCriDRuXExPDGXPiO9yRwtPfQCxLrCQG4vX8Erz4FZVKuU_zuEf0xffJrhZ9cTmGgIPuO_MRJSTnubMjIXo7JwDSgY1UWKT6d5zmu_iHl0SXKidDMgsfmTz0TyXH6VcEP44p1NSo0MJgUX7TRYKldRV2SqlT-0YZmEPb1pMIUZHzvRbpTpW02iaPC8CXaLLAKBIULg__2dgcto_vdnjqM68106R5gmE"/>
 </div>
@@ -215,10 +213,10 @@
 </div>
 </div>
 <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
-<button class="w-full bg-slate-900 dark:bg-white dark:text-slate-900 text-white py-3 rounded-xl font-bold text-sm shadow-md flex items-center justify-center gap-2">
+<a class="w-full bg-slate-900 dark:bg-white dark:text-slate-900 text-white py-3 rounded-xl font-bold text-sm shadow-md flex items-center justify-center gap-2" href="/chat">
 <span class="material-symbols-outlined text-sm">play_circle</span>
                         Resume Learning
-                    </button>
+                    </a>
 </div>
 </div>
 </div>

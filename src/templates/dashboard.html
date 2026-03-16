@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Zuzia's AI Learning Dashboard Fixed</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&amp;family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#22c55e",
+                        "accent-orange": "#f97316",
+                        "accent-yellow": "#fbbf24",
+                        "brand-bg": "#f8fafc",
+                        "brand-dark": "#0f172a"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "sketch": ["Gochi Hand", "cursive"]
+                    }
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer components {
+            .sidebar-link {
+                @apply flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-600 hover:bg-slate-100;
+            }
+            .sidebar-link.active {
+                @apply bg-primary/10 text-primary font-semibold;
+            }
+            .card-modern {
+                @apply bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden;
+            }
+            .material-symbols-outlined {
+                font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            }
+        }
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #f8fafc;
+        }
+        .whimsical-icon {
+            font-family: 'Gochi Hand', cursive;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-brand-dark antialiased">
+<div class="flex min-h-screen w-full">
+<aside class="hidden md:flex flex-col w-64 border-r border-slate-200 bg-white p-6 sticky top-0 h-screen shrink-0">
+<div class="flex items-center gap-3 mb-10 px-2">
+<div class="size-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined font-bold text-2xl">smart_toy</span>
+</div>
+<h1 class="font-extrabold text-xl tracking-tight">AI<span class="text-primary font-sketch text-2xl">Tutor</span></h1>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="sidebar-link active" href="/">
+<span class="material-symbols-outlined text-2xl">house</span> Home
+            </a>
+<a class="sidebar-link" href="/roadmap">
+<span class="material-symbols-outlined text-2xl">auto_stories</span> Learn
+            </a>
+<a class="sidebar-link" href="/quiz">
+<span class="material-symbols-outlined text-2xl">map</span> Quests
+            </a>
+<a class="sidebar-link" href="/resources">
+<span class="material-symbols-outlined text-2xl">architecture</span> Tools
+            </a>
+</nav>
+<div class="mt-auto pt-6 border-t border-slate-100">
+<a class="flex items-center gap-3 p-3 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-slate-100 transition-colors" href="/profile">
+<div class="size-10 rounded-full border-2 border-primary overflow-hidden shrink-0">
+<img alt="Zuzia" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKjs_38PU8fDZhX4_btNvKFKcmndroeMIOt0OpJSz4O3bP1LaWcHGWXoezfNP5f7uVWc48FW8Q9jJYEbCJn7tWjItTotdeFJa4lMdCgROW0Xq2IIAEVFWxml9DQqzRPP0H3x_czPB38f-ZLfV0vXMdp68uRR5BoJG8quPE3ctYc8VhCHo4H2UYI-ZTbOWegwdC8bkkTTarks7mFBMw95E97A8JBsx8Z59U0EwSO879gEgNcec-37ChBKrflWReaGJxmp-7KQawhH1G"/>
+</div>
+<div class="min-w-0">
+<p class="font-bold text-sm truncate">Zuzia</p>
+<p class="text-xs text-slate-500 truncate">AI Engineer Path</p>
+</div>
+</a>
+</div>
+</aside>
+<main class="flex-1 flex flex-col min-h-screen pb-24 md:pb-8">
+<header class="flex md:hidden items-center justify-between p-4 bg-white border-b border-slate-200 sticky top-0 z-20">
+<a class="flex items-center gap-3" href="/profile">
+<div class="size-9 rounded-full border-2 border-primary overflow-hidden">
+<img alt="Zuzia" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKjs_38PU8fDZhX4_btNvKFKcmndroeMIOt0OpJSz4O3bP1LaWcHGWXoezfNP5f7uVWc48FW8Q9jJYEbCJn7tWjItTotdeFJa4lMdCgROW0Xq2IIAEVFWxml9DQqzRPP0H3x_czPB38f-ZLfV0vXMdp68uRR5BoJG8quPE3ctYc8VhCHo4H2UYI-ZTbOWegwdC8bkkTTarks7mFBMw95E97A8JBsx8Z59U0EwSO879gEgNcec-37ChBKrflWReaGJxmp-7KQawhH1G"/>
+</div>
+<h1 class="text-base font-bold tracking-tight">Zuzia's Dashboard</h1>
+</a>
+<button class="size-10 bg-slate-50 border border-slate-200 rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-600 text-xl">notifications</span>
+</button>
+</header>
+<div class="max-w-6xl mx-auto w-full p-4 md:p-8 space-y-6">
+<section class="card-modern relative bg-slate-900 text-white p-8 md:p-12">
+<div class="relative z-10 flex flex-col gap-6 md:max-w-xl">
+<div>
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-primary text-white rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 border border-white/10">
+<span class="material-symbols-outlined text-xs">timer</span> Daily Goal: 45 min
+                        </div>
+<h2 class="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">Good morning, Zuzia! 👋</h2>
+<p class="text-lg text-slate-300 leading-relaxed">Ready to continue your AI Engineering journey? Your next module on <span class="text-primary font-semibold italic">LLM Orchestration</span> is waiting.</p>
+</div>
+<a class="bg-primary hover:bg-primary/90 text-white w-fit px-8 py-4 rounded-2xl font-black text-lg flex items-center gap-4 transition-all shadow-xl shadow-primary/30 active:scale-95" href="/chat">
+                        Resume Mission
+                        <span class="material-symbols-outlined text-3xl rotate-45">rocket_launch</span>
+</a>
+</div>
+<div class="absolute -right-10 -bottom-10 opacity-30 md:opacity-60 pointer-events-none w-64 h-64 md:w-96 md:h-96 flex items-center justify-center">
+<span class="material-symbols-outlined text-[180px] md:text-[320px] text-accent-yellow rotate-45">rocket_launch</span>
+</div>
+</section>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<section class="card-modern p-6 flex flex-col justify-between md:col-span-2">
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-4">
+<div class="size-14 rounded-2xl bg-accent-orange/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-accent-orange text-4xl">local_fire_department</span>
+</div>
+<div>
+<h3 class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Weekly Streak</h3>
+<p class="text-3xl font-black text-brand-dark">5 Days</p>
+</div>
+</div>
+<div class="bg-accent-yellow text-brand-dark px-4 py-2 font-black rounded-xl text-sm shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">workspace_premium</span>
+                            Level 4
+                        </div>
+</div>
+<div class="flex justify-between items-center px-2">
+<div class="flex flex-col items-center gap-3">
+<div class="size-10 rounded-full bg-primary text-white flex items-center justify-center shadow-md shadow-primary/20">
+<span class="material-symbols-outlined text-xl">check_circle</span>
+</div>
+<span class="text-[10px] font-bold text-slate-400 uppercase">Mon</span>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="size-10 rounded-full bg-primary text-white flex items-center justify-center shadow-md shadow-primary/20">
+<span class="material-symbols-outlined text-xl">check_circle</span>
+</div>
+<span class="text-[10px] font-bold text-slate-400 uppercase">Tue</span>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="size-10 rounded-full bg-primary text-white flex items-center justify-center shadow-md shadow-primary/20">
+<span class="material-symbols-outlined text-xl">check_circle</span>
+</div>
+<span class="text-[10px] font-bold text-slate-400 uppercase">Wed</span>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="size-10 rounded-full bg-primary text-white flex items-center justify-center shadow-md shadow-primary/20">
+<span class="material-symbols-outlined text-xl">check_circle</span>
+</div>
+<span class="text-[10px] font-bold text-slate-400 uppercase">Thu</span>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="size-12 rounded-2xl bg-accent-yellow text-brand-dark flex items-center justify-center shadow-lg shadow-accent-yellow/20 scale-110">
+<span class="material-symbols-outlined text-3xl font-black">bolt</span>
+</div>
+<span class="text-[10px] font-black text-brand-dark uppercase">Fri</span>
+</div>
+<div class="flex flex-col items-center gap-3 opacity-30">
+<div class="size-10 rounded-full border-2 border-slate-200 border-dashed"></div>
+<span class="text-[10px] font-bold text-slate-400 uppercase">Sat</span>
+</div>
+<div class="flex flex-col items-center gap-3 opacity-30">
+<div class="size-10 rounded-full border-2 border-slate-200 border-dashed"></div>
+<span class="text-[10px] font-bold text-slate-400 uppercase">Sun</span>
+</div>
+</div>
+</section>
+<section class="card-modern bg-accent-yellow/5 border-accent-yellow/20 p-6 flex flex-col items-center text-center">
+<div class="size-16 rounded-3xl bg-accent-yellow text-brand-dark flex items-center justify-center mb-5 shadow-xl shadow-accent-yellow/30">
+<span class="material-symbols-outlined text-5xl">lightbulb</span>
+</div>
+<h4 class="text-xl font-black mb-3 text-brand-dark">Did you know?</h4>
+<p class="text-sm text-slate-600 leading-relaxed mb-6 font-medium">
+                        Transformers were born in 2017 with the paper "Attention Is All You Need".
+                    </p>
+<a class="mt-auto px-6 py-2 bg-white border-2 border-accent-yellow text-xs font-black text-accent-orange uppercase tracking-wider rounded-full hover:bg-accent-yellow hover:text-white transition-all inline-block" href="/resources">
+                        Learn more
+                    </a>
+</section>
+</div>
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="text-2xl font-black tracking-tight">Current Quest</h3>
+<a class="text-primary font-bold text-sm flex items-center gap-2 hover:bg-primary/5 px-4 py-2 rounded-xl border border-transparent hover:border-primary/10 transition-all" href="/quiz">
+                        All Quests <span class="material-symbols-outlined text-xl">map</span>
+                    </a>
+</div>
+<div class="card-modern p-6 md:p-8">
+<div class="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
+<div class="size-24 rounded-3xl bg-primary/10 border-2 border-primary/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-6xl">smart_toy</span>
+</div>
+<div class="flex-1">
+<div class="flex flex-wrap items-center gap-2 mb-3">
+<span class="px-3 py-1 bg-brand-dark text-white text-[10px] font-bold uppercase tracking-wider rounded-lg">Intermediate</span>
+<span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider rounded-lg border border-primary/20">Engineering Path</span>
+</div>
+<h4 class="font-black text-3xl mb-1 text-brand-dark">AI Engineering for Frontend Devs</h4>
+<p class="text-slate-500 font-medium">Mastering Vector Databases and RAG pipelines</p>
+</div>
+</div>
+<div class="space-y-6">
+<div class="flex justify-between items-end">
+<div class="space-y-1">
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Mission Progress</span>
+<p class="text-3xl font-black text-brand-dark">25% <span class="text-slate-300 text-xl font-normal">/ 100%</span></p>
+</div>
+<span class="text-xs font-black text-primary bg-primary/10 px-4 py-2 rounded-full border border-primary/10 flex items-center gap-2">
+<span class="material-symbols-outlined text-base">key</span> Next: Vector DB Secrets!
+                            </span>
+</div>
+<div class="h-6 w-full bg-slate-100 rounded-full p-1 shadow-inner overflow-hidden">
+<div class="h-full bg-primary rounded-full relative" style="width: 25%">
+<div class="absolute inset-0 bg-white/20 animate-pulse"></div>
+</div>
+</div>
+<div class="flex items-center gap-3 text-sm font-bold text-slate-600">
+<div class="size-6 bg-primary rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-base">check</span>
+</div>
+                            4 of 16 lessons completed
+                        </div>
+</div>
+</div>
+</section>
+</div>
+<nav class="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-slate-200 px-6 pb-6 pt-3 flex items-center justify-between">
+<a class="flex flex-col items-center gap-1 text-primary" href="/">
+<span class="material-symbols-outlined text-3xl">house</span>
+<span class="text-[9px] font-black uppercase tracking-tighter">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="/roadmap">
+<span class="material-symbols-outlined text-3xl">auto_stories</span>
+<span class="text-[9px] font-black uppercase tracking-tighter">Learn</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="/quiz">
+<span class="material-symbols-outlined text-3xl">map</span>
+<span class="text-[9px] font-black uppercase tracking-tighter">Quests</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="/resources">
+<span class="material-symbols-outlined text-3xl">architecture</span>
+<span class="text-[9px] font-black uppercase tracking-tighter">Tools</span>
+</a>
+</nav>
+</main>
+</div>
+
+</body></html>

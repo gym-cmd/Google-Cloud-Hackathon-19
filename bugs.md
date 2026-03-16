@@ -4,7 +4,7 @@
 
 **File:** `src/learning_agent/tools/web_fetcher.py` (line 13)
 **Severity:** Medium
-**Status:** Open
+**Status:** Resolved — `web_fetcher.py` removed; tool no longer used.
 
 The docstring claims "Reject non-HTTP(S) schemes and bare IPs to prevent SSRF" but the function only validates the URL scheme. It does **not** reject private or internal IP addresses.
 
@@ -20,7 +20,7 @@ On a Vertex AI deployment, an attacker who can influence the LLM's tool calls co
 **Severity:** Medium
 **Status:** Open
 
-- **Local** (`pyproject.toml`): pins `google-adk==1.27.0`
+- **Local** (`pyproject.toml`): pins `google-adk==1.27.1`
 - **Deploy** (`requirements.txt`): uses `google-cloud-aiplatform[adk,agent_engines]` with **no version constraint**
 
 The deployed environment may install a different ADK version than what was tested locally, causing silent behavior differences or outright failures.
@@ -33,7 +33,7 @@ The deployed environment may install a different ADK version than what was teste
 
 **File:** `src/learning_agent/agent_engine_app.py` (line 8)
 **Severity:** Low
-**Status:** Open
+**Status:** Resolved
 
 ```python
 if False:  # Whether or not to use Express Mode

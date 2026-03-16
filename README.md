@@ -13,7 +13,7 @@ User ←→ learning_tutor (root)
 ```
 
 1. **Profile & Assessment** — The root agent greets the user, collects their name/level/goal, then hands off to `assessment_agent` for a short diagnostic conversation. The assessment produces a structured JSON context.
-2. **Curriculum Generation** — `curriculum_agent` uses that context to build a step-by-step curriculum. It can call `fetch_webpage_content` to verify that resource URLs are live.
+2. **Curriculum Generation** — `curriculum_agent` uses that context to build a step-by-step curriculum with curated resources.
 3. **Quiz & Progression** — When the user finishes a step, `quiz_agent` generates 3 MCQs. Pass (≥2/3) → next step. Fail → revision hints + retry.
 
 ## Prerequisites
@@ -31,20 +31,29 @@ User ←→ learning_tutor (root)
 # 1. Clone and install
 git clone <repo-url> && cd Google-Cloud-Hackathon-19
 uv sync
+```
 
-
-```bash 
+```bash
+# 2. Authenticate and configure GCP
 gcloud auth login
 gcloud auth application-default login
-gcloud config set project qwiklabs-asl-03-35787841388f
 ```
-# 3. Run the ADK web UI
+
+```bash
+# 3. Set environment variables (edit values for your project)
+export GOOGLE_CLOUD_PROJECT="qwiklabs-asl-03-35787841388f"
+export GOOGLE_CLOUD_LOCATION="europe-west1"
+export AGENT_ENGINE_RESOURCE_ID="your-agent-engine-resource-id"
+```
+
+```bash
+# 4. Run the ADK web UI
 uv run adk web src
 ```
 
 The agent uses Vertex AI via application default credentials — no API key needed. The GCP project and region are configured in `src/learning_agent/.env`.
 
-Open the URL printed in the terminal (usually `http://localhost:8000`). Select `learning_agent` from the agent dropdown and start chatting.
+Open `http://localhost:8000` in your browser — it redirects to the ADK dev UI at `/dev-ui/`. Select `learning_agent` from the agent dropdown and start chatting.
 
 ## Troubleshooting
 
@@ -61,16 +70,15 @@ lsof -ti:8000 | xargs kill -9
 ```bash
 cd src
 
-export PROJECT_ID="your-gcp-project-id"
-export LOCATION_ID="europe-west1"
-
 uv run adk deploy agent_engine \
-  --project=$PROJECT_ID \
-  --region=$LOCATION_ID \
+  --project=$GOOGLE_CLOUD_PROJECT \
+  --region=$GOOGLE_CLOUD_LOCATION \
   --display_name="Learning Tutor Agent" \
   --otel_to_cloud \
   learning_agent
 ```
+
+> Uses the same `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION` env vars from step 3 above.
 
 > Requires GCP project with Vertex AI API enabled and appropriate IAM permissions.
 
@@ -85,15 +93,16 @@ uv run adk deploy agent_engine \
 │   ├── 01-user-profile-and-assessment.md
 │   ├── 02-curriculum-generation-and-content.md
 │   └── 03-quiz-and-adaptive-progression.md
+├── tests/                                  # Unit and integration tests
 └── src/
+    ├── main.py                             # Vertex AI Agent Engine client script
     └── learning_agent/
         ├── __init__.py
+        ├── .env                            # GCP project & region config
         ├── agent.py                        # All agent definitions (root + 3 sub-agents)
         ├── agent_engine_app.py             # Vertex AI Agent Engine wrapper
-        ├── requirements.txt                # Deploy-time dependencies (Vertex only)
         └── tools/
-            ├── __init__.py
-            └── web_fetcher.py              # HTTP fetch + HTML text extraction
+            └── __init__.py
 ```
 
 ### Key Files
@@ -101,15 +110,13 @@ uv run adk deploy agent_engine \
 | File | Purpose |
 |---|---|
 | `agent.py` | Defines the root `learning_tutor` agent and its three sub-agents. All prompts, model config, and orchestration logic live here. |
-| `tools/web_fetcher.py` | Async tool that fetches a URL, strips HTML boilerplate, and returns clean text. Used by `curriculum_agent` to verify resource links. Includes URL validation and SSRF protection. |
 | `agent_engine_app.py` | Thin wrapper that initializes Vertex AI and creates an `AdkApp` for cloud deployment. Not used during local dev. |
-| `requirements.txt` | Dependencies installed on Vertex AI at deploy time (separate from `pyproject.toml` which is for local dev). |
 
 ## Agent Details
 
 ### Model
 
-All agents use `gemini-3-flash-preview`. Change the `MODEL` constant in `agent.py` to switch.
+All agents use `gemini-2.5-flash`. Change the `MODEL` constant in `agent.py` to switch.
 
 ### Assessment Agent
 - Asks 3–5 clarifying questions about the user's goals and existing knowledge
@@ -119,7 +126,6 @@ All agents use `gemini-3-flash-preview`. Change the `MODEL` constant in `agent.p
 ### Curriculum Agent
 - Takes assessment context and generates 4–6 ordered learning steps
 - Each step includes a title, overview paragraph, and 2–3 resource links
-- Uses `fetch_webpage_content` tool to verify URLs are accessible
 - Returns structured JSON
 
 ### Quiz Agent
