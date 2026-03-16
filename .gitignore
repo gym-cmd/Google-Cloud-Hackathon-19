@@ -1,0 +1,103 @@
+#### Terraform
+
+# Local .terraform directories
+.terraform/
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Exclude override files as they are usually used to override resources locally and so
+# are not checked in
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Exclude CLI configuration files
+.terraformrc
+terraform.rc
+
+# Sensitive variable files
+*.tfvars
+*.tfvars.json
+
+# Plan output
+*.tfplan
+
+
+# Backup files
+*.backup
+
+###
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.pyc
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+#PyCharm
+.idea
+.vscode
+
+# Credentials #
+###############
+**/credentials.json
+**/credentials_mysql.py
+**/credentials_sql.py
+
+# Virtual environments #
+########################
+.env
+.env/
+.venv/
+venv/
+lib/
+include/
+bin/
+python2.7
+.Python
+_config.py
+pip-selfcheck.json
+
+# adk
+.adk/
+
+.claude/settings.local.json

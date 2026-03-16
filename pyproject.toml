@@ -1,0 +1,20 @@
+[project]
+name = "curriculum-builder"
+version = "0.0.1"
+description = ""
+requires-python = ">=3.11, <3.14"
+dependencies = [
+    "google-adk==1.27.0",
+]
+
+classifiers = [
+    "Private :: Do Not Upload", # Prevents accidentally publishing to PyPI
+]
+
+
+
+
+
+
+
+

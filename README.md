@@ -21,3 +21,34 @@ All feature development starts with a spec. Before writing code, a spec must exi
 
 
 
+# Prerequisites
+
+
+## Install dependencies
+```
+uv sync
+```
+
+## Run adk 
+```
+uv run adk web src     
+```
+
+# Deploy adk 
+
+Change AGENT_FOLDER_NAME to the name of the folder containing your agent definition. 
+```
+cd src
+```
+```
+export PROJECT_ID="qwiklabs-asl-03-35787841388f"
+export LOCATION_ID="europe-west1"
+export AGENT_FOLDER_NAME="example_learning_agent"
+
+uv run adk deploy agent_engine \
+  --project=$PROJECT_ID \
+  --region=$LOCATION_ID \
+  --display_name="My First Agent" \
+  --otel_to_cloud \
+  $AGENT_FOLDER_NAME
+```
