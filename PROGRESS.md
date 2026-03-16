@@ -42,11 +42,23 @@
 | Step unlock on pass | ✅ | |
 | Phase 3 integration test | ⬜ | |
 
+## UI Design & Mockups
+
+| Task | Status | Notes |
+|---|---|---|
+| User Profile & Interests Setup (Spec 01) | ✅ | Created in Stitch |
+| AI Tutor Chat Interface (Spec 01) | ✅ | Created in Stitch |
+| Personalized Curriculum Roadmap (Spec 02) | ✅ | Created in Stitch |
+| Learning Module Resources (Spec 02) | ✅ | Created in Stitch |
+| Interactive Knowledge Quiz (Spec 03) | ✅ | Created in Stitch |
+| Quiz Results & Feedback (Spec 03) | ✅ | Created in Stitch |
+
 ## Future Work
 
 | Task | Status | Notes |
 |---|---|---|
 | Authentication (Firebase Auth) | ✅ | ID token verification via firebase-admin |
+| Frontend implementation (React/Vue) | ⬜ | Based on Stitch mockups |
 | Deployment (Cloud Run / GKE) | ⬜ | Target TBD |
 | Database upgrade (Firestore / Cloud SQL) | ⬜ | Deferred |
 | Quiz attempt history | ⬜ | Deferred |
