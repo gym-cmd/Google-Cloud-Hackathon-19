@@ -4,6 +4,7 @@ import asyncio
 
 PROJECT = "qwiklabs-asl-03-35787841388f"
 LOCATION = "europe-west1"
+# get from https://console.cloud.google.com/vertex-ai/agents/agent-engines?authuser=0&project=qwiklabs-asl-03-35787841388f
 EXAMPLE_LEARNING_ENGINE_RESOURCE_ID = "1982331503949905920"
 
 client = vertexai.Client(  # For service interactions via client.agent_engines
