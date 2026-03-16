@@ -32,9 +32,12 @@ User ←→ learning_tutor (root)
 git clone <repo-url> && cd Google-Cloud-Hackathon-19
 uv sync
 
-# 2. Authenticate with GCP
-gcloud auth application-default login
 
+```bash 
+gcloud auth login
+gcloud auth application-default login
+gcloud config set project qwiklabs-asl-03-35787841388f
+```
 # 3. Run the ADK web UI
 uv run adk web src
 ```
