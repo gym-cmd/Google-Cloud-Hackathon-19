@@ -57,6 +57,49 @@ specs/                      # Feature specifications
 - Revision hint generation on failure
 - Step progression on pass
 
+### Phase 4 — Frontend Architecture
+- Choose frontend approach (React + Vite, Next.js, or vanilla TypeScript MVP)
+- Define route map from `UI-mockups/*` screens
+- Establish shared UI primitives (layout, cards, buttons, form controls, progress indicators)
+- Set up frontend project structure, linting, formatting, and environment config for backend URL/auth
+
+### Phase 5 — Mockup-to-Page Build
+- Implement page flows from mockups:
+  - user profile/interests setup
+  - AI tutor chat interface
+  - personalized curriculum roadmap
+  - learning module resources
+  - interactive knowledge quiz
+  - quiz feedback/results
+  - student dashboard
+- Refactor repeated UI into reusable components
+- Add responsive behavior and baseline accessibility for all primary pages
+
+### Phase 6 — Agent Backend Integration
+- Define API/session contract with backend (`async_create_session`, `async_stream_query`) from `src/main.py`
+- Implement streaming chat updates and agent event rendering in UI
+- Connect onboarding -> curriculum generation -> quiz progression lifecycle
+- Add retry, timeout, and user-friendly failure handling for network/agent errors
+
+### Phase 7 — App State Orchestration
+- Introduce client state model for `user_context`, curriculum steps, quiz attempts, and pass/fail outcomes
+- Enforce progression rules from specs (`01` -> `03`) in frontend flow control
+- Preserve session state across navigation and refresh where feasible
+- Add analytics-ready event hooks for key learning milestones
+
+### Phase 8 — UX Resilience & Accessibility
+- Add loading, empty, error, and recovery states across all async screens
+- Ensure keyboard navigation, focus management, and semantic landmarks
+- Validate color contrast and screen-reader labels for core interactions
+- Confirm mobile/tablet/desktop breakpoints align with mockup intent
+
+### Phase 9 — Testing & Deployment
+- Add component tests for core UI building blocks and state transitions
+- Add integration tests for onboarding/curriculum/quiz happy path + failure paths
+- Add E2E flow checks for major learner journeys
+- Configure CI checks (lint, type checks, tests) and preview deployments
+- Deploy frontend with environment-specific backend configuration
+
 ## Future Work
 - [ ] **Authentication & accounts** — Firebase Auth / OAuth2
 - [ ] **Persistent state** — Database-backed user progress across sessions
