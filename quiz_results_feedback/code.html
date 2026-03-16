@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Space+Grotesk:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-blue": "#2563eb",
+                        "success-green": "#10b981",
+                        "accent-yellow": "#facc15",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body {
+            font-family: "Inter", sans-serif;
+        }
+        .high-five-character {
+            filter: drop-shadow(0 10px 15px rgba(250, 204, 21, 0.4));
+            animation: bounce 2s infinite ease-in-out;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(3deg); }
+            50% { transform: translateY(-10px) rotate(-2deg); }
+        }
+        .confetti-dot {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center p-0 sm:p-4">
+<div class="relative w-full max-w-[1280px] aspect-video bg-white dark:bg-[#0f172a] sm:rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex">
+<aside class="w-20 lg:w-64 border-r border-slate-200 dark:border-slate-800 flex flex-col bg-slate-50 dark:bg-slate-900/50">
+<div class="p-6">
+<div class="w-10 h-10 bg-primary-blue rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
+<span class="material-symbols-outlined text-white">psychology</span>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-2">
+<a class="flex items-center gap-4 p-3 rounded-xl text-slate-500 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="hidden lg:block font-semibold">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-xl text-slate-500 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="hidden lg:block font-semibold">Learning Path</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-xl bg-primary-blue/10 text-primary-blue" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">quiz</span>
+<span class="hidden lg:block font-semibold">Quizzes</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-xl text-slate-500 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="hidden lg:block font-semibold">Settings</span>
+</a>
+</nav>
+<div class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3 p-2">
+<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-accent-yellow to-orange-400 flex items-center justify-center text-white font-bold">Z</div>
+<div class="hidden lg:block">
+<p class="text-sm font-bold truncate">Zuzia M.</p>
+<p class="text-xs text-slate-500">AI Engineer path</p>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex-1 flex flex-col overflow-hidden">
+<header class="h-16 flex items-center justify-between px-8 border-b border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md">
+<div class="flex items-center gap-2">
+<span class="text-slate-400 font-medium">Quizzes</span>
+<span class="material-symbols-outlined text-sm text-slate-300">chevron_right</span>
+<span class="text-slate-900 dark:text-white font-bold">Results: LLM Fundamentals</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 bg-slate-200"></div>
+<div class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 bg-slate-300"></div>
+</div>
+<button class="text-slate-500 hover:text-slate-900 dark:hover:text-white">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-8 lg:p-12">
+<div class="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<div class="lg:col-span-5 flex flex-col items-center text-center lg:text-left lg:items-start">
+<div class="relative mb-8">
+<div class="w-48 h-48 bg-accent-yellow rounded-[3rem] flex items-center justify-center relative z-10 high-five-character shadow-2xl">
+<span class="material-symbols-outlined text-8xl text-white select-none" style="font-variation-settings: 'FILL' 1, 'wght' 700">front_hand</span>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="flex gap-4 -mt-4">
+<div class="w-2.5 h-2.5 bg-slate-900 rounded-full"></div>
+<div class="w-2.5 h-2.5 bg-slate-900 rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="absolute -bottom-4 -right-4 bg-orange-500 text-white font-black px-6 py-2 rounded-2xl text-sm -rotate-6 shadow-xl border-4 border-white dark:border-slate-800 z-20">
+                                80% SCORE!
+                            </div>
+<div class="absolute top-0 left-0 w-full h-full pointer-events-none">
+<div class="confetti-dot bg-accent-yellow w-3 h-3 top-0 left-0"></div>
+<div class="confetti-dot bg-orange-400 w-2 h-2 top-10 right-0"></div>
+<div class="confetti-dot bg-success-green w-3 h-3 bottom-10 left-[-20px]"></div>
+</div>
+</div>
+<h1 class="text-4xl lg:text-5xl font-display font-bold text-slate-900 dark:text-white mb-4">
+                            Excellent work, Zuzia!
+                        </h1>
+<p class="text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-md">
+                            You've mastered the core concepts of Transformer architectures. You're making rapid progress toward becoming an AI Engineer.
+                        </p>
+</div>
+<div class="lg:col-span-7 space-y-6">
+<div class="bg-white dark:bg-slate-800/50 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">Performance Breakdown</h3>
+<div class="grid grid-cols-3 gap-4">
+<div class="text-center p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800">
+<p class="text-2xl font-bold text-success-green">12/15</p>
+<p class="text-[10px] font-bold text-slate-500 uppercase">Correct</p>
+</div>
+<div class="text-center p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800">
+<p class="text-2xl font-bold text-slate-900 dark:text-white">4:20</p>
+<p class="text-[10px] font-bold text-slate-500 uppercase">Time</p>
+</div>
+<div class="text-center p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800">
+<p class="text-2xl font-bold text-primary-blue">Top 5%</p>
+<p class="text-[10px] font-bold text-slate-500 uppercase">Ranking</p>
+</div>
+</div>
+</div>
+<div class="bg-slate-900 text-white p-8 rounded-3xl relative overflow-hidden group shadow-xl">
+<div class="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-8xl">bolt</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-4">
+<span class="px-2 py-1 bg-primary-blue text-[10px] font-bold rounded uppercase">Recommended Next</span>
+</div>
+<h4 class="text-2xl font-bold mb-2">Embeddings &amp; Vector Databases</h4>
+<p class="text-slate-400 text-sm mb-8 max-w-sm">
+                                    Now that you know how LLMs work, learn how to provide them with custom knowledge using RAG.
+                                </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="flex-1 bg-white text-slate-900 font-bold py-4 px-6 rounded-xl hover:bg-slate-100 transition-colors flex items-center justify-center gap-2">
+<span>Start Learning</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+<button class="flex-1 bg-slate-800 text-white font-bold py-4 px-6 rounded-xl hover:bg-slate-700 transition-colors flex items-center justify-center gap-2 border border-slate-700">
+<span class="material-symbols-outlined text-sm">list_alt</span>
+<span>Review Mistakes</span>
+</button>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between px-2">
+<button class="text-sm font-bold text-slate-500 hover:text-primary-blue flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-lg">share</span>
+                                Share Progress
+                            </button>
+<button class="text-sm font-bold text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
+                                Download Certificate (PDF)
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>
