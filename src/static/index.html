@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learning Platform</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f5f5f5;
+      color: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 560px;
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 32px;
+    }
+
+    /* --- Form --- */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #444;
+    }
+
+    input[type="text"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.15s;
+      background: #fafafa;
+    }
+
+    input[type="text"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #4f46e5;
+      background: #fff;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    /* --- Buttons --- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, opacity 0.15s;
+    }
+
+    .btn-primary {
+      background: #4f46e5;
+      color: #fff;
+      width: 100%;
+    }
+
+    .btn-primary:hover { background: #4338ca; }
+    .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    /* --- Chat --- */
+    #chat-section { display: none; }
+
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #ede9fe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .chat-header-text h2 { font-size: 1rem; font-weight: 700; }
+    .chat-header-text p  { font-size: 0.8rem; color: #888; }
+
+    .turn-badge {
+      margin-left: auto;
+      font-size: 0.78rem;
+      color: #888;
+      background: #f3f3f3;
+      padding: 3px 10px;
+      border-radius: 99px;
+    }
+
+    .messages {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 360px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      padding-right: 4px;
+    }
+
+    .msg {
+      max-width: 85%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .msg-ai {
+      background: #f3f0ff;
+      color: #2d2060;
+      align-self: flex-start;
+      border-bottom-left-radius: 3px;
+    }
+
+    .msg-user {
+      background: #4f46e5;
+      color: #fff;
+      align-self: flex-end;
+      border-bottom-right-radius: 3px;
+    }
+
+    .msg-typing {
+      background: #f3f0ff;
+      align-self: flex-start;
+      border-bottom-left-radius: 3px;
+      padding: 12px 16px;
+    }
+
+    .typing-dots span {
+      display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #9f8fd0;
+      margin-right: 3px;
+      animation: bounce 1.2s infinite;
+    }
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; margin-right: 0; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: translateY(0); }
+      40%           { transform: translateY(-6px); }
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .chat-input-row input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.15s;
+    }
+
+    .chat-input-row input:focus {
+      outline: none;
+      border-color: #4f46e5;
+    }
+
+    .btn-send {
+      background: #4f46e5;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, opacity 0.15s;
+    }
+
+    .btn-send:hover    { background: #4338ca; }
+    .btn-send:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* --- Summary --- */
+    #summary-section { display: none; }
+
+    .summary-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .check-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #d1fae5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .summary-grid {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .summary-item {
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 12px 16px;
+    }
+
+    .summary-item .item-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #888;
+      margin-bottom: 4px;
+    }
+
+    .summary-item .item-value {
+      font-size: 0.95rem;
+      color: #1a1a1a;
+    }
+
+    .focus-box {
+      background: #ede9fe;
+      border: 1.5px solid #c4b5fd;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 24px;
+    }
+
+    .focus-box .item-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #7c3aed;
+      margin-bottom: 4px;
+    }
+
+    .focus-box .item-value {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #2d2060;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .tag {
+      background: #e0e7ff;
+      color: #3730a3;
+      border-radius: 99px;
+      padding: 3px 10px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    /* scrollbar */
+    .messages::-webkit-scrollbar { width: 4px; }
+    .messages::-webkit-scrollbar-track { background: transparent; }
+    .messages::-webkit-scrollbar-thumb { background: #ddd; border-radius: 99px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+
+    <!-- ===== Profile Form ===== -->
+    <div id="profile-section">
+      <h1>Welcome</h1>
+      <p class="subtitle">Tell us about yourself so we can tailor your learning journey.</p>
+
+      <form id="profile-form">
+        <div class="form-group">
+          <label for="name">Your name</label>
+          <input type="text" id="name" name="name" placeholder="e.g. Alex" required />
+        </div>
+
+        <div class="form-group">
+          <label for="level">Experience level</label>
+          <select id="level" name="level" required>
+            <option value="" disabled selected>Select your level</option>
+            <option value="beginner">Beginner — just getting started</option>
+            <option value="intermediate">Intermediate — some experience</option>
+            <option value="advanced">Advanced — solid background</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="goal">What do you want to learn?</label>
+          <textarea id="goal" name="goal" placeholder="e.g. Learn Python for data analysis" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="submit-btn">
+          Start Assessment
+        </button>
+      </form>
+    </div>
+
+    <!-- ===== Assessment Chat ===== -->
+    <div id="chat-section">
+      <div class="chat-header">
+        <div class="avatar">&#129302;</div>
+        <div class="chat-header-text">
+          <h2>Learning Advisor</h2>
+          <p>Short assessment — 3 to 5 questions</p>
+        </div>
+        <span class="turn-badge" id="turn-badge">Turn 1 / 5</span>
+      </div>
+
+      <div class="messages" id="messages"></div>
+
+      <div class="chat-input-row">
+        <input
+          type="text"
+          id="chat-input"
+          placeholder="Type your response..."
+          autocomplete="off"
+        />
+        <button class="btn-send" id="send-btn">Send</button>
+      </div>
+    </div>
+
+    <!-- ===== Summary ===== -->
+    <div id="summary-section">
+      <div class="summary-header">
+        <div class="check-icon">&#10003;</div>
+        <div>
+          <h2 style="font-size:1rem;font-weight:700;">Assessment complete</h2>
+          <p style="font-size:0.8rem;color:#888;">Your learning profile has been saved.</p>
+        </div>
+      </div>
+
+      <div class="focus-box">
+        <div class="item-label">Confirmed learning focus</div>
+        <div class="item-value" id="summary-focus">—</div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary-item">
+          <div class="item-label">Name</div>
+          <div class="item-value" id="summary-name">—</div>
+        </div>
+        <div class="summary-item">
+          <div class="item-label">Level</div>
+          <div class="item-value" id="summary-level">—</div>
+        </div>
+        <div class="summary-item">
+          <div class="item-label">Goal</div>
+          <div class="item-value" id="summary-goal">—</div>
+        </div>
+        <div class="summary-item" id="knowledge-item">
+          <div class="item-label">Prior knowledge</div>
+          <div class="tags" id="summary-knowledge"></div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="location.reload()">
+        Start over
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    const profileSection = document.getElementById('profile-section');
+    const chatSection    = document.getElementById('chat-section');
+    const summarySection = document.getElementById('summary-section');
+
+    const profileForm = document.getElementById('profile-form');
+    const submitBtn   = document.getElementById('submit-btn');
+    const messages    = document.getElementById('messages');
+    const chatInput   = document.getElementById('chat-input');
+    const sendBtn     = document.getElementById('send-btn');
+    const turnBadge   = document.getElementById('turn-badge');
+
+    let sessionId = null;
+    let turn = 1;
+
+    // ---------- profile form ----------
+    profileForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Starting…';
+
+      const body = {
+        name:  document.getElementById('name').value.trim(),
+        level: document.getElementById('level').value,
+        goal:  document.getElementById('goal').value.trim(),
+      };
+
+      try {
+        const res  = await fetch('/api/profile', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(body),
+        });
+        const data = await res.json();
+        sessionId  = data.session_id;
+
+        profileSection.style.display = 'none';
+        chatSection.style.display    = 'block';
+
+        appendMessage(data.message, 'ai');
+      } catch (err) {
+        console.error(err);
+        submitBtn.disabled    = false;
+        submitBtn.textContent = 'Start Assessment';
+        alert('Something went wrong. Please try again.');
+      }
+    });
+
+    // ---------- chat ----------
+    sendBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    });
+
+    async function sendMessage() {
+      const text = chatInput.value.trim();
+      if (!text || !sessionId) return;
+
+      chatInput.value   = '';
+      sendBtn.disabled  = true;
+      chatInput.disabled = true;
+
+      appendMessage(text, 'user');
+      const typingEl = appendTyping();
+
+      try {
+        const res  = await fetch(`/api/chat/${sessionId}`, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ message: text }),
+        });
+        const data = await res.json();
+
+        typingEl.remove();
+        appendMessage(data.message, 'ai');
+
+        turn += 1;
+        turnBadge.textContent = `Turn ${Math.min(turn, 5)} / 5`;
+
+        if (data.assessment_complete) {
+          setTimeout(() => showSummary(data.user_context), 800);
+        } else {
+          sendBtn.disabled   = false;
+          chatInput.disabled = false;
+          chatInput.focus();
+        }
+      } catch (err) {
+        console.error(err);
+        typingEl.remove();
+        appendMessage('Something went wrong. Please try again.', 'ai');
+        sendBtn.disabled   = false;
+        chatInput.disabled = false;
+      }
+    }
+
+    // ---------- helpers ----------
+    function appendMessage(text, role) {
+      const el = document.createElement('div');
+      el.className = `msg msg-${role}`;
+      el.textContent = text;
+      messages.appendChild(el);
+      messages.scrollTop = messages.scrollHeight;
+      return el;
+    }
+
+    function appendTyping() {
+      const el = document.createElement('div');
+      el.className = 'msg msg-typing';
+      el.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+      messages.appendChild(el);
+      messages.scrollTop = messages.scrollHeight;
+      return el;
+    }
+
+    function showSummary(ctx) {
+      // Persist to localStorage for subsequent steps.
+      localStorage.setItem('userContext', JSON.stringify(ctx));
+
+      document.getElementById('summary-focus').textContent = ctx.confirmed_focus || '—';
+      document.getElementById('summary-name').textContent  = ctx.name  || '—';
+      document.getElementById('summary-level').textContent = ctx.level || '—';
+      document.getElementById('summary-goal').textContent  = ctx.goal  || '—';
+
+      const knowledgeEl = document.getElementById('summary-knowledge');
+      if (ctx.key_knowledge && ctx.key_knowledge.length) {
+        ctx.key_knowledge.forEach((k) => {
+          const tag = document.createElement('span');
+          tag.className   = 'tag';
+          tag.textContent = k;
+          knowledgeEl.appendChild(tag);
+        });
+      } else {
+        document.getElementById('knowledge-item').style.display = 'none';
+      }
+
+      chatSection.style.display   = 'none';
+      summarySection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
