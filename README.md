@@ -10,7 +10,6 @@ A personalized learning platform that acts as a software development tutor. User
 4. **Reinforcement**: Auto-generated quizzes to assess understanding and identify knowledge gaps
 5. **Adaptive Learning**: Quiz results guide next steps—either revision of weak areas or progression to new material
 
-
 ## Spec
 
 All feature development starts with a spec. Before writing code, a spec must exist and be approved.
@@ -20,14 +19,21 @@ All feature development starts with a spec. Before writing code, a spec must exi
 - A spec must include: problem statement, proposed solution, acceptance criteria, and out-of-scope items
 
 
-
 # Prerequisites
-
 
 ## Install dependencies
 ```
 uv sync
 ```
+
+## Running locally
+
+```bash
+uv run fastapi dev learning_platform/main.py
+```
+
+Open [http://localhost:8000](http://localhost:8000) in your browser.
+
 
 ## Run adk 
 ```
