@@ -1,9 +1,11 @@
 """Tests for the FastAPI app (src/app.py)."""
-
 import pathlib
 import re
 
 import pytest
+from fastapi.testclient import TestClient
+
+import app as app_module
 
 APP_SRC = (pathlib.Path(__file__).parent.parent / "src" / "app.py").read_text()
 
@@ -309,6 +311,75 @@ class TestQuizFlow:
         chat_src = (self.TEMPLATE_DIR / "chat.html").read_text()
         assert 'href="/quiz"' in chat_src
         assert "Take a Quiz" in chat_src
+
+
+class TestQuizApiFallback:
+    def test_generate_quiz_falls_back_when_agent_returns_invalid_payload(
+        self,
+        monkeypatch,
+    ):
+        async def fake_collect_agent_response(user_id: str, message: str):
+            return "", None, '{"questions": [{"question": "Incomplete"}]}'
+
+        app_module._quiz_answers.clear()
+        monkeypatch.setattr(
+            app_module,
+            "_collect_agent_response",
+            fake_collect_agent_response,
+        )
+
+        client = TestClient(app_module.app)
+        client.cookies.set("eduai_uid", "fallback-user")
+        response = client.post(
+            "/api/quiz/generate",
+            json={
+                "step_title": "Intro to HTML",
+                "step_overview": (
+                    "Learn how HTML structures simple webpages with "
+                    "headings, paragraphs, and links."
+                ),
+            },
+        )
+
+        assert response.status_code == 200
+        payload = response.json()
+        assert payload["fallback"] is True
+        assert len(payload["questions"]) == 3
+        assert app_module._quiz_answers["fallback-user"] == [1, 0, 2]
+        assert all(
+            "correct_index" not in question
+            for question in payload["questions"]
+        )
+
+    def test_generate_quiz_falls_back_when_agent_raises(self, monkeypatch):
+        async def fake_collect_agent_response(user_id: str, message: str):
+            raise RuntimeError("upstream timeout")
+
+        app_module._quiz_answers.clear()
+        monkeypatch.setattr(
+            app_module,
+            "_collect_agent_response",
+            fake_collect_agent_response,
+        )
+
+        client = TestClient(app_module.app)
+        client.cookies.set("eduai_uid", "error-user")
+        response = client.post(
+            "/api/quiz/generate",
+            json={
+                "step_title": "CSS basics",
+                "step_overview": (
+                    "Practice selectors and layout so you can style a "
+                    "simple webpage clearly."
+                ),
+            },
+        )
+
+        assert response.status_code == 200
+        payload = response.json()
+        assert payload["fallback"] is True
+        assert payload["warning"] == "upstream timeout"
+        assert len(payload["questions"]) == 3
 
 
 class TestThemeToggle:

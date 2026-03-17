@@ -48,7 +48,20 @@ adk_app = client.agent_engines.get(
 _sessions: dict[str, str] = {}
 # In-memory quiz answer store: user_id -> list of correct_index values
 _quiz_answers: dict[str, list[int]] = {}
-STRUCTURED_STATE_KEYS = ("assessment_complete", "steps", "questions", "resources", "score")
+STRUCTURED_STATE_KEYS = (
+    "assessment_complete",
+    "steps",
+    "questions",
+    "resources",
+    "score",
+)
+_GENERIC_QUIZ_DISTRACTORS = [
+    "Memorize isolated facts without applying them.",
+    "Skip directly to advanced material without practice.",
+    "Ignore the concepts in this step and switch topics.",
+    "Focus only on design details unrelated to this lesson.",
+    "Treat this as theory only and avoid building anything.",
+]
 
 
 def _get_user_id(request: Request) -> str:
@@ -542,6 +555,110 @@ def _ensure_user_id(request: Request) -> str:
     return uid if uid else str(uuid.uuid4())
 
 
+def _clean_quiz_questions(questions: list[dict] | None) -> list[dict] | None:
+    if not isinstance(questions, list) or len(questions) != 3:
+        return None
+
+    normalized: list[dict] = []
+    for question_data in questions:
+        if not isinstance(question_data, dict):
+            return None
+
+        question = str(question_data.get("question", "")).strip()
+        options = question_data.get("options")
+        correct_index = question_data.get("correct_index")
+
+        if not question or not isinstance(options, list) or len(options) != 4:
+            return None
+
+        cleaned_options = [str(option).strip() for option in options]
+        if any(not option for option in cleaned_options):
+            return None
+
+        if not isinstance(correct_index, int) or not 0 <= correct_index < 4:
+            return None
+
+        normalized.append(
+            {
+                "question": question,
+                "options": cleaned_options,
+                "correct_index": correct_index,
+            }
+        )
+
+    return normalized
+
+
+def _pick_step_focus(step_title: str, step_overview: str) -> str:
+    title = re.sub(r"\s+", " ", step_title).strip()
+    if title:
+        return title
+
+    overview = re.sub(r"\s+", " ", step_overview).strip()
+    if overview:
+        return overview.split(".")[0].strip()
+
+    return "this learning step"
+
+
+def _pick_step_action(step_title: str, step_overview: str) -> str:
+    focus = _pick_step_focus(step_title, step_overview)
+    overview = re.sub(r"\s+", " ", step_overview).strip()
+    sentences = [
+        segment.strip()
+        for segment in re.split(r"(?<=[.!?])\s+", overview)
+        if segment.strip()
+    ]
+    if sentences:
+        return sentences[0]
+    return f"Practice the core concepts in {focus} with a small example."
+
+
+def _build_fallback_quiz_questions(
+    step_title: str,
+    step_overview: str,
+) -> list[dict]:
+    focus = _pick_step_focus(step_title, step_overview)
+    action = _pick_step_action(step_title, step_overview)
+    benefit = (
+        "It builds the foundation you need before moving "
+        f"beyond {focus}."
+    )
+
+    return [
+        {
+            "question": "What is the main focus of this step?",
+            "options": [
+                _GENERIC_QUIZ_DISTRACTORS[0],
+                focus,
+                _GENERIC_QUIZ_DISTRACTORS[1],
+                _GENERIC_QUIZ_DISTRACTORS[2],
+            ],
+            "correct_index": 1,
+        },
+        {
+            "question": "Which action best supports progress in this step?",
+            "options": [
+                action,
+                _GENERIC_QUIZ_DISTRACTORS[3],
+                _GENERIC_QUIZ_DISTRACTORS[1],
+                _GENERIC_QUIZ_DISTRACTORS[4],
+            ],
+            "correct_index": 0,
+        },
+        {
+            "question": "Why should you complete this step before advancing?",
+            "options": [
+                _GENERIC_QUIZ_DISTRACTORS[2],
+                _GENERIC_QUIZ_DISTRACTORS[0],
+                benefit,
+                _GENERIC_QUIZ_DISTRACTORS[3],
+            ],
+            "correct_index": 2,
+        },
+    ]
+
+
 @app.post("/api/curriculum/generate")
 async def generate_curriculum(request: Request, body: CurriculumRequest):
     """Ask the curriculum agent to generate a learning path."""
@@ -618,24 +735,37 @@ async def generate_quiz(request: Request, body: QuizGenerateRequest):
             )
             if parsed and isinstance(parsed.get("questions"), list):
                 questions = parsed["questions"]
-
-        if questions:
-            # Store correct answers server-side for deterministic scoring
-            _quiz_answers[user_id] = [
-                q.get("correct_index", 0) for q in questions
-            ]
-            # Strip correct_index before sending to client
-            client_questions = [
-                {"question": q.get("question", ""), "options": q.get("options", [])}
-                for q in questions
-            ]
-            return JSONResponse({"questions": client_questions})
-        return JSONResponse(
-            {"error": "Agent did not return quiz questions."},
-            status_code=502,
-        )
+        cleaned_questions = _clean_quiz_questions(questions)
+        used_fallback = False
+        if not cleaned_questions:
+            cleaned_questions = _build_fallback_quiz_questions(
+                body.step_title,
+                body.step_overview,
+            )
+            used_fallback = True
     except Exception as exc:
-        return JSONResponse({"error": str(exc)}, status_code=500)
+        cleaned_questions = _build_fallback_quiz_questions(
+            body.step_title,
+            body.step_overview,
+        )
+        used_fallback = True
+        fallback_error = str(exc)
+
+    # Store correct answers server-side for deterministic scoring
+    _quiz_answers[user_id] = [
+        q.get("correct_index", 0) for q in cleaned_questions
+    ]
+    # Strip correct_index before sending to client
+    client_questions = [
+        {"question": q.get("question", ""), "options": q.get("options", [])}
+        for q in cleaned_questions
+    ]
+    payload: dict[str, object] = {"questions": client_questions}
+    if used_fallback:
+        payload["fallback"] = True
+        if "fallback_error" in locals():
+            payload["warning"] = fallback_error
+    return JSONResponse(payload)
 
 
 @app.post("/api/quiz/evaluate")
