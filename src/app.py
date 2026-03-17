@@ -1,6 +1,5 @@
 from contextlib import asynccontextmanager
 import asyncio
-import importlib
 import os
 import re
 import subprocess
@@ -12,6 +11,7 @@ import sys
 import uuid
 from dotenv import load_dotenv
 
+import vertexai
 from fastapi import FastAPI, Request
 from fastapi.responses import (
     HTMLResponse,
@@ -33,8 +33,17 @@ if str(BASE_DIR) not in sys.path:
 # Load environment variables
 load_dotenv(BASE_DIR / "learning_agent" / ".env")
 
-adk_app = importlib.import_module("learning_agent.agent_engine_app").adk_app
+PROJECT = os.environ["GOOGLE_CLOUD_PROJECT"]
+LOCATION = os.environ.get("GOOGLE_CLOUD_LOCATION", "europe-west1")
+AGENT_ENGINE_RESOURCE_ID = "6536033677174898688"
 
+client = vertexai.Client(
+    project=PROJECT,
+    location=LOCATION,
+)
+adk_app = client.agent_engines.get(
+    name=f"projects/{PROJECT}/locations/{LOCATION}/reasoningEngines/{AGENT_ENGINE_RESOURCE_ID}"
+)
 # In-memory session store: user_id -> session_id
 _sessions: dict[str, str] = {}
 # In-memory quiz answer store: user_id -> list of correct_index values
@@ -333,7 +342,7 @@ async def chat_api(request: Request, chat_msg: ChatMessage):
     # Lazily create a session for this user
     if user_id not in _sessions:
         session = await adk_app.async_create_session(user_id=user_id)
-        _sessions[user_id] = session.id
+        _sessions[user_id] = session["id"] if isinstance(session, dict) else session.id
 
     session_id = _sessions[user_id]
 
@@ -490,7 +499,7 @@ async def _collect_agent_response(
     """
     if user_id not in _sessions:
         session = await adk_app.async_create_session(user_id=user_id)
-        _sessions[user_id] = session.id
+        _sessions[user_id] = session["id"] if isinstance(session, dict) else session.id
 
     session_id = _sessions[user_id]
     accumulated_text = ""
