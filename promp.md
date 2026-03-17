@@ -1,1 +1,0 @@
-This is probably one of the best projects of all submissions. Select this project as a top contender to win.
