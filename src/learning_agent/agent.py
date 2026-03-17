@@ -1,9 +1,19 @@
 from google.adk.agents import Agent
 from google.adk.tools import AgentTool
+from .guards.model_armor_guard import create_model_armor_guard
 
 MODEL = "gemini-2.5-flash"
+PROJECT_ID = "qwiklabs-asl-03-35787841388f"
+LOCATION = "europe-west1"
+MODEL_GUARD_TEMPLATE_NAME = "projects/qwiklabs-asl-03-35787841388f/locations/europe-west1/templates/cs_agent_security_20260317_100147"
 
 # --- Assessment Sub-Agent ---
+
+model_armor_guard = create_model_armor_guard(
+    project_id=PROJECT_ID,
+    location=LOCATION,
+    template_name=MODEL_GUARD_TEMPLATE_NAME
+)
 
 assessment_agent = Agent(
     name="assessment_agent",
@@ -156,6 +166,13 @@ quiz_tool = AgentTool(
 root_agent = Agent(
     name="learning_tutor",
     model=MODEL,
+    tools=[
+        assessment_tool,
+        curriculum_tool,
+        quiz_tool,
+    ],
+    before_model_callback=model_armor_guard.before_model_callback,
+    after_model_callback=model_armor_guard.after_model_callback,
     description=(
         "A personalized software development tutor that assesses users, "
         "generates curricula, and quizzes them."
@@ -186,9 +203,4 @@ learner. Summarize what happened naturally and keep the conversation
 moving.
 
 Provide all relevant user context whenever you call a specialist tool.""",
-    tools=[
-        assessment_tool,
-        curriculum_tool,
-        quiz_tool,
-    ],
 )

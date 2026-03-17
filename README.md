@@ -157,12 +157,68 @@ All tests run without additional configuration — `conftest.py` handles the Pyt
 | `curriculum_agent` | gemini-2.5-flash | Generates 4–6 step curriculum with resources |
 | `quiz_agent` | gemini-2.5-flash | MCQ generation + evaluation (2/3 pass threshold) |
 
+## Model Armor
+
+> Implementation adapted from the Google Codelab: [Secure Customer Service Agent](https://codelabs.developers.google.com/secure-customer-service-agent/instructions#0)
+
+[Model Armor](https://cloud.google.com/security/products/model-armor) is a Google Cloud service that sanitizes LLM inputs and outputs against a configurable threat template. This project integrates it via ADK agent callbacks so every user prompt and model response is screened before it reaches the model (or the user).
+
+### What it protects against
+
+| Filter | Description |
+|---|---|
+| `pi_and_jailbreak` | Prompt injection and jailbreak attempts |
+| `sdp` | Sensitive data (SSN, credit cards, API keys) |
+| `rai` | Responsible AI — harassment, hate speech, dangerous content |
+| `malicious_uris` | Malicious URLs embedded in text |
+
+### How it works
+
+`src/learning_agent/guards/model_armor_guard.py` provides a `ModelArmorGuard` class that exposes two async callbacks:
+
+- **`before_model_callback`** — called before the LLM sees the user message. Calls `SanitizeUserPromptRequest`. If a threat is matched and `block_on_match=True`, returns a safe `LlmResponse` immediately without forwarding to the model.
+- **`after_model_callback`** — called after the LLM generates a response. Calls `SanitizeModelResponseRequest`. If a threat is matched, replaces the response with a safe fallback message.
+
+Both callbacks are wired into the root `learning_tutor` agent via `LlmAgent(before_model_callback=..., after_model_callback=...)`.
+
+### Setup
+
+**1. Create a Model Armor template** (one-time):
+
+```bash
+uv run python setup/create_template.py
+```
+
+**2. Set the template name** in your `.env`:
+
+```dotenv
+TEMPLATE_NAME="projects/<project-id>/locations/us-central1/templates/<template-id>"
+```
+
+**3. Ensure the Model Armor API is enabled** in your GCP project:
+
+```bash
+gcloud services enable modelarmor.googleapis.com --project=$GOOGLE_CLOUD_PROJECT
+```
+
+Model Armor is currently available in `us-central1`. If your project runs in another region, set `GOOGLE_CLOUD_LOCATION=us-central1` for the guard specifically.
+
+### Project structure additions
+
+```
+src/learning_agent/
+└── guards/
+    └── model_armor_guard.py    # ModelArmorGuard class + create_model_armor_guard() factory
+setup/
+└── create_template.py          # One-time script to create the Model Armor template
+```
+
 ## Deploy to Vertex AI Agent Engine
 
 Set environment variables, then deploy:
 
 ```bash
-export GOOGLE_CLOUD_PROJECT="your-gcp-project-id"
+export GOOGLE_CLOUD_PROJECT="qwiklabs-asl-03-35787841388f"
 export GOOGLE_CLOUD_LOCATION="europe-west1"
 
 cd src
@@ -174,11 +230,26 @@ uv run adk deploy agent_engine \
   learning_agent
 ```
 
+
+
 After deployment, use `src/main.py` to interact with the deployed agent:
 
 ```bash
 export AGENT_ENGINE_RESOURCE_ID="<resource-id-from-deploy-output>"
 uv run python src/main.py
+```
+
+to update your deployed agent after making changes locally, get the `AGENT_ENGINE_RESOURCE_ID` from the deploy output and run:
+
+
+```bash 
+  uv run adk deploy agent_engine \                                                                                                                                                                               
+    --project=$GOOGLE_CLOUD_PROJECT \                                                                                                                                                                            
+    --region=$GOOGLE_CLOUD_LOCATION \                                                                                                                                                                            
+    --display_name="Learning Tutor Agent" \                                                                                                                                                                      
+    --otel_to_cloud \                                                                                                                                                                                            
+    --agent_engine_id=<AGENT_ENGINE_RESOURCE_ID> \                                                                                                                                                                         
+    learning_agent
 ```
 
 ## Troubleshooting
