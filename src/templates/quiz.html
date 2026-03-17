@@ -5,7 +5,7 @@
 <script>(function(){var t=localStorage.getItem('theme')||'light',d=document.documentElement;if(t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches)){d.classList.replace('light','dark')}})()</script>
 <title>Learning Quiz</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&amp;family=Fredoka:wght@400..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Gaegu:wght@400;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
@@ -13,32 +13,58 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#10b981",
-                        "accent-orange": "#f97316",
+                        "primary": "#22c55e",
+                        "secondary": "#fbbf24",
+                        "accent": "#f97316",
+                        "brand-blue": "#3b82f6",
                         "background-light": "#f8fafc",
                         "background-dark": "#0f172a",
                     },
                     fontFamily: {
-                        "sans": ["Inter", "sans-serif"],
-                        "whimsical": ["Fredoka", "sans-serif"],
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "hand": ["Gaegu", "cursive"]
+                    },
+                    borderRadius: {
+                        "sticker": "1.25rem",
                     },
                 },
             },
         }
     </script>
 <style type="text/tailwindcss">
-        :root {
-            --primary-color: #10b981;
+        @layer base {
+            body {
+                @apply font-display text-slate-900 dark:text-slate-100 bg-background-light dark:bg-slate-950;
+                height: 100dvh;
+            }
         }
-        body {
-            font-family: 'Inter', sans-serif;
+        .sidebar-icon {
+            @apply size-12 flex items-center justify-center rounded-xl transition-all hover:bg-slate-100 dark:hover:bg-slate-800 hover:scale-110 active:scale-95 text-slate-500 dark:text-slate-400;
+        }
+        .sidebar-icon.active {
+            @apply bg-primary/10 text-primary border border-primary/20;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+        .desktop-container {
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            max-height: 100vh;
+        }
+        :root {
+            --primary-color: #22c55e;
         }
         .liquid-fill {
-            background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+            background: linear-gradient(90deg, #22c55e 0%, #4ade80 100%);
             position: relative;
-        }
-        .cartoon-icon-btn {
-            @apply flex items-center justify-center rounded-2xl border-b-4 active:border-b-0 active:translate-y-[2px] transition-all;
         }
     </style>
 <style>
@@ -58,73 +84,78 @@
   </style>
   <script>document.addEventListener('DOMContentLoaded',function(){requestAnimationFrame(function(){document.body.style.opacity='1'})})</script>
   </head>
-<body class="bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center p-4">
-<div class="relative w-full max-w-[1200px] aspect-video bg-white dark:bg-slate-900 shadow-2xl rounded-3xl overflow-hidden flex border border-slate-200 dark:border-slate-800">
-<aside class="w-72 bg-slate-50 dark:bg-slate-900/50 border-r border-slate-200 dark:border-slate-800 flex flex-col p-8">
-<div class="mb-12">
-<a href="/chat" class="flex items-center gap-3 mb-6 hover:opacity-80 transition-opacity">
-<div class="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-2xl font-bold">terminal</span>
-</div>
-<span class="font-bold text-lg tracking-tight">AI Tutor</span>
+<body class="flex items-center justify-center p-0 md:p-4">
+<div class="desktop-container bg-white dark:bg-slate-900 shadow-2xl overflow-hidden flex flex-row border border-slate-200 dark:border-slate-800">
+<aside class="w-20 border-r border-slate-200 dark:border-slate-800 flex flex-col items-center py-6 gap-6 bg-slate-50 dark:bg-slate-900/50">
+<a class="size-12 bg-primary rounded-2xl flex items-center justify-center text-white shadow-lg mb-4 hover:scale-105 transition-transform" href="/">
+<span class="material-symbols-outlined text-3xl">school</span>
 </a>
-<h1 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Current Module</h1>
-<p class="font-semibold text-slate-800 dark:text-white leading-tight" id="quiz-module-label">Assessment-based knowledge check</p>
-</div>
-<nav class="space-y-2 flex-1">
-<div class="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
-<span class="material-symbols-outlined text-primary text-xl">task_alt</span>
-<span class="text-sm font-medium">Concept Quiz</span>
-</div>
-<div class="flex items-center gap-3 p-3 rounded-xl opacity-40">
-<span class="material-symbols-outlined text-xl">lock</span>
-<span class="text-sm font-medium">Practical Lab</span>
-</div>
-</nav>
-<a href="/chat" class="cartoon-icon-btn bg-slate-200 dark:bg-slate-800 border-slate-300 dark:border-slate-700 p-4 w-full group">
-<span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform">home</span>
+<a class="sidebar-icon" href="/chat" title="Chat">
+<span class="material-symbols-outlined">chat_bubble</span>
 </a>
-</aside>
-<main class="flex-1 flex flex-col bg-white dark:bg-slate-900">
-<header class="px-12 py-8 flex items-center justify-between gap-12">
-<div class="flex-1">
-<div class="flex justify-between items-end mb-3">
-<span class="text-sm font-bold text-slate-400" id="quiz-step-label">Question 1 of 3</span>
-<span class="font-whimsical text-primary font-bold">Answer carefully</span>
-</div>
-<div class="h-4 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden border-2 border-slate-100 dark:border-slate-800 relative">
-<div class="liquid-fill h-full rounded-full transition-all duration-700" id="quiz-progress-fill" style="width: 33%;">
-<div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 size-8 bg-white dark:bg-slate-700 rounded-full border-2 border-primary shadow-lg flex items-center justify-center">
-<span class="material-symbols-outlined text-primary text-lg animate-bounce">rocket</span>
-</div>
-</div>
-</div>
-</div>
-<div class="flex gap-3">
-<button class="cartoon-icon-btn size-12 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-400" title="Get a hint" onclick="window.location.href='/chat'">
-<span class="material-symbols-outlined">lightbulb</span>
-</button>
-<button class="cartoon-icon-btn size-12 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-400" title="Learning Context" onclick="window.location.href='/context'">
+<a class="sidebar-icon" href="/roadmap" title="Roadmap">
+<span class="material-symbols-outlined text-[28px]">rocket</span>
+</a>
+<a class="sidebar-icon" href="/resources" title="Resources">
+<span class="material-symbols-outlined text-[28px]">menu_book</span>
+</a>
+<a class="sidebar-icon active" href="/quiz" title="Quests">
+<span class="material-symbols-outlined text-[28px]">extension</span>
+</a>
+<div class="mt-auto flex flex-col gap-4">
+<a class="sidebar-icon" href="/context" title="Context">
 <span class="material-symbols-outlined">assignment_ind</span>
+</a>
+<a class="size-10 rounded-full border-2 border-primary overflow-hidden flex items-center justify-center bg-primary/10 hover:bg-primary/20 transition-colors" href="/context" title="Context">
+<span class="text-primary font-bold text-sm">AI</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 flex flex-col relative bg-white dark:bg-slate-950">
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 px-6 flex items-center justify-between bg-white/80 dark:bg-slate-900/80 backdrop-blur-md">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-white">extension</span>
+</div>
+<div>
+<h2 class="font-bold text-sm">Concept Quiz</h2>
+<div class="flex items-center gap-1.5">
+<span class="size-1.5 bg-green-500 rounded-full"></span>
+<span id="quiz-module-label" class="text-[10px] text-slate-500 uppercase tracking-wider font-bold truncate max-w-[200px]">Assessment-based knowledge check</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center gap-3">
+<span id="quiz-step-label" class="text-xs font-bold text-slate-600 dark:text-slate-300">Question 1 of 3</span>
+<div class="w-24 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="liquid-fill h-full rounded-full transition-all duration-700" id="quiz-progress-fill" style="width: 33%;"></div>
+</div>
+</div>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors" title="Get a hint" onclick="window.location.href='/chat'">
+<span class="material-symbols-outlined text-slate-400">lightbulb</span>
+</button>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors" title="Session Context" onclick="window.location.href='/context'">
+<span class="material-symbols-outlined text-slate-400">more_vert</span>
 </button>
 </div>
 </header>
-<div class="flex-1 px-12 py-4 overflow-y-auto">
+<div class="flex-1 overflow-y-auto custom-scrollbar px-8 py-6">
 <div class="max-w-3xl">
 <h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-8 leading-snug" id="quiz-question"></h2>
 <div class="space-y-4" id="quiz-options"></div>
 <p class="mt-6 text-sm font-medium text-slate-500 dark:text-slate-400 min-h-6" id="quiz-feedback"></p>
 </div>
 </div>
-<footer class="p-10 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<footer class="p-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-950">
 <div class="flex items-center gap-4">
-<span class="font-whimsical text-2xl font-bold text-accent-orange">You've got this!</span>
+<span class="font-hand text-2xl font-bold text-accent">You've got this!</span>
 </div>
 <div class="flex gap-4">
 <a href="/roadmap" class="px-8 py-3 rounded-xl font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 transition-colors">
                         Skip
                     </a>
-<button id="check-answer-btn" onclick="checkAnswer()" class="cartoon-icon-btn bg-primary border-green-700 px-10 py-3 text-white font-bold flex items-center gap-2 text-lg shadow-lg shadow-primary/20">
+<button id="check-answer-btn" onclick="checkAnswer()" class="bg-primary border-b-4 border-green-700 px-10 py-3 rounded-2xl text-white font-bold flex items-center gap-2 text-lg shadow-lg shadow-primary/20 active:border-b-0 active:translate-y-[2px] transition-all">
                         Check Answer
                         <span class="material-symbols-outlined font-bold">arrow_forward</span>
 </button>
@@ -164,7 +195,7 @@ async function loadQuizData() {
 
     // Show step selector if no step param
     if (steps.length === 0) {
-        document.getElementById('quiz-module-label').textContent = 'No curriculum found. Complete your assessment first.';
+        document.getElementById('quiz-module-label').textContent = 'No curriculum found';
         document.getElementById('quiz-question').textContent = 'Please complete the assessment chat and generate a curriculum before taking a quiz.';
         document.getElementById('check-answer-btn').style.display = 'none';
         return;
@@ -216,7 +247,7 @@ async function loadQuizData() {
 }
 
 function showStepPicker(steps) {
-    document.getElementById('quiz-module-label').textContent = 'Pick a step to quiz on';
+    document.getElementById('quiz-module-label').textContent = 'Pick a step';
     document.getElementById('quiz-question').textContent = 'Choose which learning step you want to be quizzed on:';
     document.getElementById('check-answer-btn').style.display = 'none';
     var optionsContainer = document.getElementById('quiz-options');

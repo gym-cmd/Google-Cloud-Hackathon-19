@@ -5,84 +5,70 @@
 <script>(function(){var t=localStorage.getItem('theme')||'light',d=document.documentElement;if(t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches)){d.classList.replace('light','dark')}})()</script>
 <title>Learning Context</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Gaegu:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Gaegu:wght@400;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<style type="text/tailwindcss">
-        :root {
-            --primary-green: #22c55e;
-            --accent-orange: #f97316;
-            --accent-yellow: #facc15;
-            --sidebar-bg: #f8fafc;
-            --card-border: #e2e8f0;
-        }
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #ffffff;
-        }
-        .dark body {
-            background-color: #0f172a;
-            color: #e2e8f0;
-        }
-        .whimsical-font {
-            font-family: 'Gaegu', cursive;
-        }
-        .clean-card {
-            background: white;
-            border: 1px solid var(--card-border);
-            border-radius: 1rem;
-            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-        }
-        .dark .clean-card {
-            background: #1e293b;
-            border-color: #334155;
-        }
-        .sidebar-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            color: #64748b;
-            transition: all 0.2s;
-            font-weight: 500;
-        }
-        .sidebar-item:hover {
-            background-color: #f1f5f9;
-            color: #1e293b;
-        }
-        .sidebar-item.active {
-            background-color: #f1f5f9;
-            color: var(--primary-green);
-        }
-        .dark .sidebar-item { color: #94a3b8; }
-        .dark .sidebar-item:hover { background-color: #1e293b; color: #e2e8f0; }
-        .dark .sidebar-item.active { background-color: #1e293b; }
-        .whimsical-icon {
-            font-family: 'Material Symbols Outlined';
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 40;}
-        .avatar-container {
-            border-radius: 24% 76% 35% 65% / 49% 30% 70% 51%;
-            border: 3px solid #1e293b;
-            overflow: hidden;
-            background: var(--accent-yellow);
-        }
-    </style>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary-green": "#22c55e",
-                        "accent-orange": "#f97316",
-                        "accent-yellow": "#facc15",
-                        "slate-custom": "#64748b",
-                        "ink": "#1e293b"
+                        "primary": "#22c55e",
+                        "secondary": "#fbbf24",
+                        "accent": "#f97316",
+                        "brand-blue": "#3b82f6",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "hand": ["Gaegu", "cursive"]
+                    },
+                    borderRadius: {
+                        "sticker": "1.25rem",
                     },
                 },
             },
         }
     </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply font-display text-slate-900 dark:text-slate-100 bg-background-light dark:bg-slate-950;
+                height: 100dvh;
+            }
+        }
+        .sidebar-icon {
+            @apply size-12 flex items-center justify-center rounded-xl transition-all hover:bg-slate-100 dark:hover:bg-slate-800 hover:scale-110 active:scale-95 text-slate-500 dark:text-slate-400;
+        }
+        .sidebar-icon.active {
+            @apply bg-primary/10 text-primary border border-primary/20;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+        .desktop-container {
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            max-height: 100vh;
+        }
+        .clean-card {
+            @apply bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm;
+        }
+        .avatar-container {
+            border-radius: 24% 76% 35% 65% / 49% 30% 70% 51%;
+            border: 3px solid #1e293b;
+            overflow: hidden;
+            background: #facc15;
+        }
+    </style>
 <style>
     body {
       min-height: max(884px, 100dvh);
@@ -92,129 +78,136 @@
   </style>
   <script>document.addEventListener('DOMContentLoaded',function(){requestAnimationFrame(function(){document.body.style.opacity='1'})})</script>
   </head>
-<body class="text-slate-900 dark:text-slate-100 antialiased h-screen overflow-hidden">
-<div class="flex h-full">
-<aside class="hidden md:flex flex-col w-64 bg-slate-50 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 p-6">
-<a class="flex items-center gap-3 mb-10 px-2 hover:opacity-80 transition-opacity" href="/">
-<div class="size-10 rounded-lg bg-primary-green flex items-center justify-center text-white">
-<span class="material-symbols-outlined whimsical-icon">rocket_launch</span>
-</div>
-<span class="font-bold text-xl tracking-tight text-slate-800 dark:text-white">EduAI Studio</span>
+<body class="flex items-center justify-center p-0 md:p-4">
+<div class="desktop-container bg-white dark:bg-slate-900 shadow-2xl overflow-hidden flex flex-row border border-slate-200 dark:border-slate-800">
+<aside class="w-20 border-r border-slate-200 dark:border-slate-800 flex flex-col items-center py-6 gap-6 bg-slate-50 dark:bg-slate-900/50">
+<a class="size-12 bg-primary rounded-2xl flex items-center justify-center text-white shadow-lg mb-4 hover:scale-105 transition-transform" href="/">
+<span class="material-symbols-outlined text-3xl">school</span>
 </a>
-<nav class="flex-1 space-y-1">
-<a class="sidebar-item active" href="/context">
-<span class="material-symbols-outlined whimsical-icon text-2xl -rotate-6">assignment_ind</span>
-<span>Learning Context</span>
+<a class="sidebar-icon" href="/chat" title="Chat">
+<span class="material-symbols-outlined">chat_bubble</span>
 </a>
-<a class="sidebar-item" href="/roadmap">
-<span class="material-symbols-outlined whimsical-icon text-2xl rotate-3">auto_stories</span>
-<span>Curriculum</span>
+<a class="sidebar-icon" href="/roadmap" title="Roadmap">
+<span class="material-symbols-outlined text-[28px]">rocket</span>
 </a>
-<a class="sidebar-item" href="/resources">
-<span class="material-symbols-outlined whimsical-icon text-2xl -rotate-3">lightbulb</span>
-<span>Lab Space</span>
+<a class="sidebar-icon" href="/resources" title="Resources">
+<span class="material-symbols-outlined text-[28px]">menu_book</span>
 </a>
-<a class="sidebar-item" href="/chat">
-<span class="material-symbols-outlined whimsical-icon text-2xl rotate-6">chat</span>
-<span>Assessment Chat</span>
+<a class="sidebar-icon" href="/quiz" title="Quests">
+<span class="material-symbols-outlined text-[28px]">extension</span>
 </a>
-</nav>
-<div class="mt-auto p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined whimsical-icon text-accent-orange text-3xl">local_fire_department</span>
-<div>
-<p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Conversation Model</p>
-<p class="text-lg font-bold text-slate-800 dark:text-white">Chat-first</p>
-</div>
-</div>
+<div class="mt-auto flex flex-col gap-4">
+<a class="sidebar-icon active" href="/context" title="Context">
+<span class="material-symbols-outlined">assignment_ind</span>
+</a>
+<a class="size-10 rounded-full border-2 border-primary overflow-hidden flex items-center justify-center bg-primary/10 hover:bg-primary/20 transition-colors" href="/context" title="Context">
+<span class="text-primary font-bold text-sm">AI</span>
+</a>
 </div>
 </aside>
-<main class="flex-1 overflow-y-auto bg-slate-50/50 dark:bg-slate-950">
-<div class="md:hidden flex items-center justify-between p-4 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-20">
-<a href="/"><span class="material-symbols-outlined whimsical-icon">home</span></a>
-<h1 class="font-bold text-slate-800 dark:text-white">Context</h1>
-<a class="size-8 avatar-container flex items-center justify-center" href="/context">
-<span class="text-xs font-bold text-slate-900">AI</span>
-</a>
+<main class="flex-1 flex flex-col relative bg-white dark:bg-slate-950">
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 px-6 flex items-center justify-between bg-white/80 dark:bg-slate-900/80 backdrop-blur-md">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-white">assignment_ind</span>
 </div>
-<div class="max-w-5xl mx-auto p-6 md:p-10 space-y-8">
-<header class="flex flex-col md:flex-row items-center md:items-start gap-8 bg-white dark:bg-slate-800 p-8 rounded-2xl border border-slate-200 dark:border-slate-700">
+<div>
+<h2 class="font-bold text-sm">Learning Context</h2>
+<div class="flex items-center gap-1.5">
+<span class="size-1.5 bg-green-500 rounded-full"></span>
+<span id="context-status-label" class="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Assessment Pending</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-full">
+<span class="material-symbols-outlined text-sm text-primary">verified</span>
+<span id="context-level-header" class="text-xs font-bold text-slate-600 dark:text-slate-300">Pending</span>
+</div>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors" title="Start from beginning" onclick="startFromBeginning()">
+<span class="material-symbols-outlined text-slate-400">restart_alt</span>
+</button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto custom-scrollbar">
+<div class="max-w-4xl mx-auto p-6 md:p-8 space-y-6">
+<header class="flex flex-col md:flex-row items-center md:items-start gap-6 clean-card p-6">
 <div class="relative">
-<div class="size-40 md:size-44 avatar-container shadow-xl flex items-center justify-center">
-<span class="text-4xl font-extrabold text-slate-900" id="context-avatar">AI</span>
+<div class="size-32 md:size-36 avatar-container shadow-xl flex items-center justify-center">
+<span class="text-3xl font-extrabold text-slate-900" id="context-avatar">AI</span>
 </div>
-<div class="absolute -bottom-2 -right-2 bg-accent-yellow text-slate-900 size-10 rounded-full border-4 border-white flex items-center justify-center shadow-lg">
-<span class="material-symbols-outlined whimsical-icon text-xl">star</span>
+<div class="absolute -bottom-2 -right-2 bg-yellow-400 text-slate-900 size-8 rounded-full border-4 border-white flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-lg">star</span>
 </div>
 </div>
 <div class="flex-1 text-center md:text-left pt-2">
 <div class="flex flex-col md:flex-row md:items-center gap-3 mb-2">
-<h2 class="text-3xl font-extrabold text-slate-900 dark:text-white" id="context-name">Your Learning Context</h2>
+<h2 class="text-2xl font-extrabold text-slate-900 dark:text-white" id="context-name">Your Learning Context</h2>
 <div class="flex gap-2 justify-center">
 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700" id="context-level-badge">
-<span class="material-symbols-outlined whimsical-icon text-sm mr-1">verified</span> Assessment Pending
-                                </span>
+<span class="material-symbols-outlined text-sm mr-1">verified</span> Assessment Pending
+</span>
 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-700" id="context-status-badge">
-<span class="material-symbols-outlined whimsical-icon text-sm mr-1">bolt</span> Conversation Driven
-                                </span>
+<span class="material-symbols-outlined text-sm mr-1">bolt</span> Conversation Driven
+</span>
 </div>
 </div>
-<p class="text-slate-500 dark:text-slate-400 text-lg font-medium mb-6" id="context-goal">Complete the assessment in chat to generate a tailored curriculum and unlock the rest of the experience.</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium mb-4" id="context-goal">Complete the assessment in chat to generate a tailored curriculum and unlock the rest of the experience.</p>
 <div class="flex flex-wrap gap-3 justify-center md:justify-start">
-<a href="/chat" class="px-6 py-2 bg-slate-900 dark:bg-white dark:text-slate-900 text-white rounded-lg font-semibold text-sm hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors flex items-center gap-2">
-<span class="material-symbols-outlined whimsical-icon text-lg">edit</span>
-                                Refine Learning Goals
-                            </a>
-<button class="px-6 py-2 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 rounded-lg font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors flex items-center gap-2" onclick="shareContext()">
-<span class="material-symbols-outlined whimsical-icon text-lg">share</span>
-                                Share
-                            </button>
-<button class="px-6 py-2 bg-white dark:bg-slate-700 border border-amber-300 dark:border-amber-500/50 text-amber-700 dark:text-amber-400 rounded-lg font-semibold text-sm hover:bg-amber-50 dark:hover:bg-amber-900/30 transition-colors flex items-center gap-2" onclick="startFromBeginning()">
-<span class="material-symbols-outlined whimsical-icon text-lg">restart_alt</span>
-                                Start From Beginning
-                            </button>
+<a href="/chat" class="px-5 py-2 bg-slate-900 dark:bg-white dark:text-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">edit</span>
+Refine Learning Goals
+</a>
+<button class="px-5 py-2 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 rounded-xl font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors flex items-center gap-2" onclick="shareContext()">
+<span class="material-symbols-outlined text-lg">share</span>
+Share
+</button>
+<button class="px-5 py-2 bg-white dark:bg-slate-700 border border-amber-300 dark:border-amber-500/50 text-amber-700 dark:text-amber-400 rounded-xl font-bold text-sm hover:bg-amber-50 dark:hover:bg-amber-900/30 transition-colors flex items-center gap-2" onclick="startFromBeginning()">
+<span class="material-symbols-outlined text-lg">restart_alt</span>
+Start From Beginning
+</button>
 </div>
 </div>
 </header>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-<section class="md:col-span-2 clean-card p-6">
-<div class="flex items-center justify-between mb-8">
-<h3 class="text-xl font-bold text-slate-800 dark:text-white">Assessment Summary</h3>
-<span class="material-symbols-outlined whimsical-icon text-slate-400">query_stats</span>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<section class="md:col-span-2 clean-card p-5">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-bold text-slate-800 dark:text-white">Assessment Summary</h3>
+<span class="material-symbols-outlined text-slate-400">query_stats</span>
 </div>
-<div class="space-y-5" id="assessment-summary">
+<div class="space-y-4" id="assessment-summary">
 <div class="space-y-2">
 <div class="flex justify-between items-center">
 <span class="text-sm font-semibold text-slate-700 dark:text-slate-300">Experience Level</span>
-<span class="whimsical-font text-xl font-bold text-primary-green -rotate-3" id="context-level">Pending</span>
+<span class="font-hand text-xl font-bold text-primary -rotate-3" id="context-level">Pending</span>
 </div>
 <div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-<div class="h-full bg-primary-green rounded-full" style="width: 24%"></div>
+<div class="h-full bg-primary rounded-full" style="width: 24%"></div>
 </div>
 </div>
 <div class="space-y-2">
 <div class="flex justify-between items-center">
 <span class="text-sm font-semibold text-slate-700 dark:text-slate-300">Confirmed Focus</span>
-<span class="whimsical-font text-xl font-bold text-accent-yellow rotate-2" id="context-focus">Not set</span>
+<span class="font-hand text-xl font-bold text-secondary rotate-2" id="context-focus">Not set</span>
 </div>
 <p class="text-sm text-slate-500 dark:text-slate-400" id="context-prior-knowledge">No prior knowledge has been captured yet.</p>
 </div>
-<div class="rounded-xl border border-dashed border-slate-200 dark:border-slate-700 p-4 bg-slate-50/60 dark:bg-slate-900/40">
-<p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">How this page works</p>
-<p class="text-sm text-slate-600 dark:text-slate-300 leading-6">The tutor stores your assessment summary in browser state after the conversation produces the `assessment_complete` JSON block. This page mirrors that state instead of pretending a profile already exists.</p>
+<div class="rounded-xl border border-dashed border-slate-200 dark:border-slate-700 p-3 bg-slate-50/60 dark:bg-slate-900/40">
+<p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">How this page works</p>
+<p class="text-xs text-slate-600 dark:text-slate-300 leading-5">The tutor stores your assessment summary in browser state after the conversation produces the `assessment_complete` JSON block. This page mirrors that state.</p>
 </div>
 </div>
 </section>
-<section class="clean-card bg-primary-green p-6 text-white border-none">
-<div class="flex justify-between items-start mb-12">
-<div class="size-12 rounded-xl bg-white/20 flex items-center justify-center">
-<span class="material-symbols-outlined whimsical-icon text-3xl">psychology</span>
+<section class="clean-card bg-primary p-5 text-white border-none">
+<div class="flex justify-between items-start mb-8">
+<div class="size-10 rounded-xl bg-white/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl">psychology</span>
 </div>
-<span class="material-symbols-outlined whimsical-icon opacity-40 text-4xl">draw</span>
+<span class="material-symbols-outlined opacity-40 text-3xl">draw</span>
 </div>
 <p class="text-white/80 text-xs font-bold uppercase tracking-widest mb-1">Current Focus</p>
-<h4 class="text-2xl font-bold mb-6" id="focus-card-title">Assessment Pending</h4>
-<div class="bg-white/10 p-4 rounded-xl backdrop-blur-sm border border-white/20">
+<h4 class="text-xl font-bold mb-4" id="focus-card-title">Assessment Pending</h4>
+<div class="bg-white/10 p-3 rounded-xl backdrop-blur-sm border border-white/20">
 <p class="text-xs font-medium text-white/90">Context completeness</p>
 <div class="h-1.5 w-full bg-white/20 rounded-full mt-2">
 <div class="h-full bg-white rounded-full" id="context-progress-bar" style="width: 24%"></div>
@@ -222,64 +215,65 @@
 </div>
 </section>
 </div>
-<section class="clean-card p-8 border-l-4 border-l-accent-orange">
-<div class="flex flex-col md:flex-row justify-between items-center gap-6">
-<div class="flex-1 space-y-2">
-<div class="flex items-center gap-2 text-accent-orange">
-<span class="material-symbols-outlined whimsical-icon">flag</span>
+<section class="clean-card p-6 border-l-4 border-l-accent">
+<div class="flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex-1 space-y-1">
+<div class="flex items-center gap-2 text-accent">
+<span class="material-symbols-outlined">flag</span>
 <span class="text-xs font-bold uppercase tracking-widest">Next Step</span>
 </div>
-<h3 class="text-2xl font-extrabold text-slate-900 dark:text-white">Complete the Assessment Conversation</h3>
-<p class="text-slate-500 dark:text-slate-400 max-w-xl">Once the tutor confirms your background and goal, the curriculum and quiz surfaces will align with the actual agent workflow.</p>
+<h3 class="text-xl font-extrabold text-slate-900 dark:text-white">Complete the Assessment Conversation</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 max-w-xl">Once the tutor confirms your background and goal, the curriculum and quiz surfaces will align with the actual agent workflow.</p>
 </div>
-<a href="/chat" class="w-full md:w-auto px-8 py-4 bg-accent-orange text-white rounded-xl font-bold shadow-lg shadow-orange-200 hover:scale-[1.02] transition-transform flex items-center justify-center gap-3">
+<a href="/chat" class="w-full md:w-auto px-6 py-3 bg-accent text-white rounded-xl font-bold shadow-lg shadow-orange-200 hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">
 <span>Open Chat</span>
-<span class="material-symbols-outlined whimsical-icon text-2xl">auto_fix_high</span>
+<span class="material-symbols-outlined text-xl">auto_fix_high</span>
 </a>
 </div>
 </section>
-<div class="space-y-6">
+<div class="space-y-4">
 <div class="flex items-center justify-between">
-<h3 class="text-xl font-bold text-slate-800 dark:text-white">Progress &amp; Status</h3>
-<a class="text-sm font-bold text-primary-green hover:underline" href="/roadmap">View Roadmap</a>
+<h3 class="text-lg font-bold text-slate-800 dark:text-white">Progress &amp; Status</h3>
+<a class="text-sm font-bold text-primary hover:underline" href="/roadmap">View Roadmap</a>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="progress-cards">
-<a href="/resources" class="clean-card p-5 hover:border-primary-green transition-colors cursor-pointer group block">
-<div class="size-10 rounded-lg bg-orange-50 text-accent-orange flex items-center justify-center mb-4">
-<span class="material-symbols-outlined whimsical-icon">draw</span>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="progress-cards">
+<a href="/resources" class="clean-card p-4 hover:border-primary transition-colors cursor-pointer group block">
+<div class="size-9 rounded-lg bg-orange-50 text-accent flex items-center justify-center mb-3">
+<span class="material-symbols-outlined">draw</span>
 </div>
-<h5 class="font-bold text-slate-800 dark:text-white mb-1">Steps Completed</h5>
-<p class="text-sm text-slate-500 mb-4" id="steps-progress-text">0 of 0 steps</p>
+<h5 class="font-bold text-slate-800 dark:text-white mb-1 text-sm">Steps Completed</h5>
+<p class="text-xs text-slate-500 mb-3" id="steps-progress-text">0 of 0 steps</p>
 <div class="flex items-center gap-2">
 <div class="flex-1 h-1.5 bg-slate-100 rounded-full">
-<div class="h-full bg-accent-orange rounded-full" id="steps-progress-bar" style="width: 0%"></div>
+<div class="h-full bg-accent rounded-full" id="steps-progress-bar" style="width: 0%"></div>
 </div>
 </div>
 </a>
-<a href="/quiz" class="clean-card p-5 hover:border-primary-green transition-colors cursor-pointer group block">
-<div class="size-10 rounded-lg bg-green-50 text-primary-green flex items-center justify-center mb-4">
-<span class="material-symbols-outlined whimsical-icon">quiz</span>
+<a href="/quiz" class="clean-card p-4 hover:border-primary transition-colors cursor-pointer group block">
+<div class="size-9 rounded-lg bg-green-50 text-primary flex items-center justify-center mb-3">
+<span class="material-symbols-outlined">quiz</span>
 </div>
-<h5 class="font-bold text-slate-800 dark:text-white mb-1">Quizzes Passed</h5>
-<p class="text-sm text-slate-500 mb-4" id="quizzes-progress-text">0 passed, 0 failed</p>
+<h5 class="font-bold text-slate-800 dark:text-white mb-1 text-sm">Quizzes Passed</h5>
+<p class="text-xs text-slate-500 mb-3" id="quizzes-progress-text">0 passed, 0 failed</p>
 <div class="flex items-center gap-2">
 <div class="flex-1 h-1.5 bg-slate-100 rounded-full">
-<div class="h-full bg-primary-green rounded-full" id="quizzes-progress-bar" style="width: 0%"></div>
+<div class="h-full bg-primary rounded-full" id="quizzes-progress-bar" style="width: 0%"></div>
 </div>
 </div>
 </a>
-<a href="/chat" class="clean-card p-5 hover:border-primary-green transition-colors cursor-pointer group block">
-<div class="size-10 rounded-lg bg-blue-50 text-blue-500 flex items-center justify-center mb-4">
-<span class="material-symbols-outlined whimsical-icon">chat</span>
+<a href="/chat" class="clean-card p-4 hover:border-primary transition-colors cursor-pointer group block">
+<div class="size-9 rounded-lg bg-blue-50 text-blue-500 flex items-center justify-center mb-3">
+<span class="material-symbols-outlined">chat</span>
 </div>
-<h5 class="font-bold text-slate-800 dark:text-white mb-1">Assessment</h5>
-<p class="text-sm text-slate-500 mb-4" id="assessment-status-text">Not started</p>
+<h5 class="font-bold text-slate-800 dark:text-white mb-1 text-sm">Assessment</h5>
+<p class="text-xs text-slate-500 mb-3" id="assessment-status-text">Not started</p>
 <div class="flex items-center gap-2">
 <div class="flex-1 h-1.5 bg-slate-100 rounded-full">
 <div class="h-full bg-blue-500 rounded-full" id="assessment-status-bar" style="width: 0%"></div>
 </div>
 </div>
 </a>
+</div>
 </div>
 </div>
 </div>
@@ -306,7 +300,7 @@ function setLevelBadge(levelText, hasAssessment) {
     badge.textContent = '';
 
     const icon = document.createElement('span');
-    icon.className = 'material-symbols-outlined whimsical-icon text-sm mr-1';
+    icon.className = 'material-symbols-outlined text-sm mr-1';
     icon.textContent = 'verified';
     badge.appendChild(icon);
     badge.appendChild(
@@ -374,6 +368,10 @@ function loadContext() {
     document.getElementById('focus-card-title').textContent = focus;
     document.getElementById('context-prior-knowledge').textContent = priorKnowledge;
     document.getElementById('context-progress-bar').style.width = contextCompleteness + '%';
+
+    // Header status
+    document.getElementById('context-status-label').textContent = hasAssessment ? 'Assessment Complete' : 'Assessment Pending';
+    document.getElementById('context-level-header').textContent = labelLevel;
 
     // Progress cards
     var totalSteps = steps.length || progress.totalLessons || 0;

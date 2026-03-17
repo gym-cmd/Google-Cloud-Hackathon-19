@@ -5,8 +5,7 @@
 <script>(function(){var t=localStorage.getItem('theme')||'light',d=document.documentElement;if(t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches)){d.classList.replace('light','dark')}})()</script>
 <title>AI Career Roadmap - Skill Tree</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Gaegu:wght@400;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
@@ -14,15 +13,19 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#0F172A",
-                        "accent": "#F59E0B",
-                        "success": "#10B981",
-                        "road-line": "#E2E8F0",
-                        "road-line-dark": "#1E293B"
+                        "primary": "#22c55e",
+                        "secondary": "#fbbf24",
+                        "accent": "#f97316",
+                        "brand-blue": "#3b82f6",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
                     },
                     fontFamily: {
-                        "display": ["Fredoka", "sans-serif"],
-                        "sans": ["Inter", "sans-serif"]
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "hand": ["Gaegu", "cursive"]
+                    },
+                    borderRadius: {
+                        "sticker": "1.25rem",
                     },
                 },
             },
@@ -31,22 +34,37 @@
 <style type="text/tailwindcss">
         @layer base {
             body {
-                @apply font-sans bg-slate-50 text-slate-900 dark:bg-[#020617] dark:text-slate-100;
+                @apply font-display text-slate-900 dark:text-slate-100 bg-background-light dark:bg-slate-950;
+                height: 100dvh;
             }
+        }
+        .sidebar-icon {
+            @apply size-12 flex items-center justify-center rounded-xl transition-all hover:bg-slate-100 dark:hover:bg-slate-800 hover:scale-110 active:scale-95 text-slate-500 dark:text-slate-400;
+        }
+        .sidebar-icon.active {
+            @apply bg-primary/10 text-primary border border-primary/20;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+        .desktop-container {
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            max-height: 100vh;
         }
         .timeline-connector {
             @apply absolute left-[27px] top-10 bottom-0 w-1 bg-slate-200 dark:bg-slate-800;
         }
         .node-icon-whimsical {
             @apply size-14 flex items-center justify-center rounded-2xl shadow-lg border-2;
-            font-family: 'Fredoka', sans-serif;
             border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-        }
-        .sidebar-icon-whimsical {
-            border-radius: 12px 40px 12px 40px;
-        }
-        .glass-card {
-            @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border border-slate-200 dark:border-slate-800 shadow-sm;
         }
         .filled-icon {
             font-variation-settings: 'FILL' 1;
@@ -61,22 +79,55 @@
   </style>
   <script>document.addEventListener('DOMContentLoaded',function(){requestAnimationFrame(function(){document.body.style.opacity='1'})})</script>
   </head>
-<body class="min-h-screen flex flex-col overflow-hidden">
-<header class="sticky top-0 z-30 glass-card px-6 py-4 flex items-center justify-between">
-<div class="flex items-center gap-4">
-<div class="sidebar-icon-whimsical size-10 bg-accent flex items-center justify-center text-white shadow-md">
-<span class="material-symbols-outlined text-2xl">account_tree</span>
+<body class="flex items-center justify-center p-0 md:p-4">
+<div class="desktop-container bg-white dark:bg-slate-900 shadow-2xl overflow-hidden flex flex-row border border-slate-200 dark:border-slate-800">
+<aside class="w-20 border-r border-slate-200 dark:border-slate-800 flex flex-col items-center py-6 gap-6 bg-slate-50 dark:bg-slate-900/50">
+<a class="size-12 bg-primary rounded-2xl flex items-center justify-center text-white shadow-lg mb-4 hover:scale-105 transition-transform" href="/">
+<span class="material-symbols-outlined text-3xl">school</span>
+</a>
+<a class="sidebar-icon" href="/chat" title="Chat">
+<span class="material-symbols-outlined">chat_bubble</span>
+</a>
+<a class="sidebar-icon active" href="/roadmap" title="Roadmap">
+<span class="material-symbols-outlined text-[28px]">rocket</span>
+</a>
+<a class="sidebar-icon" href="/resources" title="Resources">
+<span class="material-symbols-outlined text-[28px]">menu_book</span>
+</a>
+<a class="sidebar-icon" href="/quiz" title="Quests">
+<span class="material-symbols-outlined text-[28px]">extension</span>
+</a>
+<div class="mt-auto flex flex-col gap-4">
+<a class="sidebar-icon" href="/context" title="Context">
+<span class="material-symbols-outlined">assignment_ind</span>
+</a>
+<a class="size-10 rounded-full border-2 border-primary overflow-hidden flex items-center justify-center bg-primary/10 hover:bg-primary/20 transition-colors" href="/context" title="Context">
+<span class="text-primary font-bold text-sm">AI</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 flex flex-col relative bg-white dark:bg-slate-950">
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 px-6 flex items-center justify-between bg-white/80 dark:bg-slate-900/80 backdrop-blur-md">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-white">account_tree</span>
 </div>
 <div>
-<h1 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-[0.2em]">Learning Roadmap</h1>
-<p id="roadmap-title" class="text-lg font-extrabold tracking-tight">Your Skill Tree</p>
+<h2 class="font-bold text-sm">Learning Roadmap</h2>
+<div class="flex items-center gap-1.5">
+<span class="size-1.5 bg-green-500 rounded-full"></span>
+<span id="roadmap-title" class="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Your Skill Tree</span>
 </div>
 </div>
-<div class="flex items-center gap-3">
-<div class="bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-full flex items-center gap-2 border border-slate-200 dark:border-slate-700">
-<span class="material-symbols-outlined text-accent text-sm filled-icon">stars</span>
-<span id="level-display" class="text-sm font-bold">New</span>
 </div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-full">
+<span class="material-symbols-outlined text-sm text-amber-500 filled-icon">stars</span>
+<span id="level-display" class="text-xs font-bold text-slate-600 dark:text-slate-300">New</span>
+</div>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors" title="Session Context" onclick="window.location.href='/context'">
+<span class="material-symbols-outlined text-slate-400">more_vert</span>
+</button>
 </div>
 </header>
 <!-- Always-visible progress bar -->
@@ -86,13 +137,13 @@
 <div class="flex-1">
 <div class="flex justify-between items-center mb-1.5">
 <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Roadmap Progress</span>
-<span id="global-progress-text" class="text-sm font-extrabold text-accent">0 / 0 steps</span>
+<span id="global-progress-text" class="text-sm font-extrabold text-amber-500">0 / 0 steps</span>
 </div>
 <div class="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
 <div id="global-progress-fill" class="h-full rounded-full transition-all duration-700 ease-out" style="width:0%; background: linear-gradient(90deg, #F59E0B 0%, #10B981 100%)"></div>
 </div>
 </div>
-<div id="global-progress-pct" class="text-2xl font-extrabold text-accent tabular-nums min-w-[3.5rem] text-right">0%</div>
+<div id="global-progress-pct" class="text-2xl font-extrabold text-amber-500 tabular-nums min-w-[3.5rem] text-right">0%</div>
 </div>
 </div>
 </div>
@@ -107,37 +158,17 @@
 <a href="/chat" class="bg-white/20 hover:bg-white/30 backdrop-blur px-5 py-2 rounded-xl font-bold text-sm transition-colors">Continue Learning</a>
 </div>
 </div>
-<div class="flex flex-1 overflow-hidden">
-<aside class="hidden md:flex w-20 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex-col items-center py-6 gap-6">
-<a class="sidebar-icon-whimsical size-12 bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-accent transition-colors cursor-pointer" href="/">
-<span class="material-symbols-outlined">dashboard</span>
-</a>
-<a class="sidebar-icon-whimsical size-12 bg-slate-900 dark:bg-accent text-white flex items-center justify-center shadow-lg cursor-pointer" href="/roadmap">
-<span class="material-symbols-outlined">route</span>
-</a>
-<a class="sidebar-icon-whimsical size-12 bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-accent transition-colors cursor-pointer" href="/quiz">
-<span class="material-symbols-outlined">map</span>
-</a>
-<a class="sidebar-icon-whimsical size-12 bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-accent transition-colors cursor-pointer" href="/resources">
-<span class="material-symbols-outlined">architecture</span>
-</a>
-<div class="mt-auto">
-<a class="sidebar-icon-whimsical size-12 bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 cursor-pointer" href="/context">
-<span class="material-symbols-outlined">assignment_ind</span>
-</a>
-</div>
-</aside>
-<main class="flex-1 overflow-y-auto p-6 md:p-10 relative">
+<div class="flex-1 overflow-y-auto custom-scrollbar p-6 md:p-10 relative">
 <div class="max-w-2xl mx-auto relative">
 
 <!-- Empty state -->
 <div id="roadmap-empty" class="text-center py-20" style="display:none">
-<div class="size-20 rounded-3xl bg-accent/10 flex items-center justify-center mx-auto mb-6">
-<span class="material-symbols-outlined text-accent text-5xl">route</span>
+<div class="size-20 rounded-3xl bg-amber-500/10 flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-amber-500 text-5xl">route</span>
 </div>
 <h3 class="text-2xl font-bold mb-3">No roadmap yet</h3>
 <p class="text-slate-500 mb-6 max-w-md mx-auto">Complete your assessment in the chat to generate a personalized learning roadmap.</p>
-<a class="bg-accent hover:bg-accent/90 text-white px-8 py-4 rounded-2xl font-bold text-lg inline-flex items-center gap-3 transition-all shadow-lg" href="/chat">
+<a class="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-2xl font-bold text-lg inline-flex items-center gap-3 transition-all shadow-lg" href="/chat">
 Start Assessment <span class="material-symbols-outlined">chat_bubble</span>
 </a>
 </div>
@@ -147,47 +178,21 @@ Start Assessment <span class="material-symbols-outlined">chat_bubble</span>
 <div class="timeline-connector"></div>
 </div>
 </div>
+</div>
 </main>
 </div>
-<nav class="md:hidden fixed bottom-0 w-full glass-card border-t border-slate-200 dark:border-slate-800 pb-8 pt-3 px-8 z-50">
-<div class="flex items-center justify-between max-w-md mx-auto">
-<a class="flex flex-col items-center gap-1 text-slate-400" href="/quiz">
-<span class="material-symbols-outlined">menu_book</span>
-<span class="text-[10px] font-bold">Quests</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-accent" href="/roadmap">
-<span class="material-symbols-outlined text-3xl filled-icon">route</span>
-<span class="text-[10px] font-bold">Roadmap</span>
-</a>
-<div class="relative -top-8">
-<a class="bg-accent text-white size-14 sidebar-icon-whimsical flex items-center justify-center shadow-lg border-4 border-white dark:border-slate-900" href="/chat">
-<span class="material-symbols-outlined text-3xl">auto_awesome</span>
-</a>
-</div>
-<a class="flex flex-col items-center gap-1 text-slate-400" href="/quiz">
-<span class="material-symbols-outlined">leaderboard</span>
-<span class="text-[10px] font-bold">Ranks</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-slate-400" href="/context">
-<div class="size-6 rounded-full overflow-hidden border border-slate-300">
-<div class="w-full h-full flex items-center justify-center text-[9px] font-bold text-slate-500">AI</div>
-</div>
-<span class="text-[10px] font-bold">Context</span>
-</a>
-</div>
-</nav>
 <!-- Right sidebar: global progress -->
 <div class="hidden lg:block fixed right-8 top-28 w-64">
-<div class="glass-card p-6 rounded-3xl border-slate-200 dark:border-slate-800">
+<div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border border-slate-200 dark:border-slate-800 shadow-sm p-6 rounded-3xl">
 <h4 class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-widest">Global Progress</h4>
 <div class="space-y-4">
 <div>
 <div class="flex justify-between mb-1">
 <span class="text-xs font-bold">Steps Completed</span>
-<span id="progress-label" class="text-xs font-bold text-accent">0 / 0</span>
+<span id="progress-label" class="text-xs font-bold text-amber-500">0 / 0</span>
 </div>
 <div class="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-<div id="progress-bar" class="h-full bg-accent transition-all duration-500" style="width: 0%"></div>
+<div id="progress-bar" class="h-full bg-amber-500 transition-all duration-500" style="width: 0%"></div>
 </div>
 </div>
 <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
@@ -258,9 +263,9 @@ function loadRoadmap() {
         var iconDiv = document.createElement('div');
         var icon = nodeIcons[i % nodeIcons.length];
         if (isDone) {
-            iconDiv.className = 'node-icon-whimsical bg-success/10 border-success text-success shrink-0 z-10 bg-white dark:bg-slate-900';
+            iconDiv.className = 'node-icon-whimsical bg-emerald-500/10 border-emerald-500 text-emerald-500 shrink-0 z-10 bg-white dark:bg-slate-900';
         } else if (isCurrent) {
-            iconDiv.className = 'node-icon-whimsical bg-accent/20 border-accent text-accent shrink-0 z-10 bg-white dark:bg-slate-900 shadow-[0_0_20px_rgba(245,158,11,0.2)]';
+            iconDiv.className = 'node-icon-whimsical bg-amber-500/20 border-amber-500 text-amber-500 shrink-0 z-10 bg-white dark:bg-slate-900 shadow-[0_0_20px_rgba(245,158,11,0.2)]';
         } else {
             iconDiv.className = 'node-icon-whimsical bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-400 shrink-0 z-10';
         }
@@ -277,13 +282,13 @@ function loadRoadmap() {
 
         var badgeClass, badgeText, titleClass;
         if (isDone) {
-            badgeClass = 'bg-success/20 text-success';
+            badgeClass = 'bg-emerald-500/20 text-emerald-500';
             badgeText = 'Completed';
             titleClass = '';
         } else if (isCurrent) {
-            badgeClass = 'bg-accent text-white';
+            badgeClass = 'bg-amber-500 text-white';
             badgeText = 'In Progress';
-            titleClass = ' text-accent';
+            titleClass = ' text-amber-500';
         } else {
             badgeClass = 'bg-slate-200 dark:bg-slate-800 text-slate-500';
             badgeText = 'Locked';
@@ -317,8 +322,8 @@ function loadRoadmap() {
     var allDone = completed.length >= steps.length;
     document.getElementById('roadmap-complete-banner').style.display = allDone ? '' : 'none';
     if (allDone) {
-        document.getElementById('global-progress-pct').classList.remove('text-accent');
-        document.getElementById('global-progress-pct').classList.add('text-success');
+        document.getElementById('global-progress-pct').classList.remove('text-amber-500');
+        document.getElementById('global-progress-pct').classList.add('text-emerald-500');
     }
 
     var resumeBtn = document.getElementById('resume-btn');
