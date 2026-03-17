@@ -1,6 +1,9 @@
 # EduAI Studio — Personalized Learning Tutor
 
-Tell the AI what you want to learn, have a short diagnostic chat, and get a personalized curriculum with quizzes that adapt to your level — all in one session, no account required.
+Personalized Learning Tutor is an AI agent built for good: it delivers a true 1:1 tutor experience to anyone, anywhere — regardless of income, background, or prior access to education.
+It starts by understanding each learner’s goals and current level, then creates a personalized learning path, checks understanding with adaptive quizzes, and gives targeted support when someone gets stuck.
+Instead of one-size-fits-all content, every learner gets guidance that feels human, structured, and encouraging — like having a dedicated mentor in your pocket.
+Our mission is simple: make high-quality, personalized education universally accessible, not a privilege.
 
 Built with [Google ADK](https://google.github.io/adk-docs/) and Gemini 2.5 Flash. A root agent orchestrates three specialist agents (assessment, curriculum, quiz) through a FastAPI web UI.
 
