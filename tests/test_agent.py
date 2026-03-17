@@ -117,6 +117,10 @@ class TestRootAgent:
         assert "Curriculum" in root_agent.instruction
         assert "Quiz" in root_agent.instruction
 
+    def test_instruction_requires_direct_follow_up_question(self):
+        assert "exactly one clear question" in root_agent.instruction
+        assert "your final sentence must be that" in root_agent.instruction
+
 
 class TestAgentTools:
     def test_assessment_tool_type(self):
