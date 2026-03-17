@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html class="dark" lang="en"><head>
+<html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script>(function(){var t=localStorage.getItem('theme')||'light',d=document.documentElement;if(t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches)){d.classList.replace('light','dark')}})()</script>
 <title>AI Tutor Chat - New Topic Session</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Gaegu:wght@400;700&amp;display=swap" rel="stylesheet"/>
@@ -64,8 +65,11 @@
 <style>
     body {
       min-height: max(884px, 100dvh);
+      opacity: 0;
+      transition: opacity 0.15s;
     }
   </style>
+  <script>document.addEventListener('DOMContentLoaded',function(){requestAnimationFrame(function(){document.body.style.opacity='1'})})</script>
   </head>
 <body class="flex items-center justify-center p-0 md:p-4">
 <div class="desktop-container bg-white dark:bg-slate-900 shadow-2xl overflow-hidden flex flex-row border border-slate-200 dark:border-slate-800">
@@ -73,24 +77,24 @@
 <a class="size-12 bg-primary rounded-2xl flex items-center justify-center text-white shadow-lg mb-4 hover:scale-105 transition-transform" href="/">
 <span class="material-symbols-outlined text-3xl">school</span>
 </a>
-<a class="sidebar-icon active" href="/chat">
+<a class="sidebar-icon active" href="/chat" title="Chat">
 <span class="material-symbols-outlined">chat_bubble</span>
 </a>
-<a class="sidebar-icon" href="/chat">
+<a class="sidebar-icon" href="/roadmap" title="Roadmap">
 <span class="material-symbols-outlined text-[28px]">rocket</span>
 </a>
-<a class="sidebar-icon" href="/roadmap">
+<a class="sidebar-icon" href="/resources" title="Resources">
 <span class="material-symbols-outlined text-[28px]">menu_book</span>
 </a>
-<a class="sidebar-icon" href="/quiz">
+<a class="sidebar-icon" href="/quiz" title="Quests">
 <span class="material-symbols-outlined text-[28px]">extension</span>
 </a>
 <div class="mt-auto flex flex-col gap-4">
-<a class="sidebar-icon" href="/profile">
-<span class="material-symbols-outlined">settings</span>
+<a class="sidebar-icon" href="/context" title="Context">
+<span class="material-symbols-outlined">assignment_ind</span>
 </a>
-<a class="size-10 rounded-full border-2 border-primary overflow-hidden flex items-center justify-center bg-primary/10 hover:bg-primary/20 transition-colors" href="/profile">
-<span class="text-primary font-bold text-sm">Z</span>
+<a class="size-10 rounded-full border-2 border-primary overflow-hidden flex items-center justify-center bg-primary/10 hover:bg-primary/20 transition-colors" href="/context" title="Context">
+<span class="text-primary font-bold text-sm">AI</span>
 </a>
 </div>
 </aside>
@@ -110,10 +114,10 @@
 </div>
 <div class="flex items-center gap-4">
 <div class="hidden sm:flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-full">
-<span class="material-symbols-outlined text-sm text-yellow-500">bolt</span>
-<span class="text-xs font-bold text-slate-600 dark:text-slate-300">Level 12 Architect</span>
+<span class="material-symbols-outlined text-sm text-yellow-500">forum</span>
+<span class="text-xs font-bold text-slate-600 dark:text-slate-300">Assessment in Progress</span>
 </div>
-<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors" title="Session Context" onclick="window.location.href='/context'">
 <span class="material-symbols-outlined text-slate-400">more_vert</span>
 </button>
 </div>
@@ -121,7 +125,7 @@
 <div id="chat-container" class="flex-1 overflow-y-auto custom-scrollbar p-8 space-y-8">
 <div class="flex justify-center">
 <span class="text-[10px] font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-4 py-1 rounded-full uppercase tracking-widest">
-                        Session Started: LLM Foundations
+                        Session Started: Learning Assessment
                     </span>
 </div>
 <div class="flex gap-4 items-start max-w-2xl">
@@ -131,46 +135,34 @@
 <div class="flex flex-col gap-2">
 <div class="bg-slate-100 dark:bg-slate-800 rounded-2xl rounded-tl-none p-5 shadow-sm border border-slate-200/50 dark:border-slate-700/50">
 <p class="text-slate-700 dark:text-slate-200 leading-relaxed">
-                                Hey Zuzia! Ready to level up your frontend skills into the world of AI Engineering? 🚀
+                                Welcome. I am your personalized software development tutor.
                             </p>
 <p class="mt-4 text-slate-700 dark:text-slate-200 leading-relaxed">
-                                Since you're already great with JS, we could start by exploring <strong>LangChain.js</strong> or dive into the art of <strong>Prompt Engineering</strong>. What sounds most exciting today?
+                                Tell me your name, your experience level, and what you want to learn. I will assess your background, generate a learning path, and quiz you as you progress.
                             </p>
 </div>
 <span class="text-[10px] text-slate-400 font-bold uppercase ml-1">Botty • Just now</span>
 </div>
 </div>
 <div class="flex flex-wrap gap-3 pl-14">
-<button class="sticker-btn bg-primary text-white px-6 py-3 rounded-sticker font-bold text-sm flex items-center gap-2 border-b-4 border-green-700">
+<button class="sticker-btn bg-primary text-white px-6 py-3 rounded-sticker font-bold text-sm flex items-center gap-2 border-b-4 border-green-700" data-message="My name is Alex. I am intermediate. I want to learn AI engineering from a frontend background." onclick="sendStickerMessage(this)">
 <span class="material-symbols-outlined text-lg">terminal</span>
-                        LangChain.js Basics
+<span data-label>Start Assessment</span>
                     </button>
-<button class="sticker-btn bg-secondary text-slate-900 px-6 py-3 rounded-sticker font-bold text-sm flex items-center gap-2 border-b-4 border-yellow-500">
+<button class="sticker-btn bg-secondary text-slate-900 px-6 py-3 rounded-sticker font-bold text-sm flex items-center gap-2 border-b-4 border-yellow-500" data-message="I already know JavaScript and React. Help me identify the AI topics I should focus on first." onclick="sendStickerMessage(this)">
 <span class="material-symbols-outlined text-lg">edit_note</span>
-                        Prompting Guide
+<span data-label>Share Background</span>
                     </button>
-<button class="sticker-btn bg-accent text-white px-6 py-3 rounded-sticker font-bold text-sm flex items-center gap-2 border-b-4 border-orange-600">
-<span class="material-symbols-outlined text-lg">casino</span>
-                        Surprise Topic
+<button class="sticker-btn bg-accent text-white px-6 py-3 rounded-sticker font-bold text-sm flex items-center gap-2 border-b-4 border-orange-600" data-message="Help me define a learning goal and assess what I already know." onclick="sendStickerMessage(this)">
+<span class="material-symbols-outlined text-lg">auto_awesome</span>
+<span data-label>Set Learning Goal</span>
                     </button>
-</div>
-<div class="flex gap-4 items-start max-w-2xl ml-auto flex-row-reverse">
-<div class="size-10 rounded-xl bg-brand-blue/10 flex-shrink-0 flex items-center justify-center border border-brand-blue/20 overflow-hidden">
-<span class="material-symbols-outlined text-brand-blue text-3xl">face_3</span>
-</div>
-<div class="flex flex-col gap-2 items-end">
-<div class="bg-brand-blue text-white rounded-2xl rounded-tr-none p-5 shadow-sm">
-<p class="leading-relaxed">
-                                Let's go with LangChain.js! I want to see how my React skills translate to building AI agents.
-                            </p>
-</div>
-<span class="text-[10px] text-slate-400 font-bold uppercase mr-1">Zuzia • 10:42 AM</span>
-</div>
 </div>
 </div>
 <div class="p-6 bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800">
 <div class="max-w-3xl mx-auto flex items-center gap-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-2 shadow-inner">
-<button class="size-10 flex items-center justify-center text-slate-400 hover:text-primary transition-colors">
+<input id="chat-file-input" class="hidden" type="file"/>
+<button class="size-10 flex items-center justify-center text-slate-400 hover:text-primary transition-colors" title="Attach file" onclick="openFilePicker()">
 <span class="material-symbols-outlined">attach_file</span>
 </button>
 <input id="chat-input" class="flex-1 bg-transparent border-none focus:ring-0 text-sm placeholder:text-slate-400 py-2 px-2" placeholder="Message Botty..." type="text"/>
@@ -184,10 +176,49 @@
 
 
 <script>
+// Global function for sticker buttons
+function sendStickerMessage(btn) {
+    const input = document.getElementById('chat-input');
+    const text = btn.dataset.message || btn.querySelector('[data-label]')?.textContent.trim() || btn.textContent.trim();
+    input.value = text;
+    document.getElementById('send-btn').click();
+}
+
+function openFilePicker() {
+    document.getElementById('chat-file-input').click();
+}
+
+function persistAgentState(text) {
+    if (!text) {
+        return;
+    }
+
+    const jsonMatch = text.match(/```json\s*([\s\S]*?)```/i) || text.match(/(\{[\s\S]*"assessment_complete"[\s\S]*\})/i);
+    if (!jsonMatch) {
+        return;
+    }
+
+    try {
+        const raw = (jsonMatch[1] || jsonMatch[0]).trim();
+        const parsed = JSON.parse(raw);
+        if (parsed.assessment_complete && parsed.user_context) {
+            localStorage.setItem('eduai.sessionContext', JSON.stringify(parsed.user_context));
+            localStorage.setItem('eduai.assessmentComplete', 'true');
+        }
+        if (Array.isArray(parsed.steps)) {
+            localStorage.setItem('eduai.curriculum', JSON.stringify(parsed.steps));
+        }
+    } catch (error) {
+        console.error('Failed to persist agent state', error);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('chat-input');
     const sendBtn = document.getElementById('send-btn');
     const chatContainer = document.getElementById('chat-container');
+    const chatFileInput = document.getElementById('chat-file-input');
+    let attachedFileName = '';
 
     function appendMessage(text, isUser) {
         const wrapper = document.createElement('div');
@@ -223,11 +254,42 @@ document.addEventListener('DOMContentLoaded', () => {
         return msgText;
     }
 
+    function extractChunkText(value, depth = 0) {
+        if (depth > 6 || value == null) {
+            return '';
+        }
+        if (typeof value === 'string') {
+            return value;
+        }
+        if (Array.isArray(value)) {
+            return value.map((item) => extractChunkText(item, depth + 1)).join('');
+        }
+        if (typeof value !== 'object') {
+            return '';
+        }
+
+        const preferredKeys = ['text', 'content', 'parts', 'candidates', 'response', 'delta', 'message'];
+        let collected = '';
+        for (const key of preferredKeys) {
+            if (key in value) {
+                collected += extractChunkText(value[key], depth + 1);
+            }
+        }
+        if (collected) {
+            return collected;
+        }
+
+        return Object.values(value).map((item) => extractChunkText(item, depth + 1)).join('');
+    }
+
     async function sendMessage() {
         const text = input.value.trim();
-        if (!text) return;
+        const outgoingText = attachedFileName
+            ? `${text || 'Please help me with this file.'}\n\nAttached file: ${attachedFileName}`
+            : text;
+        if (!outgoingText.trim()) return;
         
-        appendMessage(text, true);
+        appendMessage(outgoingText, true);
         input.value = '';
         input.disabled = true;
         sendBtn.disabled = true;
@@ -240,45 +302,97 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ message: text })
+                body: JSON.stringify({ message: outgoingText })
             });
+
+            if (!response.ok) {
+                const errText = await response.text();
+                throw new Error(`HTTP error! status: ${response.status}, desc: ${errText}`);
+            }
+            if (!response.body) {
+                throw new Error('The server did not return a readable response stream.');
+            }
             
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
+            let buffer = '';
+            let hasBotContent = false;
+            let streamFinished = false;
             
-            while (true) {
+            while (!streamFinished) {
                 const { value, done } = await reader.read();
                 if (done) break;
                 
-                const chunk = decoder.decode(value, {stream: true});
-                const lines = chunk.split('\n\n');
-                for (const line of lines) {
-                    if (line.startsWith('data: ')) {
-                        const dataStr = line.slice(6);
-                        if (dataStr === '[DONE]') break;
-                        try {
-                            const data = JSON.parse(dataStr);
-                            if (data.text) {
-                                botTextNode.textContent += data.text;
-                            } else if (data.content) {
-                                botTextNode.textContent += data.content;
-                            }
-                        } catch (e) {
-                            console.error("Error parsing chunk", e);
+                buffer += decoder.decode(value, { stream: true });
+                while (buffer.includes('\n\n')) {
+                    const separatorIndex = buffer.indexOf('\n\n');
+                    const rawEvent = buffer.slice(0, separatorIndex);
+                    buffer = buffer.slice(separatorIndex + 2);
+
+                    const dataStr = rawEvent
+                        .split('\n')
+                        .filter((line) => line.startsWith('data:'))
+                        .map((line) => line.slice(5).trimStart())
+                        .join('\n');
+
+                    if (!dataStr) {
+                        continue;
+                    }
+                    if (dataStr === '[DONE]') {
+                        streamFinished = true;
+                        break;
+                    }
+
+                    try {
+                        const data = JSON.parse(dataStr);
+                        if (data.error && data.text) {
+                            botTextNode.textContent = data.text;
+                            hasBotContent = true;
+                            continue;
                         }
+
+                        const chunkText = extractChunkText(data).replace(/\[object Object\]/g, '').trim();
+                        if (chunkText) {
+                            botTextNode.textContent += chunkText;
+                            hasBotContent = true;
+                        }
+                    } catch (e) {
+                        console.error('Error parsing chunk', e, dataStr);
                     }
                 }
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             }
+
+            if (!hasBotContent) {
+                botTextNode.textContent = 'I did not receive a usable response from the tutor. Please try again.';
+            }
+            persistAgentState(botTextNode.textContent);
         } catch (err) {
-            console.error(err);
-            botTextNode.textContent = "Error communicating with server.";
+            console.error("Chat Error:", err);
+            botTextNode.textContent = "Error communicating with server: " + err.message;
         }
         
         input.disabled = false;
         sendBtn.disabled = false;
+        attachedFileName = '';
+        chatFileInput.value = '';
+        input.placeholder = 'Message Botty...';
         input.focus();
     }
+
+    chatFileInput.addEventListener('change', () => {
+        const selectedFile = chatFileInput.files?.[0];
+        if (!selectedFile) {
+            return;
+        }
+
+        attachedFileName = selectedFile.name;
+        if (!input.value.trim()) {
+            input.value = `Please help me review ${selectedFile.name}`;
+        }
+        input.placeholder = `Attached: ${selectedFile.name}`;
+        input.focus();
+    });
 
     sendBtn.addEventListener('click', sendMessage);
     input.addEventListener('keypress', (e) => {
@@ -287,5 +401,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+</script>
+<div style="position:fixed;bottom:1.5rem;left:1.5rem;z-index:9999"><button onclick="cycleTheme()" class="flex items-center gap-2 px-3 py-2.5 rounded-full bg-white/90 dark:bg-slate-800/90 backdrop-blur border border-slate-200 dark:border-slate-700 shadow-lg hover:shadow-xl transition-all text-slate-600 dark:text-slate-300" title="Toggle theme"><span id="theme-icon" class="material-symbols-outlined text-lg">light_mode</span><span id="theme-label" class="text-xs font-medium">Light</span></button></div>
+<script>
+function cycleTheme(){var m=['light','dark','system'],c=localStorage.getItem('theme')||'light',n=m[(m.indexOf(c)+1)%3];localStorage.setItem('theme',n);applyTheme(n)}
+function applyTheme(t){var d=document.documentElement,dk=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches);d.classList.toggle('dark',dk);d.classList.toggle('light',!dk);updateThemeIcon(t)}
+function updateThemeIcon(t){var i=document.getElementById('theme-icon'),l=document.getElementById('theme-label');if(i)i.textContent=t==='dark'?'dark_mode':t==='system'?'monitor':'light_mode';if(l)l.textContent=t==='dark'?'Dark':t==='system'?'System':'Light'}
+window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(){if(localStorage.getItem('theme')==='system')applyTheme('system')});updateThemeIcon(localStorage.getItem('theme')||'light');
 </script>
 </body></html>

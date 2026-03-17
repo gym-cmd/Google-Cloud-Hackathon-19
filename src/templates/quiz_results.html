@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html class="dark" lang="en"><head>
+<html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script>(function(){var t=localStorage.getItem('theme')||'light',d=document.documentElement;if(t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches)){d.classList.replace('light','dark')}})()</script>
+<title>Quiz Results</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Space+Grotesk:wght@700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -46,17 +48,20 @@
 <style>
     body {
       min-height: max(884px, 100dvh);
+      opacity: 0;
+      transition: opacity 0.15s;
     }
   </style>
+  <script>document.addEventListener('DOMContentLoaded',function(){requestAnimationFrame(function(){document.body.style.opacity='1'})})</script>
   </head>
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center p-0 sm:p-4">
 <div class="relative w-full max-w-[1280px] aspect-video bg-white dark:bg-[#0f172a] sm:rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex">
 <aside class="w-20 lg:w-64 border-r border-slate-200 dark:border-slate-800 flex flex-col bg-slate-50 dark:bg-slate-900/50">
-<div class="p-6">
-<div class="w-10 h-10 bg-primary-blue rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
+<a href="/" class="block p-6">
+<div class="w-10 h-10 bg-primary-blue rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20 hover:scale-105 transition-transform">
 <span class="material-symbols-outlined text-white">psychology</span>
 </div>
-</div>
+</a>
 <nav class="flex-1 px-4 space-y-2">
 <a class="flex items-center gap-4 p-3 rounded-xl text-slate-500 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors" href="/">
 <span class="material-symbols-outlined">dashboard</span>
@@ -70,17 +75,17 @@
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">quiz</span>
 <span class="hidden lg:block font-semibold">Quizzes</span>
 </a>
-<a class="flex items-center gap-4 p-3 rounded-xl text-slate-500 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors" href="/profile">
-<span class="material-symbols-outlined">settings</span>
-<span class="hidden lg:block font-semibold">Settings</span>
+<a class="flex items-center gap-4 p-3 rounded-xl text-slate-500 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors" href="/context">
+<span class="material-symbols-outlined">assignment_ind</span>
+<span class="hidden lg:block font-semibold">Context</span>
 </a>
 </nav>
 <div class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800">
 <div class="flex items-center gap-3 p-2">
-<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-accent-yellow to-orange-400 flex items-center justify-center text-white font-bold">Z</div>
+<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-accent-yellow to-orange-400 flex items-center justify-center text-white font-bold">AI</div>
 <div class="hidden lg:block">
-<p class="text-sm font-bold truncate">Zuzia M.</p>
-<p class="text-xs text-slate-500">AI Engineer path</p>
+<p class="text-sm font-bold truncate">Quiz Summary</p>
+<p class="text-xs text-slate-500">Stored in browser state</p>
 </div>
 </div>
 </div>
@@ -97,7 +102,7 @@
 <div class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 bg-slate-200"></div>
 <div class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 bg-slate-300"></div>
 </div>
-<button class="text-slate-500 hover:text-slate-900 dark:hover:text-white">
+<button class="text-slate-500 hover:text-slate-900 dark:hover:text-white" title="Notifications" onclick="window.location.href='/'">
 <span class="material-symbols-outlined">notifications</span>
 </button>
 </div>
@@ -116,7 +121,7 @@
 </div>
 </div>
 <div class="absolute -bottom-4 -right-4 bg-orange-500 text-white font-black px-6 py-2 rounded-2xl text-sm -rotate-6 shadow-xl border-4 border-white dark:border-slate-800 z-20">
-                                80% SCORE!
+                                <span id="score-badge">0% SCORE!</span>
                             </div>
 <div class="absolute top-0 left-0 w-full h-full pointer-events-none">
 <div class="confetti-dot bg-accent-yellow w-3 h-3 top-0 left-0"></div>
@@ -125,10 +130,10 @@
 </div>
 </div>
 <h1 class="text-4xl lg:text-5xl font-display font-bold text-slate-900 dark:text-white mb-4">
-                            Excellent work, Zuzia!
+                            <span id="result-heading">Quiz complete</span>
                         </h1>
 <p class="text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-md">
-                            You've mastered the core concepts of Transformer architectures. You're making rapid progress toward becoming an AI Engineer.
+                            <span id="result-summary">Review the breakdown below to see what to study next.</span>
                         </p>
 </div>
 <div class="lg:col-span-7 space-y-6">
@@ -136,16 +141,16 @@
 <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">Performance Breakdown</h3>
 <div class="grid grid-cols-3 gap-4">
 <div class="text-center p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800">
-<p class="text-2xl font-bold text-success-green">12/15</p>
+<p class="text-2xl font-bold text-success-green" id="score-value">0/3</p>
 <p class="text-[10px] font-bold text-slate-500 uppercase">Correct</p>
 </div>
 <div class="text-center p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800">
-<p class="text-2xl font-bold text-slate-900 dark:text-white">4:20</p>
-<p class="text-[10px] font-bold text-slate-500 uppercase">Time</p>
+<p class="text-2xl font-bold text-slate-900 dark:text-white" id="result-status">Pending</p>
+<p class="text-[10px] font-bold text-slate-500 uppercase">Status</p>
 </div>
 <div class="text-center p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800">
-<p class="text-2xl font-bold text-primary-blue">Top 5%</p>
-<p class="text-[10px] font-bold text-slate-500 uppercase">Ranking</p>
+<p class="text-2xl font-bold text-primary-blue" id="result-percent">0%</p>
+<p class="text-[10px] font-bold text-slate-500 uppercase">Percent</p>
 </div>
 </div>
 </div>
@@ -157,28 +162,32 @@
 <div class="flex items-center gap-2 mb-4">
 <span class="px-2 py-1 bg-primary-blue text-[10px] font-bold rounded uppercase">Recommended Next</span>
 </div>
-<h4 class="text-2xl font-bold mb-2">Embeddings &amp; Vector Databases</h4>
-<p class="text-slate-400 text-sm mb-8 max-w-sm">
-                                    Now that you know how LLMs work, learn how to provide them with custom knowledge using RAG.
+<h4 class="text-2xl font-bold mb-2" id="next-step-title">Review the results</h4>
+<p class="text-slate-400 text-sm mb-8 max-w-sm" id="next-step-summary">
+                                    Use the breakdown below to decide whether to continue or revisit the material.
                                 </p>
 <div class="flex flex-col sm:flex-row gap-4">
 <a href="/resources" class="flex-1 bg-white text-slate-900 font-bold py-4 px-6 rounded-xl hover:bg-slate-100 transition-colors flex items-center justify-center gap-2">
-<span>Start Learning</span>
+<span id="primary-next-action">Start Learning</span>
 <span class="material-symbols-outlined text-sm">arrow_forward</span>
 </a>
-<button class="flex-1 bg-slate-800 text-white font-bold py-4 px-6 rounded-xl hover:bg-slate-700 transition-colors flex items-center justify-center gap-2 border border-slate-700">
+<button onclick="window.location.href='/quiz'" class="flex-1 bg-slate-800 text-white font-bold py-4 px-6 rounded-xl hover:bg-slate-700 transition-colors flex items-center justify-center gap-2 border border-slate-700">
 <span class="material-symbols-outlined text-sm">list_alt</span>
-<span>Review Mistakes</span>
+<span id="secondary-next-action">Retry Quiz</span>
 </button>
 </div>
 </div>
 </div>
+<div class="bg-white dark:bg-slate-800/50 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">Answer Review</h3>
+<div class="space-y-4" id="answer-review"></div>
+</div>
 <div class="flex items-center justify-between px-2">
-<button class="text-sm font-bold text-slate-500 hover:text-primary-blue flex items-center gap-2 transition-colors">
+<button onclick="if(navigator.share){navigator.share({title:'Quiz Results',text:'I scored 80% on LLM Fundamentals!',url:window.location.href})}" class="text-sm font-bold text-slate-500 hover:text-primary-blue flex items-center gap-2 transition-colors">
 <span class="material-symbols-outlined text-lg">share</span>
                                 Share Progress
                             </button>
-<button class="text-sm font-bold text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
+<button onclick="window.print()" class="text-sm font-bold text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
                                 Download Certificate (PDF)
                             </button>
 </div>
@@ -187,5 +196,44 @@
 </div>
 </main>
 </div>
+<div style="position:fixed;bottom:1.5rem;left:1.5rem;z-index:9999"><button onclick="cycleTheme()" class="flex items-center gap-2 px-3 py-2.5 rounded-full bg-white/90 dark:bg-slate-800/90 backdrop-blur border border-slate-200 dark:border-slate-700 shadow-lg hover:shadow-xl transition-all text-slate-600 dark:text-slate-300" title="Toggle theme"><span id="theme-icon" class="material-symbols-outlined text-lg">light_mode</span><span id="theme-label" class="text-xs font-medium">Light</span></button></div>
+<script>
+function loadQuizResult() {
+    const stored = localStorage.getItem('eduai.quizResult');
+    const result = stored ? JSON.parse(stored) : { score: 0, total: 3, passed: false, answers: [] };
+    const percent = result.total ? Math.round((result.score / result.total) * 100) : 0;
 
+    document.getElementById('score-badge').textContent = `${percent}% SCORE!`;
+    document.getElementById('score-value').textContent = `${result.score}/${result.total}`;
+    document.getElementById('result-percent').textContent = `${percent}%`;
+    document.getElementById('result-status').textContent = result.passed ? 'Pass' : 'Retry';
+    document.getElementById('result-heading').textContent = result.passed ? 'Strong work' : 'Keep going';
+    document.getElementById('result-summary').textContent = result.passed
+        ? 'You passed the quiz. Continue into the next learning step.'
+        : 'You did not reach the pass threshold yet. Review the missed concepts and retry.';
+    document.getElementById('next-step-title').textContent = result.passed ? 'Continue learning' : 'Target the gaps';
+    document.getElementById('next-step-summary').textContent = result.passed
+        ? 'Move into the next lesson and keep building context for the tutor.'
+        : 'Use the answer review below to identify the concepts to revisit before retrying.';
+    document.getElementById('primary-next-action').textContent = result.passed ? 'Open Resources' : 'Review Resources';
+    document.getElementById('secondary-next-action').textContent = result.passed ? 'Take Another Quiz' : 'Retry Quiz';
+
+    const review = document.getElementById('answer-review');
+    review.innerHTML = result.answers.length
+        ? result.answers.map((answer, index) => `
+            <div class="rounded-2xl border ${answer.isCorrect ? 'border-green-200 dark:border-green-800' : 'border-red-200 dark:border-red-800'} p-4 bg-slate-50 dark:bg-slate-900/50">
+                <p class="font-semibold mb-2">${index + 1}. ${answer.question}</p>
+                <p class="text-sm ${answer.isCorrect ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}">Your answer: ${answer.selectedText}</p>
+                ${answer.isCorrect ? '' : `<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Correct answer: ${answer.correctText}</p>`}
+            </div>
+        `).join('')
+        : '<p class="text-sm text-slate-500 dark:text-slate-400">No quiz result was found in browser state yet.</p>';
+}
+
+function cycleTheme(){var m=['light','dark','system'],c=localStorage.getItem('theme')||'light',n=m[(m.indexOf(c)+1)%3];localStorage.setItem('theme',n);applyTheme(n)}
+function applyTheme(t){var d=document.documentElement,dk=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches);d.classList.toggle('dark',dk);d.classList.toggle('light',!dk);updateThemeIcon(t)}
+function updateThemeIcon(t){var i=document.getElementById('theme-icon'),l=document.getElementById('theme-label');if(i)i.textContent=t==='dark'?'dark_mode':t==='system'?'monitor':'light_mode';if(l)l.textContent=t==='dark'?'Dark':t==='system'?'System':'Light'}
+window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(){if(localStorage.getItem('theme')==='system')applyTheme('system')});updateThemeIcon(localStorage.getItem('theme')||'light');
+loadQuizResult();
+</script>
 </body></html>

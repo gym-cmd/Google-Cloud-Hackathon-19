@@ -1,49 +1,77 @@
 # Bugs & Issues
 
-## BUG-1: SSRF — `_is_safe_url` does not block private/internal IPs
+## 2026-03-17 Frontend Validation Log
 
-**File:** `src/learning_agent/tools/web_fetcher.py` (line 13)
+### BUG-31: Chat SSE parser dropped streamed bot replies
+
+**Files:** `src/templates/chat.html`
+**Severity:** High
+**Status:** Resolved
+
+The client parsed each SSE chunk as if it contained complete JSON events. When the stream split an event across reads, the parser failed silently and left the user with a sent message and no bot response.
+
+### BUG-32: Prompt chip leaked icon text into chat input
+
+**Files:** `src/templates/chat.html`
 **Severity:** Medium
-**Status:** Resolved — `web_fetcher.py` removed; tool no longer used.
+**Status:** Resolved
 
-The docstring claims "Reject non-HTTP(S) schemes and bare IPs to prevent SSRF" but the function only validates the URL scheme. It does **not** reject private or internal IP addresses.
+The chip buttons used `textContent.trim()`, so the Material icon name was included in the submitted prompt. That is why the UI showed text like `casino Surprise Topic`.
 
-On a Vertex AI deployment, an attacker who can influence the LLM's tool calls could fetch internal endpoints such as the GCP metadata server (`http://169.254.169.254/`), loopback (`http://127.0.0.1/`), or private-network hosts (`http://10.x.x.x/`).
+### BUG-33: Quiz screen started mid-journey
 
-**Fix:** Add hostname resolution and reject RFC-1918 / link-local / loopback addresses inside `_is_safe_url`.
-
----
-
-## BUG-2: Dependency version mismatch between local and deploy
-
-**Files:** `pyproject.toml` (line 7) / `src/learning_agent/requirements.txt` (line 1)
+**Files:** `src/templates/quiz.html`
 **Severity:** Medium
-**Status:** Open
+**Status:** Resolved
 
-- **Local** (`pyproject.toml`): pins `google-adk==1.27.1`
-- **Deploy** (`requirements.txt`): uses `google-cloud-aiplatform[adk,agent_engines]` with **no version constraint**
+The quiz view was hard-coded to `Step 3 of 5` and preselected the first answer, which made the quiz appear half-finished before the learner started.
 
-The deployed environment may install a different ADK version than what was tested locally, causing silent behavior differences or outright failures.
+### BUG-34: Profile page exposed a non-product action
 
-**Fix:** Pin `google-cloud-aiplatform` to a specific version in `requirements.txt`, or at minimum set a compatible range that matches the local ADK version.
+**Files:** `src/templates/profile.html`
+**Severity:** Medium
+**Status:** Resolved
 
----
+The UI offered `New Profile`, but the underlying product is conversational and session-based. The action conflicted with the intended flow and has been replaced with a restart-from-beginning action.
 
-## BUG-3: Express Mode toggle is dead code
+### BUG-35: Code navigation pointed to a missing experience
 
-**File:** `src/learning_agent/agent_engine_app.py` (line 8)
+**Files:** `src/templates/resources.html`, `src/app.py`
+**Severity:** High
+**Status:** Resolved
+
+The `Code` button did not open a code workspace because no `/code` route or template existed. A dedicated code lab page has been added and linked.
+
+### BUG-36: Theme toggle location mismatched product requirement
+
+**Files:** `src/templates/*.html`
 **Severity:** Low
 **Status:** Resolved
 
-```python
-if False:  # Whether or not to use Express Mode
-    vertexai.init(api_key=os.environ.get("GOOGLE_API_KEY"))
-```
+The theme control was positioned top-right. It has been moved to the bottom-left across all frontend pages.
 
-The `if False:` literal makes the Express Mode branch unreachable. This is dead code that will never execute regardless of configuration.
+### BUG-37: Chat attachment control was still a placeholder button
 
-**Fix:** Replace with an environment variable check:
+**Files:** `src/templates/chat.html`
+**Severity:** Medium
+**Status:** Resolved
 
-```python
-if os.environ.get("USE_EXPRESS_MODE", "").lower() == "true":
-```
+The attachment button only displayed a placeholder alert, which meant the control was not operational. It now opens the file picker, captures the selected filename, and folds that context into the outgoing tutor message.
+
+### BUG-38: Frontend assumed a static profile instead of conversation state
+
+**Files:** `src/templates/chat.html`, `src/templates/profile.html`, `src/app.py`
+**Severity:** High
+**Status:** Resolved
+
+The frontend treated the learner as a pre-existing persona with a profile and static progress, which conflicted with the agent architecture. The app is now chat-first, exposes a learning context view, and persists assessment state from the agent response.
+
+### BUG-39: Quiz always behaved like a fake success flow
+
+**Files:** `src/templates/quiz.html`, `src/templates/quiz_results.html`
+**Severity:** High
+**Status:** Resolved
+
+The previous quiz flow posted the chosen answer to chat and always redirected to a celebratory results page, even when the learner answered incorrectly. The quiz now evaluates answers locally, stores real result state, and renders pass/fail results with answer review.
+
+No open frontend bugs remain from this validation pass.

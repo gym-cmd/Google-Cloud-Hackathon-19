@@ -5,7 +5,7 @@ description = "AI-powered personalized learning platform using Google ADK"
 requires-python = ">=3.11, <3.14"
 dependencies = [
     "google-adk==1.27.1",
-    "google-cloud-aiplatform[adk,agent_engines]",
+    "google-cloud-aiplatform[adk,agent_engines]>=1.141.0,<2",
     "fastapi>=0.135.1",
     "uvicorn>=0.42.0",
     "python-dotenv>=1.2.2",

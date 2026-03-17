@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html class="dark" lang="en"><head>
+<html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script>(function(){var t=localStorage.getItem('theme')||'light',d=document.documentElement;if(t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches)){d.classList.replace('light','dark')}})()</script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Gaegu:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<title>Learning Resources - EduAI Studio</title>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script id="tailwind-config">
@@ -67,8 +69,11 @@
 <style>
     body {
       min-height: max(884px, 100dvh);
+      opacity: 0;
+      transition: opacity 0.15s;
     }
   </style>
+  <script>document.addEventListener('DOMContentLoaded',function(){requestAnimationFrame(function(){document.body.style.opacity='1'})})</script>
   </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden">
 <div class="relative flex min-h-screen w-full flex-col">
@@ -78,7 +83,7 @@
 </a>
 <h2 class="text-base font-bold leading-tight tracking-tight flex-1 text-center truncate px-2">Module: Mastering RAG Concepts</h2>
 <div class="flex w-10 items-center justify-end">
-<button class="flex items-center justify-center size-10 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-400">
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-400" title="Learning Context" onclick="window.location.href='/context'">
 <span class="material-symbols-outlined">more_horiz</span>
 </button>
 </div>
@@ -107,7 +112,7 @@
 </h1>
 <div class="space-y-4 text-slate-600 dark:text-slate-400 text-lg leading-relaxed">
 <p>
-                            Hi <span class="font-bold text-slate-900 dark:text-white">Zuzia</span>, as a frontend developer, you're used to managing state and fetching data. RAG is essentially "External State Management" for AI.
+                            As a software developer, you're used to managing state and fetching data. RAG is essentially "External State Management" for AI.
                         </p>
 <p>
                             In this module, we'll master how to ground LLM responses in factual, private datasets. This is the critical skill for your transition into AI engineering.
@@ -134,13 +139,13 @@
 <section class="bg-slate-50 dark:bg-slate-900/20 rounded-3xl p-8 border border-slate-100 dark:border-slate-800">
 <div class="flex items-center justify-between mb-8">
 <h3 class="text-xl font-bold tracking-tight">Curated Library</h3>
-<span class="text-[10px] font-bold bg-white dark:bg-slate-800 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 shadow-sm">4 RESOURCES</span>
+<span class="text-[10px] font-bold bg-white dark:bg-slate-800 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 shadow-sm">3 RESOURCES</span>
 </div>
 <div class="space-y-6">
-<a class="group flex items-center gap-6 p-4 rounded-2xl hover:bg-white dark:hover:bg-slate-800 transition-all duration-300" href="#">
+<a class="group flex items-center gap-6 p-4 rounded-2xl hover:bg-white dark:hover:bg-slate-800 transition-all duration-300" href="https://pub.towardsai.net/the-rag-landscape-2024" target="_blank" rel="noopener noreferrer">
 <div class="cartoon-icon-container">
-<div class="size-16 cartoon-blob bg-orange-100 dark:bg-orange-900/30 border-2 border-orange-400 flex items-center justify-center rotate-[-3deg]">
-<span class="material-symbols-outlined text-orange-600 text-3xl filled">description</span>
+<div class="size-16 cartoon-blob bg-blue-100 dark:bg-blue-900/30 border-2 border-blue-400 flex items-center justify-center rotate-[-3deg]">
+<span class="material-symbols-outlined text-blue-600 text-3xl filled">article</span>
 </div>
 </div>
 <div class="flex-1">
@@ -153,7 +158,7 @@
 </div>
 <span class="material-symbols-outlined text-slate-300 group-hover:translate-x-1 transition-transform">arrow_forward_ios</span>
 </a>
-<a class="group flex items-center gap-6 p-4 rounded-2xl hover:bg-white dark:hover:bg-slate-800 transition-all duration-300" href="#">
+<a class="group flex items-center gap-6 p-4 rounded-2xl hover:bg-white dark:hover:bg-slate-800 transition-all duration-300" href="https://arxiv.org/abs/2005.11401" target="_blank" rel="noopener noreferrer">
 <div class="cartoon-icon-container">
 <div class="size-16 cartoon-blob bg-yellow-100 dark:bg-yellow-900/30 border-2 border-yellow-400 flex items-center justify-center rotate-[5deg]">
 <span class="material-symbols-outlined text-yellow-600 text-3xl filled">menu_book</span>
@@ -169,7 +174,7 @@
 </div>
 <span class="material-symbols-outlined text-slate-300">download</span>
 </a>
-<a class="group flex items-center gap-6 p-4 rounded-2xl hover:bg-white dark:hover:bg-slate-800 transition-all duration-300" href="#">
+<a class="group flex items-center gap-6 p-4 rounded-2xl hover:bg-white dark:hover:bg-slate-800 transition-all duration-300" href="https://www.youtube.com/results?search_query=vector+embeddings+101" target="_blank" rel="noopener noreferrer">
 <div class="cartoon-icon-container">
 <div class="size-16 cartoon-blob bg-emerald-100 dark:bg-emerald-900/30 border-2 border-emerald-400 flex items-center justify-center rotate-[-6deg]">
 <span class="material-symbols-outlined text-emerald-600 text-3xl filled">videocam</span>
@@ -205,7 +210,7 @@
 <span class="material-symbols-outlined filled">school</span>
 <p class="text-[10px] font-bold uppercase tracking-tight">Learn</p>
 </a>
-<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200" href="/chat">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200" href="/code">
 <span class="material-symbols-outlined">terminal</span>
 <p class="text-[10px] font-bold uppercase tracking-tight">Code</p>
 </a>
@@ -213,12 +218,18 @@
 <span class="material-symbols-outlined">query_stats</span>
 <p class="text-[10px] font-bold uppercase tracking-tight">Stats</p>
 </a>
-<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200" href="/profile">
-<div class="size-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-500">Z</div>
-<p class="text-[10px] font-bold uppercase tracking-tight">Profile</p>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200" href="/context">
+<div class="size-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-500">AI</div>
+<p class="text-[10px] font-bold uppercase tracking-tight">Context</p>
 </a>
 </nav>
 </div>
 </div>
-
+<div style="position:fixed;bottom:1.5rem;left:1.5rem;z-index:9999"><button onclick="cycleTheme()" class="flex items-center gap-2 px-3 py-2.5 rounded-full bg-white/90 dark:bg-slate-800/90 backdrop-blur border border-slate-200 dark:border-slate-700 shadow-lg hover:shadow-xl transition-all text-slate-600 dark:text-slate-300" title="Toggle theme"><span id="theme-icon" class="material-symbols-outlined text-lg">light_mode</span><span id="theme-label" class="text-xs font-medium">Light</span></button></div>
+<script>
+function cycleTheme(){var m=['light','dark','system'],c=localStorage.getItem('theme')||'light',n=m[(m.indexOf(c)+1)%3];localStorage.setItem('theme',n);applyTheme(n)}
+function applyTheme(t){var d=document.documentElement,dk=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches);d.classList.toggle('dark',dk);d.classList.toggle('light',!dk);updateThemeIcon(t)}
+function updateThemeIcon(t){var i=document.getElementById('theme-icon'),l=document.getElementById('theme-label');if(i)i.textContent=t==='dark'?'dark_mode':t==='system'?'monitor':'light_mode';if(l)l.textContent=t==='dark'?'Dark':t==='system'?'System':'Light'}
+window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(){if(localStorage.getItem('theme')==='system')applyTheme('system')});updateThemeIcon(localStorage.getItem('theme')||'light');
+</script>
 </body></html>

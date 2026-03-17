@@ -11,7 +11,7 @@
 
 | Task | Status | Notes |
 |---|---|---|
-| Project scaffolding (uv + pyproject.toml) | ✅ | Migrated from FastAPI to ADK |
+| Project scaffolding (uv + pyproject.toml) | ✅ | Dependencies pinned |
 | ADK agent structure (src/learning_agent/) | ✅ | |
 | Vertex AI deploy config (agent_engine_app.py) | ✅ | |
 
@@ -22,16 +22,13 @@
 | Root agent (greeting + profile collection) | ✅ | |
 | Assessment sub-agent (3–5 turn chat) | ✅ | |
 | User context extraction (structured JSON) | ✅ | |
-| Local testing via `adk web` | ⬜ | |
 
 ## Phase 2 — Curriculum Generation & Content (Spec 02)
 
 | Task | Status | Notes |
 |---|---|---|
-| Web Fetcher tool | ✅ | |
 | Curriculum sub-agent | ✅ | |
 | Structured curriculum JSON output | ✅ | |
-| Local testing via `adk web` | ⬜ | |
 
 ## Phase 3 — Quiz & Adaptive Progression (Spec 03)
 
@@ -40,7 +37,27 @@
 | Quiz sub-agent (generate + evaluate) | ✅ | |
 | Pass/fail logic (2/3 threshold) | ✅ | In agent instructions |
 | Revision hint generation | ✅ | |
-| Local testing via `adk web` | ⬜ | |
+
+## Phase 4 — Web UI
+
+| Task | Status | Notes |
+|---|---|---|
+| FastAPI app (src/app.py) | ✅ | Serves 7 HTML pages + 3 API endpoints |
+| Jinja2 templates (7 pages) | ✅ | Dashboard, chat, profile, roadmap, resources, quiz, quiz results |
+| SSE streaming chat (/api/chat) | ✅ | Per-user cookie-based sessions |
+| New profile / reset endpoints | ✅ | /api/new-profile, /api/reset-progression |
+| FOUC fix (all templates) | ✅ | opacity:0 until DOMContentLoaded |
+| All buttons wired | ✅ | Every interactive element operational |
+
+## Phase 5 — Testing
+
+| Task | Status | Notes |
+|---|---|---|
+| Agent definition tests (27) | ✅ | test_agent.py |
+| Engine wrapper tests (2) | ✅ | test_agent_engine_app.py |
+| App & template tests (43) | ✅ | test_app.py |
+| CLI client tests (6) | ✅ | test_main.py |
+| **Total: 78 tests passing** | ✅ | |
 
 ## Deployment
 
@@ -52,4 +69,4 @@
 
 ---
 
-*Last updated: 2026-03-16*
+*Last updated: 2026-03-17*

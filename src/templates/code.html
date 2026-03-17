@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script>(function(){var t=localStorage.getItem('theme')||'light',d=document.documentElement;if(t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches)){d.classList.replace('light','dark')}})()</script>
+<title>Code Lab - EduAI Studio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#10b981",
+                        "accent": "#f59e0b",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#020617",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["IBM Plex Mono", "monospace"],
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100;
+                min-height: 100dvh;
+            }
+            textarea {
+                @apply font-mono;
+            }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+  </style>
+  <script>document.addEventListener('DOMContentLoaded',function(){requestAnimationFrame(function(){document.body.style.opacity='1'})})</script>
+  </head>
+<body>
+<div class="min-h-screen flex flex-col">
+<header class="sticky top-0 z-30 border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-950/90 backdrop-blur">
+<div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
+<div class="flex items-center gap-4 min-w-0">
+<a href="/resources" class="size-11 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex items-center justify-center hover:border-primary transition-colors" title="Back to resources">
+<span class="material-symbols-outlined">arrow_back</span>
+</a>
+<div>
+<p class="text-[10px] uppercase tracking-[0.25em] font-bold text-slate-400">Hands-On Practice</p>
+<h1 class="text-2xl font-bold tracking-tight">Code Lab</h1>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<a href="/chat" class="px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 hover:border-primary transition-colors text-sm font-semibold">Ask Tutor</a>
+<a href="/context" class="size-11 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex items-center justify-center hover:border-primary transition-colors" title="Learning Context">
+<span class="material-symbols-outlined">assignment_ind</span>
+</a>
+</div>
+</div>
+</header>
+<main class="flex-1 max-w-7xl mx-auto w-full px-6 py-8 grid gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
+<section class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 space-y-6">
+<div>
+<p class="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-2">Current Exercise</p>
+<h2 class="text-2xl font-bold mb-3">Prompt Template Refactor</h2>
+<p class="text-sm leading-6 text-slate-600 dark:text-slate-300">Rewrite the starter function so a frontend engineer can generate structured prompts for an AI tutoring assistant. This lab gives the missing code page a real editor surface instead of a dead navigation target.</p>
+</div>
+<div class="rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-4 space-y-3">
+<div class="flex items-center gap-2 text-sm font-semibold">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+<span>Goals</span>
+</div>
+<ul class="text-sm leading-6 text-slate-600 dark:text-slate-300 space-y-2 list-disc list-inside">
+<li>accept a topic and learner level</li>
+<li>return a multi-line tutor prompt</li>
+<li>keep the wording concise and structured</li>
+</ul>
+</div>
+<div class="rounded-2xl bg-primary text-white p-5">
+<p class="text-[10px] uppercase tracking-[0.25em] font-bold text-white/70 mb-2">Tutor Tip</p>
+<p class="text-sm leading-6">When you are done, use the Ask Tutor action to paste your draft into chat and request feedback on clarity, structure, and edge cases.</p>
+</div>
+</section>
+<section class="grid gap-6">
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden">
+<div class="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4">
+<div>
+<p class="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400">Editor</p>
+<h2 class="font-semibold">starter.py</h2>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 text-sm font-semibold hover:border-primary transition-colors" onclick="resetStarterCode()">Reset</button>
+<button class="px-4 py-2 rounded-full bg-primary text-white text-sm font-semibold hover:bg-emerald-500 transition-colors" onclick="runSnippet()">Run Sample</button>
+</div>
+</div>
+<textarea id="code-editor" class="w-full min-h-[420px] resize-y bg-slate-950 text-emerald-200 p-5 text-sm leading-7 border-0 focus:ring-0" spellcheck="false">def build_tutor_prompt(topic: str, level: str) -> str:
+    sections = [
+        f"Topic: {topic}",
+        f"Learner level: {level}",
+        "Goal: explain the concept from first principles.",
+        "Output: include one example and one next step.",
+    ]
+    return "\n".join(sections)
+
+
+example = build_tutor_prompt("LangChain.js", "intermediate")
+print(example)
+</textarea>
+</div>
+<div class="grid gap-6 lg:grid-cols-2">
+<section class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5">
+<div class="flex items-center justify-between gap-4 mb-4">
+<div>
+<p class="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400">Output</p>
+<h2 class="font-semibold">Preview</h2>
+</div>
+<span id="run-status" class="text-xs font-bold text-slate-400">Waiting to run</span>
+</div>
+<pre id="code-output" class="min-h-48 whitespace-pre-wrap break-words rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-4 text-sm leading-6 text-slate-700 dark:text-slate-200">Run the sample to preview the generated tutor prompt.</pre>
+</section>
+<section class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5">
+<div class="flex items-center justify-between gap-4 mb-4">
+<div>
+<p class="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400">Next Actions</p>
+<h2 class="font-semibold">Workflow</h2>
+</div>
+<span class="text-xs font-bold text-accent">Operational</span>
+</div>
+<div class="space-y-3">
+<a href="/chat" class="flex items-center justify-between rounded-2xl border border-slate-200 dark:border-slate-700 px-4 py-3 hover:border-primary transition-colors">
+<span class="font-semibold">Ask the tutor to review this code</span>
+<span class="material-symbols-outlined text-primary">arrow_forward</span>
+</a>
+<a href="/quiz" class="flex items-center justify-between rounded-2xl border border-slate-200 dark:border-slate-700 px-4 py-3 hover:border-primary transition-colors">
+<span class="font-semibold">Start the quiz after practice</span>
+<span class="material-symbols-outlined text-primary">arrow_forward</span>
+</a>
+<a href="/roadmap" class="flex items-center justify-between rounded-2xl border border-slate-200 dark:border-slate-700 px-4 py-3 hover:border-primary transition-colors">
+<span class="font-semibold">Return to the roadmap</span>
+<span class="material-symbols-outlined text-primary">arrow_forward</span>
+</a>
+</div>
+</section>
+</div>
+</section>
+</main>
+</div>
+<div style="position:fixed;bottom:1.5rem;left:1.5rem;z-index:9999"><button onclick="cycleTheme()" class="flex items-center gap-2 px-3 py-2.5 rounded-full bg-white/90 dark:bg-slate-800/90 backdrop-blur border border-slate-200 dark:border-slate-700 shadow-lg hover:shadow-xl transition-all text-slate-600 dark:text-slate-300" title="Toggle theme"><span id="theme-icon" class="material-symbols-outlined text-lg">light_mode</span><span id="theme-label" class="text-xs font-medium">Light</span></button></div>
+<script>
+const starterCode = document.getElementById('code-editor').value;
+
+function resetStarterCode() {
+    document.getElementById('code-editor').value = starterCode;
+    document.getElementById('code-output').textContent = 'Run the sample to preview the generated tutor prompt.';
+    document.getElementById('run-status').textContent = 'Waiting to run';
+}
+
+function runSnippet() {
+    const source = document.getElementById('code-editor').value;
+    const lines = source.split('\n').length;
+    document.getElementById('code-output').textContent = source;
+    document.getElementById('run-status').textContent = `Preview updated • ${lines} lines`;
+}
+
+function cycleTheme(){var m=['light','dark','system'],c=localStorage.getItem('theme')||'light',n=m[(m.indexOf(c)+1)%3];localStorage.setItem('theme',n);applyTheme(n)}
+function applyTheme(t){var d=document.documentElement,dk=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches);d.classList.toggle('dark',dk);d.classList.toggle('light',!dk);updateThemeIcon(t)}
+function updateThemeIcon(t){var i=document.getElementById('theme-icon'),l=document.getElementById('theme-label');if(i)i.textContent=t==='dark'?'dark_mode':t==='system'?'monitor':'light_mode';if(l)l.textContent=t==='dark'?'Dark':t==='system'?'System':'Light'}
+window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(){if(localStorage.getItem('theme')==='system')applyTheme('system')});updateThemeIcon(localStorage.getItem('theme')||'light');
+</script>
+</body></html>
