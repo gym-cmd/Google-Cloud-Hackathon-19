@@ -242,13 +242,13 @@ uv run python src/main.py
 to update your deployed agent after making changes locally, get the `AGENT_ENGINE_RESOURCE_ID` from the deploy output and run:
 
 
-```bash 
-  uv run adk deploy agent_engine \                                                                                                                                                                               
-    --project=$GOOGLE_CLOUD_PROJECT \                                                                                                                                                                            
-    --region=$GOOGLE_CLOUD_LOCATION \                                                                                                                                                                            
-    --display_name="Learning Tutor Agent" \                                                                                                                                                                      
-    --otel_to_cloud \                                                                                                                                                                                            
-    --agent_engine_id=<AGENT_ENGINE_RESOURCE_ID> \                                                                                                                                                                         
+```bash
+  uv run adk deploy agent_engine \
+    --project=$GOOGLE_CLOUD_PROJECT \
+    --region=$GOOGLE_CLOUD_LOCATION \
+    --display_name="Learning Tutor Agent" \
+    --otel_to_cloud \
+    --agent_engine_id=<AGENT_ENGINE_RESOURCE_ID> \
     learning_agent
 ```
 
