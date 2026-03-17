@@ -1,10 +1,14 @@
 from google.adk.agents import Agent
+from google.adk.tools import AgentTool
 
 from learning_agent.agent import (
     MODEL,
     assessment_agent,
+    assessment_tool,
     curriculum_agent,
+    curriculum_tool,
     quiz_agent,
+    quiz_tool,
     root_agent,
 )
 
@@ -90,22 +94,41 @@ class TestRootAgent:
     def test_model(self):
         assert root_agent.model == MODEL
 
-    def test_has_all_sub_agents(self):
-        sub_names = [a.name for a in root_agent.sub_agents]
-        assert "assessment_agent" in sub_names
-        assert "curriculum_agent" in sub_names
-        assert "quiz_agent" in sub_names
+    def test_has_all_tools(self):
+        tool_names = [tool.name for tool in root_agent.tools]
+        assert "assessment_agent" in tool_names
+        assert "curriculum_agent" in tool_names
+        assert "quiz_agent" in tool_names
 
-    def test_sub_agent_count(self):
-        assert len(root_agent.sub_agents) == 3
+    def test_tool_count(self):
+        assert len(root_agent.tools) == 3
 
-    def test_instruction_references_sub_agents(self):
-        assert "@assessment_agent" in root_agent.instruction
-        assert "@curriculum_agent" in root_agent.instruction
-        assert "@quiz_agent" in root_agent.instruction
+    def test_instruction_references_tools(self):
+        assert "`assessment_agent` tool" in root_agent.instruction
+        assert "`curriculum_agent` tool" in root_agent.instruction
+        assert "`quiz_agent` tool" in root_agent.instruction
+
+    def test_no_sub_agents_configured(self):
+        assert not root_agent.sub_agents
 
     def test_instruction_describes_workflow(self):
         assert "Greet" in root_agent.instruction
         assert "Assessment" in root_agent.instruction
         assert "Curriculum" in root_agent.instruction
         assert "Quiz" in root_agent.instruction
+
+
+class TestAgentTools:
+    def test_assessment_tool_type(self):
+        assert isinstance(assessment_tool, AgentTool)
+
+    def test_curriculum_tool_type(self):
+        assert isinstance(curriculum_tool, AgentTool)
+
+    def test_quiz_tool_type(self):
+        assert isinstance(quiz_tool, AgentTool)
+
+    def test_tools_preserve_agent_names(self):
+        assert assessment_tool.name == "assessment_agent"
+        assert curriculum_tool.name == "curriculum_agent"
+        assert quiz_tool.name == "quiz_agent"

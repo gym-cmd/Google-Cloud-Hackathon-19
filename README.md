@@ -1,20 +1,20 @@
 # EduAI Studio — Personalized Learning Tutor
 
-An AI-powered software development tutor built with [Google ADK](https://google.github.io/adk-docs/) (Agent Development Kit) and served through a FastAPI + Jinja2 web interface. A root agent orchestrates three specialized sub-agents to deliver a guided learning experience through conversational AI.
+An AI-powered software development tutor built with [Google ADK](https://google.github.io/adk-docs/) (Agent Development Kit) and served through a FastAPI + Jinja2 web interface. A root agent orchestrates three specialized agent tools to deliver a guided learning experience through conversational AI.
 
 ## How It Works
 
 ```
 Browser ←→ FastAPI (src/app.py) ←→ AdkApp ←→ learning_tutor (root)
                                                     │
-                                                    ├── assessment_agent
-                                                    ├── curriculum_agent
-                                                    └── quiz_agent
+                                                    ├── assessment_agent tool
+                                                    ├── curriculum_agent tool
+                                                    └── quiz_agent tool
 ```
 
-1. **Profile & Assessment** — The root agent greets the user, collects their name/level/goal, then hands off to `assessment_agent` for a 3–5 turn diagnostic conversation. The assessment produces a structured JSON context.
-2. **Curriculum Generation** — `curriculum_agent` uses that context to build a 4–6 step curriculum with curated resources.
-3. **Quiz & Progression** — When the user finishes a step, `quiz_agent` generates 3 MCQs. Pass (≥ 2/3) → next step. Fail → revision hints + retry.
+1. **Profile & Assessment** — The root agent greets the user, collects their name/level/goal, then invokes the `assessment_agent` tool for a 3–5 turn diagnostic conversation. The assessment produces structured context that is persisted without rendering raw JSON to the learner.
+2. **Curriculum Generation** — The root agent invokes the `curriculum_agent` tool to build a 4–6 step curriculum with curated resources.
+3. **Quiz & Progression** — When the user finishes a step, the root agent invokes the `quiz_agent` tool to generate or evaluate 3 MCQs. Pass (≥ 2/3) → next step. Fail → revision hints + retry.
 
 ## Prerequisites
 
@@ -63,7 +63,7 @@ GOOGLE_GENAI_USE_VERTEXAI="True"
 uv run python src/app.py
 ```
 
-Open **http://localhost:8000** in your browser. This serves the EduAI Studio dashboard with all pages (chat, roadmap, quiz, profile, resources).
+Open **http://localhost:8000** in your browser. This redirects to the EduAI Studio chat and serves the full UI flow (chat, context, roadmap, quiz, code, resources).
 
 ### 5. (Alternative) Run the ADK dev UI
 
@@ -89,7 +89,7 @@ All tests run without additional configuration — `conftest.py` handles the Pyt
 .
 ├── pyproject.toml                          # Dependencies and project metadata
 ├── uv.lock                                 # Pinned dependency lockfile
-├── tests/                                  # Unit tests (78 total)
+├── tests/                                  # Unit tests (152 total)
 │   ├── conftest.py                         # Pytest path configuration
 │   ├── test_agent.py                       # Agent definition tests (27 tests)
 │   ├── test_agent_engine_app.py            # Engine wrapper tests (2 tests)
@@ -106,20 +106,20 @@ All tests run without additional configuration — `conftest.py` handles the Pyt
     ├── main.py                             # CLI client for deployed Agent Engine
     ├── static/                             # Static assets (reserved for future use)
     ├── templates/                          # Jinja2 HTML templates
-    │   ├── dashboard.html                  # Landing page (/)
+    │   ├── dashboard.html                  # Overview page (linked from navigation)
     │   ├── chat.html                       # AI tutor chat (/chat)
-    │   ├── profile.html                    # User profile (/profile)
+    │   ├── profile.html                    # Learning context (/profile and /context)
     │   ├── roadmap.html                    # Curriculum roadmap (/roadmap)
     │   ├── resources.html                  # Learning resources (/resources)
+    │   ├── code.html                       # Practice workspace (/code)
     │   ├── quiz.html                       # Quiz interface (/quiz)
     │   └── quiz_results.html               # Quiz results (/quiz-results)
     └── learning_agent/
         ├── __init__.py
         ├── .env                            # GCP config (gitignored — copy .env.example)
         ├── .env.example                    # Template for .env
-        ├── agent.py                        # Agent definitions (root + 3 sub-agents)
+        ├── agent.py                        # Agent definitions (root + 3 specialist agent tools)
         ├── agent_engine_app.py             # Vertex AI AdkApp wrapper
-        └── tools/                          # Reserved for future agent tools
 ```
 
 ## Key Files
@@ -127,7 +127,7 @@ All tests run without additional configuration — `conftest.py` handles the Pyt
 | File | Purpose |
 |---|---|
 | [src/app.py](src/app.py) | FastAPI server. Serves all HTML pages and the `/api/chat` SSE endpoint. Per-user cookie-based sessions, created lazily on first chat message. |
-| [src/learning_agent/agent.py](src/learning_agent/agent.py) | Defines the root `learning_tutor` agent and its three sub-agents (`assessment_agent`, `curriculum_agent`, `quiz_agent`). All prompts, model config (`gemini-2.5-flash`), and orchestration logic. |
+| [src/learning_agent/agent.py](src/learning_agent/agent.py) | Defines the root `learning_tutor` agent and its three specialist agent tools (`assessment_agent`, `curriculum_agent`, `quiz_agent`). All prompts, model config (`gemini-2.5-flash`), and orchestration logic. |
 | [src/learning_agent/agent_engine_app.py](src/learning_agent/agent_engine_app.py) | Initializes Vertex AI and wraps the root agent in an `AdkApp` for both local and cloud use. |
 | [src/main.py](src/main.py) | CLI script to interact with a **deployed** Agent Engine instance. Not used during local development. |
 
@@ -135,11 +135,13 @@ All tests run without additional configuration — `conftest.py` handles the Pyt
 
 | Route | Method | Description |
 |---|---|---|
-| `/` | GET | Student dashboard |
+| `/` | GET | Redirect to chat |
 | `/chat` | GET | AI tutor chat interface |
-| `/profile` | GET | User profile and interests |
+| `/profile` | GET | Learning context view |
+| `/context` | GET | Learning context view |
 | `/roadmap` | GET | Curriculum skill tree |
 | `/resources` | GET | Learning module resources |
+| `/code` | GET | Practice workspace |
 | `/quiz` | GET | Interactive quiz |
 | `/quiz-results` | GET | Quiz results and feedback |
 | `/api/chat` | POST | Chat endpoint (SSE streaming) |
@@ -150,7 +152,7 @@ All tests run without additional configuration — `conftest.py` handles the Pyt
 
 | Agent | Model | Role |
 |---|---|---|
-| `learning_tutor` | gemini-2.5-flash | Root orchestrator — routes to sub-agents |
+| `learning_tutor` | gemini-2.5-flash | Root orchestrator — invokes specialist agent tools |
 | `assessment_agent` | gemini-2.5-flash | 3–5 turn assessment → JSON user context |
 | `curriculum_agent` | gemini-2.5-flash | Generates 4–6 step curriculum with resources |
 | `quiz_agent` | gemini-2.5-flash | MCQ generation + evaluation (2/3 pass threshold) |

@@ -171,6 +171,15 @@ const quizState = {
     answers: [],
 };
 
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 function loadQuizData() {
     const storedCurriculum = localStorage.getItem('eduai.curriculum');
     if (storedCurriculum) {
@@ -195,7 +204,7 @@ function renderQuestion() {
                     <div class="radio-dot size-6 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center">
                         <div class="radio-inner size-2 bg-white rounded-full opacity-0"></div>
                     </div>
-                    <p class="text-slate-700 dark:text-slate-200 font-medium">${option}</p>
+                    <p class="text-slate-700 dark:text-slate-200 font-medium">${escapeHtml(option)}</p>
                 </div>
             </div>
         </label>

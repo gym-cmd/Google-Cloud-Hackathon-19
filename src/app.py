@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 import importlib
+import re
 from pathlib import Path
 from typing import AsyncGenerator
 import json
@@ -31,11 +32,179 @@ adk_app = importlib.import_module("learning_agent.agent_engine_app").adk_app
 
 # In-memory session store: user_id -> session_id
 _sessions: dict[str, str] = {}
+STRUCTURED_STATE_KEYS = ("assessment_complete", "steps", "questions")
 
 
 def _get_user_id(request: Request) -> str:
     """Return a stable user id from a cookie, or generate one."""
     return request.cookies.get("eduai_uid", "")
+
+
+def _read_event_field(value, field: str):
+    if value is None:
+        return None
+    if isinstance(value, dict):
+        return value.get(field)
+    return getattr(value, field, None)
+
+
+def _get_event_label(event) -> str | None:
+    labels = _read_event_field(event, "logging.googleapis.com/labels")
+    if isinstance(labels, dict):
+        label = labels.get("event.name")
+        if isinstance(label, str):
+            return label
+    return None
+
+
+def _extract_content_text(content) -> str:
+    if not content:
+        return ""
+
+    parts = _read_event_field(content, "parts") or []
+    text_parts: list[str] = []
+    for part in parts:
+        text = _read_event_field(part, "text")
+        if isinstance(text, str) and text.strip():
+            text_parts.append(text)
+
+    return "".join(text_parts)
+
+
+def _parse_structured_state(text: str) -> dict | None:
+    if not text:
+        return None
+
+    candidates: list[str] = []
+    fenced_match = re.search(
+        r"```json\s*([\s\S]*?)```",
+        text,
+        re.IGNORECASE,
+    )
+    if fenced_match:
+        candidates.append(fenced_match.group(1).strip())
+
+    stripped = text.strip()
+    if stripped.startswith("{") and stripped.endswith("}"):
+        candidates.append(stripped)
+
+    for candidate in candidates:
+        try:
+            parsed = json.loads(candidate)
+        except json.JSONDecodeError:
+            continue
+
+        if any(key in parsed for key in STRUCTURED_STATE_KEYS):
+            return parsed
+
+    return None
+
+
+def _remove_structured_state_text(text: str) -> str:
+    if not text:
+        return ""
+
+    cleaned_text = re.sub(
+        r"```json\s*[\s\S]*?```",
+        "",
+        text,
+        flags=re.IGNORECASE,
+    ).strip()
+    parsed = _parse_structured_state(cleaned_text)
+    if parsed and cleaned_text.startswith("{") and cleaned_text.endswith("}"):
+        return ""
+    return cleaned_text.strip()
+
+
+def _fallback_text_for_state(state: dict) -> str:
+    if state.get("assessment_complete"):
+        return (
+            "I have enough information to create a focused "
+            "learning path for you."
+        )
+    if isinstance(state.get("steps"), list):
+        return (
+            "I created a personalized curriculum for you. "
+            "Open the roadmap or resources to continue."
+        )
+    if isinstance(state.get("questions"), list):
+        return (
+            "I generated a knowledge check for your current "
+            "step. Open the quiz to begin."
+        )
+    return ""
+
+
+def _is_visible_chat_event(event) -> bool:
+    event_label = _get_event_label(event)
+    if event_label in {"gen_ai.system.message", "gen_ai.user.message"}:
+        return False
+
+    content = _read_event_field(event, "content")
+    role = _read_event_field(content, "role")
+    if role == "user":
+        return False
+
+    author = _read_event_field(event, "author")
+    if author == "user":
+        return False
+
+    return True
+
+
+def _compute_text_delta(
+    next_text: str,
+    accumulated_text: str,
+) -> tuple[str, str]:
+    cleaned_text = next_text.strip()
+    if not cleaned_text:
+        return "", accumulated_text
+
+    if not accumulated_text:
+        return cleaned_text, cleaned_text
+
+    if cleaned_text == accumulated_text:
+        return "", accumulated_text
+
+    if cleaned_text.startswith(accumulated_text):
+        return cleaned_text[len(accumulated_text):], cleaned_text
+
+    if accumulated_text.startswith(cleaned_text):
+        return "", accumulated_text
+
+    separator = "\n\n" if not accumulated_text.endswith("\n") else "\n"
+    merged_text = f"{accumulated_text}{separator}{cleaned_text}"
+    return f"{separator}{cleaned_text}", merged_text
+
+
+def _extract_event_text(event) -> str:
+    if (
+        isinstance(event, dict)
+        and event.get("error")
+        and isinstance(event.get("text"), str)
+    ):
+        return event["text"]
+
+    if not _is_visible_chat_event(event):
+        return ""
+
+    content_text = _extract_content_text(_read_event_field(event, "content"))
+    if content_text.strip():
+        return content_text
+
+    raw_text = _read_event_field(event, "text")
+    if isinstance(raw_text, str) and raw_text.strip():
+        return raw_text
+
+    error_message = _read_event_field(event, "error_message")
+    if isinstance(error_message, str) and error_message.strip():
+        return f"Sorry, I encountered an error: {error_message}"
+
+    actions = _read_event_field(event, "actions")
+    if _read_event_field(actions, "transfer_to_agent"):
+        return ""
+
+    return ""
 
 
 @asynccontextmanager
@@ -111,18 +280,40 @@ async def chat_api(request: Request, chat_msg: ChatMessage):
     session_id = _sessions[user_id]
 
     async def event_stream() -> AsyncGenerator[str, None]:
+        accumulated_text = ""
+        emitted_states: set[str] = set()
         try:
             async for event in adk_app.async_stream_query(
                 user_id=user_id,
                 session_id=session_id,
                 message=chat_msg.message,
             ):
-                if isinstance(event, dict):
-                    yield f"data: {json.dumps(event)}\n\n"
-                elif hasattr(event, "model_dump_json"):
-                    yield f"data: {event.model_dump_json()}\n\n"
-                else:
-                    yield f"data: {json.dumps({'text': str(event)})}\n\n"
+                text = _extract_event_text(event)
+                if text:
+                    state = _parse_structured_state(text)
+                    visible_text = _remove_structured_state_text(text)
+                    delta_text, accumulated_text = _compute_text_delta(
+                        visible_text,
+                        accumulated_text,
+                    )
+                    payload: dict[str, object] = {}
+                    if delta_text:
+                        payload["text"] = delta_text
+
+                    if state:
+                        state_key = json.dumps(state, sort_keys=True)
+                        if state_key not in emitted_states:
+                            emitted_states.add(state_key)
+                            payload["state"] = state
+
+                    if not payload and state and not accumulated_text:
+                        fallback_text = _fallback_text_for_state(state)
+                        if fallback_text:
+                            payload["text"] = fallback_text
+                            accumulated_text = fallback_text
+
+                    if payload:
+                        yield f"data: {json.dumps(payload)}\n\n"
         except Exception as e:
             # Yield error event explicitly so client sees what happened
             error_msg = f"Sorry, I encountered an error: {str(e)}"

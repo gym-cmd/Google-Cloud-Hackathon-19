@@ -165,7 +165,7 @@
 <span class="material-symbols-outlined whimsical-icon text-lg">edit</span>
                                 Refine Learning Goals
                             </a>
-<button class="px-6 py-2 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 rounded-lg font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors flex items-center gap-2" onclick="if(navigator.share){navigator.share({title:'My EduAI Profile',url:window.location.href})}">
+<button class="px-6 py-2 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 rounded-lg font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors flex items-center gap-2" onclick="shareContext()">
 <span class="material-symbols-outlined whimsical-icon text-lg">share</span>
                                 Share
                             </button>
@@ -279,6 +279,62 @@
 </main>
 </div>
 <script>
+function loadStoredJson(key) {
+    const raw = localStorage.getItem(key);
+    if (!raw) {
+        return null;
+    }
+
+    try {
+        return JSON.parse(raw);
+    } catch (error) {
+        console.error(`Failed to parse ${key}`, error);
+        localStorage.removeItem(key);
+        return null;
+    }
+}
+
+function setLevelBadge(levelText, hasAssessment) {
+    const badge = document.getElementById('context-level-badge');
+    badge.textContent = '';
+
+    const icon = document.createElement('span');
+    icon.className = 'material-symbols-outlined whimsical-icon text-sm mr-1';
+    icon.textContent = 'verified';
+    badge.appendChild(icon);
+    badge.appendChild(
+        document.createTextNode(hasAssessment ? levelText : 'Assessment Pending')
+    );
+}
+
+async function shareContext() {
+    const shareData = {
+        title: 'My EduAI Learning Context',
+        url: window.location.href,
+    };
+
+    if (navigator.share) {
+        try {
+            await navigator.share(shareData);
+            return;
+        } catch (error) {
+            console.error('Share failed', error);
+        }
+    }
+
+    if (navigator.clipboard?.writeText) {
+        try {
+            await navigator.clipboard.writeText(window.location.href);
+            alert('Context link copied to clipboard.');
+            return;
+        } catch (error) {
+            console.error('Clipboard copy failed', error);
+        }
+    }
+
+    alert('Sharing is not available in this browser.');
+}
+
 function loadContext() {
     const fallbackContext = {
         name: 'Your Learning Context',
@@ -287,33 +343,42 @@ function loadContext() {
         key_prior_knowledge: [],
         confirmed_focus: 'Assessment pending',
     };
-    const stored = localStorage.getItem('eduai.sessionContext');
-    const context = stored ? JSON.parse(stored) : fallbackContext;
+    const context = loadStoredJson('eduai.sessionContext') || fallbackContext;
+    const hasAssessment = Boolean(localStorage.getItem('eduai.assessmentComplete'));
     const name = context.name || fallbackContext.name;
     const level = context.experience_level || fallbackContext.experience_level;
     const focus = context.confirmed_focus || fallbackContext.confirmed_focus;
     const priorKnowledge = (context.key_prior_knowledge || []).length
         ? context.key_prior_knowledge.join(', ')
         : 'No prior knowledge has been captured yet.';
-    const progress = stored ? 100 : 24;
+    const progress = hasAssessment ? 100 : 24;
+    const labelLevel = level.charAt(0).toUpperCase() + level.slice(1);
 
     document.getElementById('context-name').textContent = name;
     document.getElementById('context-avatar').textContent = name.slice(0, 2).toUpperCase();
     document.getElementById('context-goal').textContent = context.learning_goal || fallbackContext.learning_goal;
-    document.getElementById('context-level').textContent = level.charAt(0).toUpperCase() + level.slice(1);
-    document.getElementById('context-level-badge').innerHTML = '<span class="material-symbols-outlined whimsical-icon text-sm mr-1">verified</span>' + (stored ? level.charAt(0).toUpperCase() + level.slice(1) : 'Assessment Pending');
+    document.getElementById('context-level').textContent = labelLevel;
+    setLevelBadge(labelLevel, hasAssessment);
     document.getElementById('context-focus').textContent = focus;
     document.getElementById('focus-card-title').textContent = focus;
     document.getElementById('context-prior-knowledge').textContent = priorKnowledge;
     document.getElementById('context-progress-bar').style.width = progress + '%';
 }
 
-function startFromBeginning(){
+async function startFromBeginning(){
     if(confirm('Restart the tutor conversation from the beginning? This clears the current learning session.')){
         localStorage.removeItem('eduai.sessionContext');
+        localStorage.removeItem('eduai.assessmentComplete');
         localStorage.removeItem('eduai.curriculum');
         localStorage.removeItem('eduai.quizResult');
-        fetch('/api/reset-progression',{method:'POST'}).then(function(){window.location.href='/chat'});
+
+        try {
+            await fetch('/api/reset-progression',{method:'POST'});
+        } catch (error) {
+            console.error('Failed to reset progression', error);
+        }
+
+        window.location.href='/chat';
     }
 }
 loadContext();

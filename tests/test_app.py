@@ -60,6 +60,27 @@ class TestAppStructure:
         # The reset endpoint should remove from _sessions
         assert "_sessions" in APP_SRC
 
+    def test_chat_stream_extracts_only_text_parts(self):
+        assert "_extract_event_text" in APP_SRC
+        assert '_read_event_field(event, "content")' in APP_SRC
+        assert 'payload["text"] = delta_text' in APP_SRC
+
+    def test_chat_stream_ignores_transfer_metadata(self):
+        assert "transfer_to_agent" in APP_SRC
+
+    def test_chat_stream_filters_user_and_system_events(self):
+        assert "gen_ai.system.message" in APP_SRC
+        assert 'role == "user"' in APP_SRC
+
+    def test_chat_stream_computes_text_deltas(self):
+        assert "_compute_text_delta" in APP_SRC
+        assert "cleaned_text.startswith(accumulated_text)" in APP_SRC
+
+    def test_chat_stream_extracts_structured_state(self):
+        assert "_parse_structured_state" in APP_SRC
+        assert 'payload["state"] = state' in APP_SRC
+        assert "_fallback_text_for_state" in APP_SRC
+
 
 class TestTemplatesExist:
     """Verify all referenced templates exist on disk."""
@@ -130,6 +151,19 @@ class TestTemplateButtons:
             src,
             re.DOTALL,
         )
+
+    def test_chat_stream_sanitizes_transport_noise(self):
+        src = self._read("chat.html")
+        assert "sanitizeStreamText" in src
+        assert "transfer_to_agent" in src
+        assert "A-Za-z0-9+/" in src
+
+    def test_chat_hides_structured_state_from_bubble(self):
+        src = self._read("chat.html")
+        assert "extractStructuredState" in src
+        assert "removeStructuredStateText" in src
+        assert "finalizeAssistantMessage" in src
+        assert "fallbackMessageForState" in src
 
     def test_quiz_lightbulb_has_handler(self):
         src = self._read("quiz.html")
@@ -215,6 +249,12 @@ class TestProfileActions:
         src = self._read()
         assert src.count("confirm(") >= 1
 
+    def test_context_parsing_is_guarded(self):
+        src = self._read()
+        assert "loadStoredJson" in src
+        assert "localStorage.removeItem(key)" in src
+        assert "shareContext()" in src
+
 
 class TestQuizFlow:
     """Quiz should evaluate answers locally and persist results."""
@@ -234,6 +274,16 @@ class TestQuizFlow:
         src = (self.TEMPLATE_DIR / "quiz_results.html").read_text()
         assert "loadQuizResult" in src
         assert "answer-review" in src
+
+    def test_quiz_escapes_dynamic_options(self):
+        src = (self.TEMPLATE_DIR / "quiz.html").read_text()
+        assert "escapeHtml(option)" in src
+
+    def test_results_guard_and_escape_browser_state(self):
+        src = (self.TEMPLATE_DIR / "quiz_results.html").read_text()
+        assert "loadStoredJson('eduai.quizResult'" in src
+        assert "escapeHtml(answer.question)" in src
+        assert "shareQuizResult()" in src
 
 
 class TestThemeToggle:

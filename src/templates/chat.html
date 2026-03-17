@@ -188,29 +188,91 @@ function openFilePicker() {
     document.getElementById('chat-file-input').click();
 }
 
-function persistAgentState(text) {
-    if (!text) {
+function persistStructuredState(parsed) {
+    if (!parsed || typeof parsed !== 'object') {
         return;
     }
 
-    const jsonMatch = text.match(/```json\s*([\s\S]*?)```/i) || text.match(/(\{[\s\S]*"assessment_complete"[\s\S]*\})/i);
-    if (!jsonMatch) {
-        return;
+    if (parsed.assessment_complete && parsed.user_context) {
+        localStorage.setItem('eduai.sessionContext', JSON.stringify(parsed.user_context));
+        localStorage.setItem('eduai.assessmentComplete', 'true');
     }
 
-    try {
-        const raw = (jsonMatch[1] || jsonMatch[0]).trim();
-        const parsed = JSON.parse(raw);
-        if (parsed.assessment_complete && parsed.user_context) {
-            localStorage.setItem('eduai.sessionContext', JSON.stringify(parsed.user_context));
-            localStorage.setItem('eduai.assessmentComplete', 'true');
-        }
-        if (Array.isArray(parsed.steps)) {
-            localStorage.setItem('eduai.curriculum', JSON.stringify(parsed.steps));
-        }
-    } catch (error) {
-        console.error('Failed to persist agent state', error);
+    if (Array.isArray(parsed.steps)) {
+        localStorage.setItem('eduai.curriculum', JSON.stringify(parsed.steps));
     }
+}
+
+function extractStructuredState(text) {
+    if (!text || typeof text !== 'string') {
+        return null;
+    }
+
+    const jsonMatch = text.match(/```json\s*([\s\S]*?)```/i);
+    const candidates = [];
+    if (jsonMatch) {
+        candidates.push(jsonMatch[1].trim());
+    }
+
+    const trimmed = text.trim();
+    if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+        candidates.push(trimmed);
+    }
+
+    for (const candidate of candidates) {
+        try {
+            const parsed = JSON.parse(candidate);
+            if (parsed.assessment_complete || Array.isArray(parsed.steps) || Array.isArray(parsed.questions)) {
+                return parsed;
+            }
+        } catch (error) {
+            console.error('Failed to parse structured state', error);
+        }
+    }
+
+    return null;
+}
+
+function removeStructuredStateText(text) {
+    if (typeof text !== 'string') {
+        return '';
+    }
+
+    const withoutFencedJson = text.replace(/```json\s*[\s\S]*?```/gi, '').trim();
+    const parsed = extractStructuredState(withoutFencedJson);
+    if (parsed && withoutFencedJson.startsWith('{') && withoutFencedJson.endsWith('}')) {
+        return '';
+    }
+
+    return withoutFencedJson;
+}
+
+function fallbackMessageForState(parsed) {
+    if (!parsed || typeof parsed !== 'object') {
+        return '';
+    }
+
+    if (parsed.assessment_complete) {
+        return 'I have enough information to create a focused learning path for you.';
+    }
+    if (Array.isArray(parsed.steps)) {
+        return 'I created a personalized curriculum for you. Open the roadmap or resources to continue.';
+    }
+    if (Array.isArray(parsed.questions)) {
+        return 'I generated a knowledge check for your current step. Open the quiz to begin.';
+    }
+
+    return '';
+}
+
+function finalizeAssistantMessage(node) {
+    const parsed = extractStructuredState(node.textContent);
+    if (parsed) {
+        persistStructuredState(parsed);
+    }
+
+    const visibleText = removeStructuredStateText(node.textContent).trim();
+    node.textContent = visibleText || fallbackMessageForState(parsed) || node.textContent;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -254,32 +316,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return msgText;
     }
 
-    function extractChunkText(value, depth = 0) {
-        if (depth > 6 || value == null) {
-            return '';
-        }
-        if (typeof value === 'string') {
-            return value;
-        }
-        if (Array.isArray(value)) {
-            return value.map((item) => extractChunkText(item, depth + 1)).join('');
-        }
-        if (typeof value !== 'object') {
+    function sanitizeStreamText(text) {
+        if (typeof text !== 'string') {
             return '';
         }
 
-        const preferredKeys = ['text', 'content', 'parts', 'candidates', 'response', 'delta', 'message'];
-        let collected = '';
-        for (const key of preferredKeys) {
-            if (key in value) {
-                collected += extractChunkText(value[key], depth + 1);
-            }
-        }
-        if (collected) {
-            return collected;
-        }
-
-        return Object.values(value).map((item) => extractChunkText(item, depth + 1)).join('');
+        return text
+            .replace(/\badk-[A-Za-z0-9-]{8,}\b/g, ' ')
+            .replace(/\btransfer_to_agent[A-Za-z0-9_-]*\b/g, ' ')
+            .replace(/\b[A-Za-z0-9+/]{80,}={0,2}\b/g, ' ')
+            .replace(/[ \t]{2,}/g, ' ')
+            .replace(/\n{3,}/g, '\n\n')
+            .trim();
     }
 
     async function sendMessage() {
@@ -346,14 +394,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     try {
                         const data = JSON.parse(dataStr);
                         if (data.error && data.text) {
-                            botTextNode.textContent = data.text;
+                            botTextNode.textContent = sanitizeStreamText(data.text) || data.text;
                             hasBotContent = true;
                             continue;
                         }
 
-                        const chunkText = extractChunkText(data).replace(/\[object Object\]/g, '').trim();
+                        if (data.state) {
+                            persistStructuredState(data.state);
+                            const fallbackText = fallbackMessageForState(data.state);
+                            if (!botTextNode.textContent.trim() && fallbackText) {
+                                botTextNode.textContent = fallbackText;
+                                hasBotContent = true;
+                            }
+                        }
+
+                        const chunkText = sanitizeStreamText(data.text);
                         if (chunkText) {
                             botTextNode.textContent += chunkText;
+                            finalizeAssistantMessage(botTextNode);
                             hasBotContent = true;
                         }
                     } catch (e) {
@@ -366,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!hasBotContent) {
                 botTextNode.textContent = 'I did not receive a usable response from the tutor. Please try again.';
             }
-            persistAgentState(botTextNode.textContent);
+            finalizeAssistantMessage(botTextNode);
         } catch (err) {
             console.error("Chat Error:", err);
             botTextNode.textContent = "Error communicating with server: " + err.message;

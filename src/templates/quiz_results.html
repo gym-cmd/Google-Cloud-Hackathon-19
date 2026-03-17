@@ -183,7 +183,7 @@
 <div class="space-y-4" id="answer-review"></div>
 </div>
 <div class="flex items-center justify-between px-2">
-<button onclick="if(navigator.share){navigator.share({title:'Quiz Results',text:'I scored 80% on LLM Fundamentals!',url:window.location.href})}" class="text-sm font-bold text-slate-500 hover:text-primary-blue flex items-center gap-2 transition-colors">
+<button onclick="shareQuizResult()" class="text-sm font-bold text-slate-500 hover:text-primary-blue flex items-center gap-2 transition-colors">
 <span class="material-symbols-outlined text-lg">share</span>
                                 Share Progress
                             </button>
@@ -198,9 +198,67 @@
 </div>
 <div style="position:fixed;bottom:1.5rem;left:1.5rem;z-index:9999"><button onclick="cycleTheme()" class="flex items-center gap-2 px-3 py-2.5 rounded-full bg-white/90 dark:bg-slate-800/90 backdrop-blur border border-slate-200 dark:border-slate-700 shadow-lg hover:shadow-xl transition-all text-slate-600 dark:text-slate-300" title="Toggle theme"><span id="theme-icon" class="material-symbols-outlined text-lg">light_mode</span><span id="theme-label" class="text-xs font-medium">Light</span></button></div>
 <script>
+function loadStoredJson(key, fallbackValue) {
+    const raw = localStorage.getItem(key);
+    if (!raw) {
+        return fallbackValue;
+    }
+
+    try {
+        return JSON.parse(raw);
+    } catch (error) {
+        console.error(`Failed to parse ${key}`, error);
+        localStorage.removeItem(key);
+        return fallbackValue;
+    }
+}
+
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+async function shareQuizResult() {
+    const scoreValue = document.getElementById('score-value').textContent || '0/3';
+    const shareData = {
+        title: 'Quiz Results',
+        text: `I scored ${scoreValue} in EduAI Studio.`,
+        url: window.location.href,
+    };
+
+    if (navigator.share) {
+        try {
+            await navigator.share(shareData);
+            return;
+        } catch (error) {
+            console.error('Quiz share failed', error);
+        }
+    }
+
+    if (navigator.clipboard?.writeText) {
+        try {
+            await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+            alert('Quiz result copied to clipboard.');
+            return;
+        } catch (error) {
+            console.error('Clipboard copy failed', error);
+        }
+    }
+
+    alert('Sharing is not available in this browser.');
+}
+
 function loadQuizResult() {
-    const stored = localStorage.getItem('eduai.quizResult');
-    const result = stored ? JSON.parse(stored) : { score: 0, total: 3, passed: false, answers: [] };
+    const result = loadStoredJson('eduai.quizResult', {
+        score: 0,
+        total: 3,
+        passed: false,
+        answers: [],
+    });
     const percent = result.total ? Math.round((result.score / result.total) * 100) : 0;
 
     document.getElementById('score-badge').textContent = `${percent}% SCORE!`;
@@ -222,9 +280,9 @@ function loadQuizResult() {
     review.innerHTML = result.answers.length
         ? result.answers.map((answer, index) => `
             <div class="rounded-2xl border ${answer.isCorrect ? 'border-green-200 dark:border-green-800' : 'border-red-200 dark:border-red-800'} p-4 bg-slate-50 dark:bg-slate-900/50">
-                <p class="font-semibold mb-2">${index + 1}. ${answer.question}</p>
-                <p class="text-sm ${answer.isCorrect ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}">Your answer: ${answer.selectedText}</p>
-                ${answer.isCorrect ? '' : `<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Correct answer: ${answer.correctText}</p>`}
+                <p class="font-semibold mb-2">${index + 1}. ${escapeHtml(answer.question)}</p>
+                <p class="text-sm ${answer.isCorrect ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}">Your answer: ${escapeHtml(answer.selectedText)}</p>
+                ${answer.isCorrect ? '' : `<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Correct answer: ${escapeHtml(answer.correctText)}</p>`}
             </div>
         `).join('')
         : '<p class="text-sm text-slate-500 dark:text-slate-400">No quiz result was found in browser state yet.</p>';
