@@ -5,7 +5,7 @@
 <script>(function(){var t=localStorage.getItem('theme')||'light',d=document.documentElement;if(t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches)){d.classList.replace('light','dark')}})()</script>
 <title>Code Lab - EduAI Studio</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Gaegu:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
@@ -13,14 +13,20 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#10b981",
-                        "accent": "#f59e0b",
+                        "primary": "#22c55e",
+                        "secondary": "#fbbf24",
+                        "accent": "#f97316",
+                        "brand-blue": "#3b82f6",
                         "background-light": "#f8fafc",
-                        "background-dark": "#020617",
+                        "background-dark": "#0f172a",
                     },
                     fontFamily: {
                         "display": ["Space Grotesk", "sans-serif"],
+                        "hand": ["Gaegu", "cursive"],
                         "mono": ["IBM Plex Mono", "monospace"],
+                    },
+                    borderRadius: {
+                        "sticker": "1.25rem",
                     },
                 },
             },
@@ -29,12 +35,23 @@
 <style type="text/tailwindcss">
         @layer base {
             body {
-                @apply font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100;
-                min-height: 100dvh;
+                @apply font-display text-slate-900 dark:text-slate-100 bg-background-light dark:bg-slate-950;
+                height: 100dvh;
             }
             textarea {
                 @apply font-mono;
             }
+        }
+        .sidebar-icon {
+            @apply size-12 flex items-center justify-center rounded-xl transition-all hover:bg-slate-100 dark:hover:bg-slate-800 hover:scale-110 active:scale-95 text-slate-500 dark:text-slate-400;
+        }
+        .sidebar-icon.active {
+            @apply bg-primary/10 text-primary border border-primary/20;
+        }
+        .desktop-container {
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            max-height: 100vh;
         }
     </style>
 <style>
@@ -46,33 +63,58 @@
   </style>
   <script>document.addEventListener('DOMContentLoaded',function(){requestAnimationFrame(function(){document.body.style.opacity='1'})})</script>
   </head>
-<body>
-<div class="min-h-screen flex flex-col">
-<header class="sticky top-0 z-30 border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-950/90 backdrop-blur">
-<div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
-<div class="flex items-center gap-4 min-w-0">
-<a href="/resources" class="size-11 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex items-center justify-center hover:border-primary transition-colors" title="Back to resources">
+<body class="flex items-center justify-center p-0 md:p-4">
+<div class="desktop-container bg-white dark:bg-slate-900 shadow-2xl overflow-hidden flex flex-row border border-slate-200 dark:border-slate-800">
+<!-- ===== Sidebar ===== -->
+<aside class="w-20 border-r border-slate-200 dark:border-slate-800 flex flex-col items-center py-6 gap-6 bg-slate-50 dark:bg-slate-900/50">
+<a class="size-12 bg-primary rounded-2xl flex items-center justify-center text-white shadow-lg mb-4 hover:scale-105 transition-transform" href="/">
+<span class="material-symbols-outlined text-3xl">school</span>
+</a>
+<a class="sidebar-icon" href="/chat" title="Chat">
+<span class="material-symbols-outlined">chat_bubble</span>
+</a>
+<a class="sidebar-icon" href="/roadmap" title="Roadmap">
+<span class="material-symbols-outlined text-[28px]">rocket</span>
+</a>
+<a class="sidebar-icon active" href="/resources" title="Resources">
+<span class="material-symbols-outlined text-[28px]">menu_book</span>
+</a>
+<a class="sidebar-icon" href="/quiz" title="Quests">
+<span class="material-symbols-outlined text-[28px]">extension</span>
+</a>
+<div class="mt-auto">
+<a class="size-12 rounded-full border-2 border-primary overflow-hidden flex items-center justify-center bg-primary/10 hover:bg-primary/20 transition-colors hover:scale-110 active:scale-95" href="/context" title="Context">
+<span class="text-primary font-bold text-sm">AI</span>
+</a>
+</div>
+</aside>
+<!-- ===== Main ===== -->
+<main class="flex-1 flex flex-col relative bg-white dark:bg-slate-950">
+<!-- Header -->
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 px-6 flex items-center justify-between bg-white/80 dark:bg-slate-900/80 backdrop-blur-md">
+<div class="flex items-center gap-3">
+<a href="/resources" class="size-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex items-center justify-center hover:border-primary transition-colors" title="Back to resources">
 <span class="material-symbols-outlined">arrow_back</span>
 </a>
 <div>
-<p class="text-[10px] uppercase tracking-[0.25em] font-bold text-slate-400">Hands-On Practice</p>
-<h1 class="text-2xl font-bold tracking-tight">Code Lab</h1>
+<h2 class="font-bold text-sm">Code Lab</h2>
+<div class="flex items-center gap-1.5">
+<span class="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Hands-On Practice</span>
+</div>
 </div>
 </div>
 <div class="flex items-center gap-3">
 <a href="/chat" class="px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 hover:border-primary transition-colors text-sm font-semibold">Ask Tutor</a>
-<a href="/context" class="size-11 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex items-center justify-center hover:border-primary transition-colors" title="Learning Context">
-<span class="material-symbols-outlined">assignment_ind</span>
-</a>
-</div>
 </div>
 </header>
-<main class="flex-1 max-w-7xl mx-auto w-full px-6 py-8 grid gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
-<section class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 space-y-6">
+<!-- Content -->
+<div class="flex-1 overflow-y-auto p-6">
+<div class="grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
+<section class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 space-y-5">
 <div>
 <p class="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-2">Sandbox</p>
-<h2 class="text-2xl font-bold mb-3">Pick a Language</h2>
-<p class="text-sm leading-6 text-slate-600 dark:text-slate-300">Choose a language, write code, and run it in a secure sandbox. Great for experimenting with concepts from your curriculum.</p>
+<h2 class="text-xl font-bold mb-2">Pick a Language</h2>
+<p class="text-sm leading-6 text-slate-600 dark:text-slate-300">Choose a language, write code, and run it in a secure sandbox.</p>
 </div>
 <div class="flex flex-wrap gap-2" id="lang-buttons">
 <button onclick="selectLanguage('python')" class="lang-btn px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 text-sm font-semibold hover:border-primary transition-colors" data-lang="python">Python</button>
@@ -85,17 +127,17 @@
 </div>
 <div class="space-y-2" id="example-list"></div>
 </div>
-<div class="rounded-2xl bg-primary text-white p-5">
+<div class="rounded-2xl bg-primary text-white p-4">
 <p class="text-[10px] uppercase tracking-[0.25em] font-bold text-white/70 mb-2">Tutor Tip</p>
 <p class="text-sm leading-6">Paste your code into the AI Chat to get feedback, or try modifying the examples to deepen your understanding.</p>
 </div>
 </section>
 <section class="grid gap-6">
 <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden">
-<div class="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4">
+<div class="px-5 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4">
 <div>
 <p class="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400">Editor</p>
-<h2 class="font-semibold" id="editor-filename">script.py</h2>
+<h2 class="font-semibold text-sm" id="editor-filename">script.py</h2>
 </div>
 <div class="flex items-center gap-3">
 <button class="px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 text-sm font-semibold hover:border-primary transition-colors" onclick="resetCode()">Reset</button>
@@ -104,37 +146,37 @@
 </button>
 </div>
 </div>
-<textarea id="code-editor" class="w-full min-h-[420px] resize-y bg-slate-950 text-emerald-200 p-5 text-sm leading-7 border-0 focus:ring-0" spellcheck="false"></textarea>
+<textarea id="code-editor" class="w-full min-h-[300px] resize-y bg-slate-950 text-emerald-200 p-5 text-sm leading-7 border-0 focus:ring-0" spellcheck="false"></textarea>
 </div>
 <div class="grid gap-6 lg:grid-cols-2">
 <section class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5">
 <div class="flex items-center justify-between gap-4 mb-4">
 <div>
 <p class="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400">Output</p>
-<h2 class="font-semibold">Console</h2>
+<h2 class="font-semibold text-sm">Console</h2>
 </div>
 <span id="run-status" class="text-xs font-bold text-slate-400">Ready</span>
 </div>
-<pre id="code-output" class="min-h-48 whitespace-pre-wrap break-words rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-4 text-sm leading-6 text-slate-700 dark:text-slate-200">Click Run to execute your code.</pre>
+<pre id="code-output" class="min-h-32 whitespace-pre-wrap break-words rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-4 text-sm leading-6 text-slate-700 dark:text-slate-200">Click Run to execute your code.</pre>
 </section>
 <section class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5">
 <div class="flex items-center justify-between gap-4 mb-4">
 <div>
 <p class="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400">Next Actions</p>
-<h2 class="font-semibold">Workflow</h2>
+<h2 class="font-semibold text-sm">Workflow</h2>
 </div>
 <span class="text-xs font-bold text-accent">Operational</span>
 </div>
 <div class="space-y-3">
-<a href="/chat" class="flex items-center justify-between rounded-2xl border border-slate-200 dark:border-slate-700 px-4 py-3 hover:border-primary transition-colors">
+<a href="/chat" class="flex items-center justify-between rounded-2xl border border-slate-200 dark:border-slate-700 px-4 py-3 hover:border-primary transition-colors text-sm">
 <span class="font-semibold">Ask the tutor to review this code</span>
 <span class="material-symbols-outlined text-primary">arrow_forward</span>
 </a>
-<a href="/quiz" class="flex items-center justify-between rounded-2xl border border-slate-200 dark:border-slate-700 px-4 py-3 hover:border-primary transition-colors">
+<a href="/quiz" class="flex items-center justify-between rounded-2xl border border-slate-200 dark:border-slate-700 px-4 py-3 hover:border-primary transition-colors text-sm">
 <span class="font-semibold">Start the quiz after practice</span>
 <span class="material-symbols-outlined text-primary">arrow_forward</span>
 </a>
-<a href="/roadmap" class="flex items-center justify-between rounded-2xl border border-slate-200 dark:border-slate-700 px-4 py-3 hover:border-primary transition-colors">
+<a href="/roadmap" class="flex items-center justify-between rounded-2xl border border-slate-200 dark:border-slate-700 px-4 py-3 hover:border-primary transition-colors text-sm">
 <span class="font-semibold">Return to the roadmap</span>
 <span class="material-symbols-outlined text-primary">arrow_forward</span>
 </a>
@@ -142,6 +184,8 @@
 </section>
 </div>
 </section>
+</div>
+</div>
 </main>
 </div>
 <div style="position:fixed;bottom:1.5rem;left:1.5rem;z-index:9999"><button onclick="cycleTheme()" class="flex items-center gap-2 px-3 py-2.5 rounded-full bg-white/90 dark:bg-slate-800/90 backdrop-blur border border-slate-200 dark:border-slate-700 shadow-lg hover:shadow-xl transition-all text-slate-600 dark:text-slate-300" title="Toggle theme"><span id="theme-icon" class="material-symbols-outlined text-lg">light_mode</span><span id="theme-label" class="text-xs font-medium">Light</span></button></div>
